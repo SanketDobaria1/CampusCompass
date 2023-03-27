@@ -1,0 +1,28 @@
+{
+  "name": "campuscompass",
+  "version": "1.0.0",
+  "description": "CS 546-A Group 7 Final Project",
+  "main": "app.js",
+  "type": "module",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node app.js",
+    "dev": "nodemon app.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/SanketDobaria1/CampusCompass.git"
+  },
+  "author": "Kavitha Siralta, Nikunj Dineshbhai Avaiya, Sanket Dobaria, Priyank Thakur",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/SanketDobaria1/CampusCompass/issues"
+  },
+  "homepage": "https://github.com/SanketDobaria1/CampusCompass#readme",
+  "dependencies": {
+    "express": "^4.18.2"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.21"
+  }
+}
