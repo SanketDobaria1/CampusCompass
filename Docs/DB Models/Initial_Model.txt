@@ -1,0 +1,70 @@
+
+All Dates and Time are in EST time zone
+
+User {
+    _id: ObjectID
+    role: String [student,admin,professor]
+    email: string
+    name: string
+    department: string
+    hash_passsword: string
+    Events: [ ObjectID of Event]
+    lastUpdated: date & time
+}
+
+Locations{
+    _id: ObjectID
+    name: String
+    type: [String] (Residence, Academic, administrative, Parking) 
+    operating_hours:  [ Open_time(time) , Close_time(time)]
+    rooms :[
+        {
+            _id: ObjectID
+            room_number: Integer
+            capacity: Integer
+            floor_number: Integer
+            type: String [classroom, admin, laboratory]
+        }
+    ]
+    
+    desc: String
+    location : geojson object (type polygon)
+    entrances: [
+        {
+            geojson: (type: Point), 
+            accesssibility: [elevator,wheelchair] //flag  (need to tune it further)
+        } ]
+    lastUpdated: date & time
+}
+
+department: {
+    _id: ObjectID
+    name: String
+    room_location: rooms._id
+    contact_email: String (email)
+    lastUpdated: date & time
+}
+
+
+Feedback {
+    _id: ObjectID
+    reported_by: user.id
+    reported_object: [reported_object]
+    desc: String,
+    lastUpdated: date & time
+}
+
+
+Events {
+    _id: ObjectID
+    name: String
+    desc: String
+    type: String (event,class)  //flag
+    event_date: [
+        if type = "Class" then [Start_data,end_date, Index of Day]
+        else type = "Event" then [date object] ]
+    hours: [ Open_time(time) , Close_time(time)]
+    created_by: user.id ( will be only admins)
+    location_id: [location.id (building id), room_id (can be empty if location is outside)]
+    lastUpdated: date & time
+}
