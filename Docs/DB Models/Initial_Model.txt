@@ -63,7 +63,6 @@ Events {
     event_date: [
         if type = "Class" then [Start_data,end_date, Index of Day]
         else type = "Event" then [date object] ]
-    
     created_by: user.id ( will be only admins)
     location_id: [location.id (building id), room_id (can be empty if location is outside)]
     lastUpdated: date & time
