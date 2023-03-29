@@ -20,7 +20,8 @@
   },
   "homepage": "https://github.com/SanketDobaria1/CampusCompass#readme",
   "dependencies": {
-    "express": "^4.18.2"
+    "express": "^4.18.2",
+    "mongodb": "^5.1.0"
   },
   "devDependencies": {
     "nodemon": "^2.0.21"
