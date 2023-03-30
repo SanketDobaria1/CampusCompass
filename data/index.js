@@ -1,3 +1,3 @@
-import locationsDataFunction from './locations.js';
+import locationsFunction from "./locations.js";
 
-export const locationsData = locationsDataFunction;
+export const locationsDataFunction = locationsFunction;
