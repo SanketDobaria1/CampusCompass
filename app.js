@@ -1,5 +1,5 @@
 import {dbConnection, closeConnection} from './config/mongoConnection.js';
-import {locationsData} from "./data/index.js";
+import {locationsData, roomsData} from "./data/index.js";
 
 const db = await dbConnection();
 //await db.dropDatabase();
@@ -30,8 +30,24 @@ async function main() {
     // }catch(e){console.log(e)}
 
     // try{
-    //     athleticCenter = await locationsData.update("64249cfd1d18cad4ef882dc5", "Stevens Schaefer Athletic & Recreation Center", "All students must wear a mask at all times and practice social distancing. Students are encouraged to minimize the number of personal belongings brought into the facilities.", "Recreational", ["09:00:00","20:00:00"]);
+    //     athleticCenter = await locationsData.update("64249cfd1d18cad4ef882dc5", "Stevens Schaefer Athletic and  Recreation Center", "All students must wear a mask at all times and practice social distancing. Students are encouraged to minimize the number of personal belongings brought into the facilities.", "Recreational", ["09:00:00","19:59:59"]);
     // }catch(e){console.log(e)}
+
+    // try{
+    //     console.log(await roomsData.create('6424992ad5c3a175b95971b4', 101, 60, 1, "Laboratory"))
+    // }catch(e){console.log(e)}
+
+    // try{
+    //     console.log(await roomsData.getById('6424d895dd3fb9e29060cc2f'))
+    // }catch(e){console.log(e)}
+
+    // try{
+    //     console.log(await roomsData.getAll('6424992ad5c3a175b95971b4'))
+    // }catch(e){console.log(e)}
+
+    try{
+        console.log(await roomsData.remove('6424d895dd3fb9e29060cc2f'))
+    }catch(e){console.log(e)}
 }
 await main();
 await closeConnection();

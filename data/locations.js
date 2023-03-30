@@ -25,7 +25,7 @@ const exportedMethods = {
             type: type,
             operating_hours: operating_hours,
             rooms: [],
-            location: [],
+            location: {},
             entrances: [],
             lastupdatedDate: date.toISOString()
         };
@@ -54,11 +54,15 @@ const exportedMethods = {
         
         // ERROR HANDLING & INPUT VALIDATIONS //
 
+        const date = new Date()
+        date.setTime(date.getTime() + (-240)*(60)*(1000))
+
         const updatedLocation = {
             name: name,
             desc: desc,
             type: type,
-            operating_hours: operating_hours
+            operating_hours: operating_hours,
+            lastupdatedDate: date.toISOString()
         };
 
         const locationsCollection = await locations();
@@ -80,7 +84,7 @@ const exportedMethods = {
         const locationsCollection = await locations();
         const deletionInfo = await locationsCollection.findOneAndDelete({ _id: new ObjectId(id)})
         if (deletionInfo.lastErrorObject.n === 0) { throw `Could not delete Location with given id` }
-        return `${deletionInfo.value.name} has been successfully deleted!`;
+        return `'${deletionInfo.value.name}' has been successfully deleted!`;
     }
 };
 
