@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Leaflet sample</title>
+    <link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.7.3/leaflet.css" />
+    <script src="http://cdn.leafletjs.com/leaflet-0.7.3/leaflet.js"></script>
+</head>
+
+<body>
+    <div id="map" style="width: 900px; height: 580px"></div>
+    <script>
+        // Creating map options
+        let mapOptions = {
+            center: [40.744999, -74.024662],
+            zoom: 18
+        }
+
+        // Creating a map object
+        let map = new L.map('map', mapOptions);
+
+        // Creating a Layer object
+        let layer = L.tileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                id: 'addis',
+                attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+            }).addTo(map);
+        
+        let geojson = {
+                "type": "Feature",
+                "properties": {},
+                "geometry": {
+                    "coordinates": [
+                        [
+                            [
+                                -74.02401913560777,
+                                40.74447893271832
+                            ],
+                            [
+                                -74.02413688689104,
+                                40.74435565831618
+                            ],
+                            [
+                                -74.02381360609472,
+                                40.7442194073958
+                            ],
+                            [
+                                -74.02343894291985,
+                                40.74445946835414
+                            ],
+                            [
+                                -74.02368300921681,
+                                40.74456814431372
+                            ],
+                            [
+                                -74.02401913560777,
+                                40.74447893271832
+                            ]
+                        ]
+                    ],
+                    "type": "Polygon"
+                }
+            }
+            L.geoJSON(geojson).addTo(map)
+    </script>
+</body>
+
+</html>
