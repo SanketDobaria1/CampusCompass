@@ -1,53 +1,25 @@
-import {dbConnection, closeConnection} from './config/mongoConnection.js';
-import {locationsData, roomsData} from "./data/index.js";
+import express from "express";
+const app = express();
+import configRoutes from "./routes/index.js";
+import { fileURLToPath } from "url";
+import { dirname } from "path";
+import exphbs from "express-handlebars";
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
 
-const db = await dbConnection();
-//await db.dropDatabase();
+const staticDir = express.static(__dirname + "/public");
 
-async function main() {
-    let howeCenter = undefined;
-    let library = undefined;
-    let athleticCenter = undefined
-    // try{
-    //     howeCenter = await locationsData.create("Howe Center", "The Howe Center is situated at the top of the hill on Castle Point where the ancestral home of the Stevens family – Castle Stevens – once stood. Built in 1784 by Colonel John Stevens the Georgian-style mansion served, at times, as a dormitory, a cafeteria and office space.", "administrative", ["08:00:00","23:00:00"]);
-    //     console.log(howeCenter)
-    // }catch(e){console.log(e)}
+const port = 3009;
 
-    // try{
-    //     library = await locationsData.create("Samuel C Williams Library", "The Samuel C. Williams Library is the center for information discovery and preservation at Stevens Institute of Technology. The Library is dedicated to fostering an innovative environment with technology, education, and culture. It is our goal to create a distinctive library experience through services and resources that promote information and media literacy, knowledge creation, global scholarly communication, and critical and creative thinking for our students, faculty, and researchers around the world.", "Library", ["08:00:00","23:59:59"]);
-    // }catch(e){console.log(e)}
+app.use("/public", staticDir);
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 
-    // try{
-    //     athleticCenter = await locationsData.create("Schaefer Athletic and Recreation Center", "All students must wear a mask at all times and practice social distancing. Students are encouraged to minimize the number of personal belongings brought into the facilities.", "Recreational", ["09:00:00","20:00:00"]);
-    // }catch(e){console.log(e)}
+app.engine("handlebars", exphbs.engine({ defaultLayout: "main" }));
+app.set("view engine", "handlebars");
+configRoutes(app);
 
-    // try{
-    //     console.log(await locationsData.getById('ID'))
-    // }catch(e){console.log(e)}
-
-    // try{
-    //     console.log(await locationsData.remove('ID'))
-    // }catch(e){console.log(e)}
-
-    // try{
-    //     athleticCenter = await locationsData.update("64249cfd1d18cad4ef882dc5", "Stevens Schaefer Athletic and  Recreation Center", "All students must wear a mask at all times and practice social distancing. Students are encouraged to minimize the number of personal belongings brought into the facilities.", "Recreational", ["09:00:00","19:59:59"]);
-    // }catch(e){console.log(e)}
-
-    // try{
-    //     console.log(await roomsData.create('6424992ad5c3a175b95971b4', 101, 60, 1, "Laboratory"))
-    // }catch(e){console.log(e)}
-
-    // try{
-    //     console.log(await roomsData.getById('6424d895dd3fb9e29060cc2f'))
-    // }catch(e){console.log(e)}
-
-    // try{
-    //     console.log(await roomsData.getAll('6424992ad5c3a175b95971b4'))
-    // }catch(e){console.log(e)}
-
-    try{
-        console.log(await roomsData.remove('6424d895dd3fb9e29060cc2f'))
-    }catch(e){console.log(e)}
-}
-await main();
-await closeConnection();
+app.listen(port, () => {
+  console.log("We've now got a server!");
+  console.log(`Your routes will be running on http://localhost:${port}`);
+});
