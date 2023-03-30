@@ -42,6 +42,7 @@ const exportedMethods = {
     return location;
   },
 
+
   async getAll() {
     const locationsCollection = await locations();
     let locationsList = await locationsCollection.find({}).toArray();
@@ -56,12 +57,17 @@ const exportedMethods = {
   async update(id, name, desc, type, operating_hours) {
     // ERROR HANDLING & INPUT VALIDATIONS //
 
-    const updatedLocation = {
-      name: name,
-      desc: desc,
-      type: type,
-      operating_hours: operating_hours,
-    };
+
+        const date = new Date()
+        date.setTime(date.getTime() + (-240)*(60)*(1000))
+
+        const updatedLocation = {
+            name: name,
+            desc: desc,
+            type: type,
+            operating_hours: operating_hours,
+            lastupdatedDate: date.toISOString()
+        };
 
     const locationsCollection = await locations();
     const location = await locationsCollection.findOne({
@@ -80,17 +86,14 @@ const exportedMethods = {
     return updatedInfo.value;
   },
 
-  async remove(id) {
-    id = validation.checkId(id, "LocationID");
-    const locationsCollection = await locations();
-    const deletionInfo = await locationsCollection.findOneAndDelete({
-      _id: new ObjectId(id),
-    });
-    if (deletionInfo.lastErrorObject.n === 0) {
-      throw `Could not delete Location with given id`;
-    }
-    return `${deletionInfo.value.name} has been successfully deleted!`;
-  },
+
+    async remove(id){
+        id = validation.checkId(id, 'LocationID');
+        const locationsCollection = await locations();
+        const deletionInfo = await locationsCollection.findOneAndDelete({ _id: new ObjectId(id)})
+        if (deletionInfo.lastErrorObject.n === 0) { throw `Could not delete Location with given id` }
+        return `'${deletionInfo.value.name}' has been successfully deleted!`;
+  }
 };
 
 export default exportedMethods;

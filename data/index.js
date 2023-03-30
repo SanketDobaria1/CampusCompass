@@ -1,3 +1,5 @@
-import locationsFunction from "./locations.js";
+import locationsDataFunction from './locations.js';
+import roomsDataFunction from './rooms.js'
 
-export const locationsDataFunction = locationsFunction;
+export const locationsData = locationsDataFunction;
+export const roomsData = roomsDataFunction;
