@@ -1,4 +1,4 @@
-import {dbConnection} from './mongoConnection.js';
+import { dbConnection } from "./mongoConnection.js";
 
 const getCollectionFn = (collection) => {
   let _col = undefined;
@@ -14,4 +14,8 @@ const getCollectionFn = (collection) => {
 };
 
 /* Now, you can list your collections here: */
-export const locations = getCollectionFn('locations');
+export const locations = getCollectionFn("locations");
+export const users = getCollectionFn("users");
+export const feedback = getCollectionFn("feedback");
+export const events = getCollectionFn("events");
+export const department = getCollectionFn("department");

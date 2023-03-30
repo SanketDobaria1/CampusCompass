@@ -3,4 +3,3 @@ import roomsDataFunction from './rooms.js'
 
 export const locationsData = locationsDataFunction;
 export const roomsData = roomsDataFunction;
-
