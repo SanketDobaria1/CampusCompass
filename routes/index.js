@@ -1,7 +1,7 @@
+import loginRoutes from "./login.js";
+
 const constructorMethod = (app) => {
-  app.use("/", (req, res) => {
-    res.render("layouts/main");
-  });
+  app.use("/", loginRoutes);
 
   app.use("/landing", (req, res) => {
     res.sendFile("maps/landing.html");
