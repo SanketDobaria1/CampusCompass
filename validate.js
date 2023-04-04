@@ -11,6 +11,38 @@ const exportedMethods = {
     return id;
   },
 
+  checkStevensMail(emailid) {
+    if (!emailid) throw new Error(`Expected Parameter to be non-empty`);
+    if (typeof emailid !== "string" || emailid.trim().length === 0)
+      throw new Error(`Expected Emailid to be non-empty string`);
+    emailid = emailid.trim().toLowerCase();
+    let regex = /^[\w._%+-]+(@stevens\.edu)$/;
+    if (!regex.test(emailid))
+      throw new Error(`Expected email id to be of Stevens`);
+    return emailid;
+  },
+
+  checkNumber(number, varName) {
+    if (!number) throw new Error(`Expected Input for Number`);
+    if (!varName || typeof varName !== "string" || varName.trim().length === 0)
+      throw new Error(`Expected VarName with VarName as String`);
+    if (isNaN(number) || typeof number !== "number")
+      throw new Error(`Error: Expected ${varName} to be number`);
+  },
+
+  checkRoomType(type, varName) {
+    if (!type || typeof type !== "string" || type.trim().length === 0)
+      throw new Error(`Expected Input parameter type as String`);
+    if (!varName || typeof varName !== "string" || varName.trim().length === 0)
+      throw new Error(`Expected VarName with VarName as String`);
+    type = type.trim().toLowerCase();
+
+    if (type !== "classroom" || type !== "admin" || type !== "laboratory")
+      throw new Error(
+        `Expected Room Type to be of classroom, admin, laboratory`
+      );
+  },
+
   checkString(strVal, varName) {
     if (!strVal) throw `Error: You must supply a ${varName}!`;
     if (typeof strVal !== "string") throw `Error: ${varName} must be a string!`;
@@ -86,11 +118,23 @@ const exportedMethods = {
       throw new Error(`Expected ${varName} to have two co-ordinates`);
 
     pointArr.forEach((cordinate) => {
-      if (typeof cordinate !== "number")
+      if (typeof cordinate !== "number" || isNaN(cordinate))
         throw new Error(
           `Expected Co-ordinates of ${varName} to be of type Number`
         );
     });
+  },
+
+  checkisLongitudeLatitude(point, type) {
+    if (!pointArr || !type)
+      throw new Error(`Please ensure proper parameter are passed`);
+    if (typeof point !== "number" || isNaN(point))
+      throw new Error(`Expected Co-ordinates typeto be of type Number`);
+
+    if ((type = "long" && (point < -180 || point > 180)))
+      throw new Error(`Longitude needs to be in range of -180 and 180`);
+    if ((type = "lat" && (point < -90 || point > 90)))
+      throw new Error(`Latitude needs to be in range of -90 and 90`);
   },
 };
 
