@@ -2,6 +2,8 @@ import locationsDataFunction from "./locations.js";
 import roomsDataFunction from "./rooms.js";
 import userDataFunction from "./users.js";
 
-export const locationsData = locationsDataFunction;
-export const roomsData = roomsDataFunction;
-export const userData = userDataFunction;
+const userData = userDataFunction;
+const roomsData = roomsDataFunction;
+const locationsData = locationsDataFunction;
+
+export default { locationsData, roomsData, userData };
