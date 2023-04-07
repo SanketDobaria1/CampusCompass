@@ -1,8 +1,10 @@
 import locationRoutes from './locations.js';
+import roomRoutes from './rooms.js';
 
 const constructorMethod = (app) => {
   app.use('/locations', locationRoutes);
-  
+  app.use('/rooms', roomRoutes);
+
   app.use("/", (req, res) => {
     res.render("layouts/main");
   });
