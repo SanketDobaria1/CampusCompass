@@ -52,6 +52,29 @@ const exportedMethods = {
       { projection: { _id: 1, emailid: 1, hashedpassword: 1 } }
     );
     if (!dbUser) throw new Error(`Either email or password is invalid`);
+
+    if (!(await bcrypt.compare(password, dbUser.hashedpassword)))
+      throw new Error(`Either email or password is invalid`);
+    return {
+      userAuthenticatedID: dbUser._id.toString(),
+      userAuthenticated: true,
+    };
+  },
+
+  async getRegisteredEventsID(userid) {
+    userid = validations.checkId(userid);
+    let usersCollection = await users();
+    let dbUser = await usersCollection.findOne(
+      { _id: new ObjectId(userid) },
+      { projection: { _id: 1, emailid: 1, events: 1 } }
+    );
+    if (!dbUser) throw new Error(`No User for UserID: ${userid}`);
+    let events = dbUser.events;
+    return events;
+  },
+  async registerEvents(eventID) {
+    eventID = validations.checkId(eventID);
+    let usersCollection = await users();
   },
 };
 
