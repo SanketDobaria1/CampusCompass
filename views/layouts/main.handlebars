@@ -13,22 +13,13 @@
 
 <body>
     {{#if logedin}}
-    <header>
-    <nav class="navbar navbar-expand-sm bg-light justify-content-center">
-        <ul>
-            <li><a class="btn" href="/events">Home</a></li>
-            <li><a class="btn" href="/events/add">Create Event</a></li>
-        </ul>
-    </nav>
-    </header>
+        {{> navbar}}
     {{/if}}
 <main>
     {{{body}}}
 </main>
 
-<footer>
-    CampusCompass: Made by Kavitha, Nikunj, Sanket, Priyank
-</footer>
+{{> footer}}
 <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.3/dist/jquery.slim.min.js"></script>
 
 <!-- Popper JS -->
