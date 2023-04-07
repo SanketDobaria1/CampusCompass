@@ -9,7 +9,7 @@ const __dirname = dirname(__filename);
 
 const staticDir = express.static(__dirname + "/public");
 
-const port = 3009;
+const port = 3000;
 
 app.use("/public", staticDir);
 app.use(express.json());

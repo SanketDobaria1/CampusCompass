@@ -21,6 +21,11 @@ const exportedMethods = {
     async create(locationId, room_number, capacity, floor_number, type){
 
         // ERROR HANDLING & INPUT VALIDATIONS //
+        locationId = validation.checkId(locationId, 'Id URL Parameter');
+        if (typeof room_number !== 'number') throw `Room number must be a Number !`
+        if (typeof capacity !== 'number') throw `Room capacity must be a Number !`
+        if (typeof floor_number !== 'number') throw `Floor number must be a Number !`
+        type = validation.checkString(type, 'Room Type');
 
         const date = new Date()
         date.setTime(date.getTime() + (-240)*(60)*(1000))
