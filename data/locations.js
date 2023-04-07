@@ -16,6 +16,10 @@ const exportedMethods = {
 
   async create(name, desc, type, operating_hours) {
     // ERROR HANDLING & INPUT VALIDATIONS //
+    name = validation.checkString(name, 'Location Name');
+    desc = validation.checkString(desc, 'Description')
+    type = validation.checkString(type, 'Location Type')
+    operating_hours = validation.checkStringArray(operating_hours, 'Operating Hours')
 
     const date = new Date();
     date.setTime(date.getTime() + -240 * 60 * 1000);
@@ -56,18 +60,22 @@ const exportedMethods = {
 
   async update(id, name, desc, type, operating_hours) {
     // ERROR HANDLING & INPUT VALIDATIONS //
+    id = validation.checkId(id, 'LocationID');
+    name = validation.checkString(name, 'Location Name');
+    desc = validation.checkString(desc, 'Description')
+    type = validation.checkString(type, 'Location Type')
+    operating_hours = validation.checkStringArray(operating_hours, 'Operating Hours')
 
+    const date = new Date()
+    date.setTime(date.getTime() + (-240)*(60)*(1000))
 
-        const date = new Date()
-        date.setTime(date.getTime() + (-240)*(60)*(1000))
-
-        const updatedLocation = {
-            name: name,
-            desc: desc,
-            type: type,
-            operating_hours: operating_hours,
-            lastupdatedDate: date.toISOString()
-        };
+    const updatedLocation = {
+        name: name,
+        desc: desc,
+        type: type,
+        operating_hours: operating_hours,
+        lastupdatedDate: date.toISOString()
+    };
 
     const locationsCollection = await locations();
     const location = await locationsCollection.findOne({
