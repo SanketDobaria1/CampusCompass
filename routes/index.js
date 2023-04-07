@@ -1,13 +1,12 @@
 import loginRoutes from "./login.js";
+import signupRoutes from "./signup.js";
 
 const constructorMethod = (app) => {
+  app.use("/signup", signupRoutes);
   app.use("/", loginRoutes);
 
-  app.use("/landing", (req, res) => {
-    res.sendFile("maps/landing.html");
-  });
   app.use("*", (req, res) => {
-    res.status(404).json("404 : Not found");
+    res.redirect("/");
   });
 };
 
