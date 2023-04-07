@@ -12,7 +12,7 @@ const exportedMethods = {
   },
 
   checkStevensMail(emailid) {
-    if (!emailid) throw new Error(`Expected Parameter to be non-empty`);
+    if (!emailid) throw new Error(`Expected Emailid to be non-empty`);
     if (typeof emailid !== "string" || emailid.trim().length === 0)
       throw new Error(`Expected Emailid to be non-empty string`);
     emailid = emailid.trim().toLowerCase();
