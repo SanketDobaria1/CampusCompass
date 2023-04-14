@@ -30,7 +30,7 @@ footer {
     padding: 4px;
 }
 
-.error-login{
+.error{
     display: block;
     background-color: crimson;
     color: aliceblue;
