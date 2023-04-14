@@ -16,7 +16,6 @@ const exportedMethods = {
     role = validations.checkString(role, "User Role");
     const date = new Date();
     date.setTime(date.getTime() + -240 * 60 * 1000);
-    console.log(hashpassword);
 
     const checkIfUserExists = await usersCollection.findOne(
       { emailid },
@@ -59,6 +58,16 @@ const exportedMethods = {
       userAuthenticatedID: dbUser._id.toString(),
       userAuthenticated: true,
     };
+  },
+  async checkIfEmailExists(emailid) {
+    emailid = validations.checkStevensMail(emailid);
+    let usersCollection = await users();
+    let dbUser = await usersCollection.findOne(
+      { emailid },
+      { projection: { _id: 1, emailid: 1, name: 1 } }
+    );
+    if (dbUser) return true;
+    return false;
   },
 
   async getRegisteredEventsID(userid) {
