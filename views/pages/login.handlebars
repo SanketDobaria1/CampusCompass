@@ -7,13 +7,17 @@
     </div>
     <div class="flex-child">
         <div class="form-inner">
+
+        {{#if new_user_created}}
+            <p class="new_user">New User Created! Please Login</p>
+        {{/if}}
         <h2>Login</h2>
         <form action="/login" id="form-login" method="POST" >
             <label for="email">Email</label>
             <br>
             <input class="form-input" id="email" name="login_email" type="email" placeholder="mystevens@stevens.edu"> 
             <br>
-            <label for="password">Email</label>
+            <label for="password">Password</label>
             <br>
             <input class="form-input" id="password" name="login_password" type="password" placeholder="Password">
             <br>
@@ -22,7 +26,7 @@
         <a href="/signup">New to Application, Click here to Register!</a>
         </div>
         {{#if error_msg}}
-        <p class="error-login">{{error_msg}}</p>
+        <p class="error">{{error_msg}}</p>
         {{/if}}
     </div>
 </div>
