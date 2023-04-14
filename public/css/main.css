@@ -1,3 +1,39 @@
 #map{
 height: 100%;
 }
+
+main {
+    padding: 20px;
+}
+
+.flex-container {
+    display: flex;
+    border: none;
+}
+
+.flex-child {
+    flex: 1;
+}
+
+.submit-button{
+    margin-top: 10px;
+}
+
+footer {
+    position:fixed;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    text-align: center;
+    background-color: black;
+    color: #fff;
+    padding: 4px;
+}
+
+.error{
+    display: block;
+    background-color: crimson;
+    color: aliceblue;
+    padding: 5px;
+    font-weight: bold;
+}
