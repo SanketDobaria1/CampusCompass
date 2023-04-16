@@ -16,10 +16,16 @@ const exportedMethods = {
 
   async create(name, desc, type, operating_hours) {
     // ERROR HANDLING & INPUT VALIDATIONS //
-    name = validation.checkString(name, 'Location Name');
-    desc = validation.checkString(desc, 'Description')
-    type = validation.checkString(type, 'Location Type')
-    operating_hours = validation.checkStringArray(operating_hours, 'Operating Hours')
+    name = validation.checkString(name, "Location Name");
+    desc = validation.checkString(desc, "Description");
+    type = validation.checkString(type, "Location Type");
+    operating_hours = validation.checkStringArray(
+      operating_hours,
+      "Operating Hours",
+      2
+    );
+
+    validation.checkOperatingTimes(operating_hours[0], operating_hours[1]);
 
     const date = new Date();
     date.setTime(date.getTime() + -240 * 60 * 1000);
@@ -46,7 +52,6 @@ const exportedMethods = {
     return location;
   },
 
-
   async getAll() {
     const locationsCollection = await locations();
     let locationsList = await locationsCollection.find({}).toArray();
@@ -60,21 +65,28 @@ const exportedMethods = {
 
   async update(id, name, desc, type, operating_hours) {
     // ERROR HANDLING & INPUT VALIDATIONS //
-    id = validation.checkId(id, 'LocationID');
-    name = validation.checkString(name, 'Location Name');
-    desc = validation.checkString(desc, 'Description')
-    type = validation.checkString(type, 'Location Type')
-    operating_hours = validation.checkStringArray(operating_hours, 'Operating Hours')
+    id = validation.checkId(id, "LocationID");
+    name = validation.checkString(name, "Location Name");
+    desc = validation.checkString(desc, "Description");
+    type = validation.checkString(type, "Location Type");
+    operating_hours = validation.checkStringArray(
+      operating_hours,
+      "Operating Hours",
+      2
+    );
 
-    const date = new Date()
-    date.setTime(date.getTime() + (-240)*(60)*(1000))
+    validation.checkOperatingTimes(operating_hours[0], operating_hours[1]);
+
+    const date = new Date();
+
+    date.setTime(date.getTime() + -240 * 60 * 1000);
 
     const updatedLocation = {
-        name: name,
-        desc: desc,
-        type: type,
-        operating_hours: operating_hours,
-        lastupdatedDate: date.toISOString()
+      name: name,
+      desc: desc,
+      type: type,
+      operating_hours: operating_hours,
+      lastupdatedDate: date.toISOString(),
     };
 
     const locationsCollection = await locations();
@@ -94,14 +106,17 @@ const exportedMethods = {
     return updatedInfo.value;
   },
 
-
-    async remove(id){
-        id = validation.checkId(id, 'LocationID');
-        const locationsCollection = await locations();
-        const deletionInfo = await locationsCollection.findOneAndDelete({ _id: new ObjectId(id)})
-        if (deletionInfo.lastErrorObject.n === 0) { throw `Could not delete Location with given id` }
-        return `'${deletionInfo.value.name}' has been successfully deleted!`;
-  }
+  async remove(id) {
+    id = validation.checkId(id, "LocationID");
+    const locationsCollection = await locations();
+    const deletionInfo = await locationsCollection.findOneAndDelete({
+      _id: new ObjectId(id),
+    });
+    if (deletionInfo.lastErrorObject.n === 0) {
+      throw `Could not delete Location with given id`;
+    }
+    return `'${deletionInfo.value.name}' has been successfully deleted!`;
+  },
 };
 
 export default exportedMethods;
