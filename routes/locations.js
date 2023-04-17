@@ -1,14 +1,16 @@
 import {Router} from 'express';
 import {locationsData} from '../data/index.js';
 import validation from '../validate.js';
+import { locations } from '../config/mongoCollections.js';
 const router = Router();
 
 router.route('/')
   .get(async (req, res) => {
     try {
         const List = await locationsData.getAll()
-        res.json(List.map(({ _id, name }) => ({ _id, name })));
-    } catch (e) {
+        // res.json(List.map(({ _id, name }) => ({ _id, name })));
+        res.render('pages/locations', {data: List, title: 'Locations'})
+    } catch (e) { 
       res.status(404).send(e);
     }
   })
@@ -47,7 +49,7 @@ router
     }
     try {
       const location = await locationsData.getById(req.params.id);
-      res.json(location);
+      res.render('pages/location', {title: 'Location', data: location});
     } catch (e) {
       res.status(404).json({error: e});
     }
