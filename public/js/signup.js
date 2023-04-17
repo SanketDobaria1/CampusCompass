@@ -3,11 +3,11 @@ $(document).ready(function () {
     event.preventDefault();
 
     $("#error-form").attr("hidden", true);
-    var user_email = $("#user_email").val();
-    var user_password = $("#user_password").val();
-    var user_name = $("#user_name").val();
-    var user_department = $("#user_department").val();
-    var errors = [];
+    let user_email = $("#user_email").val();
+    let user_password = $("#user_password").val();
+    let user_name = $("#user_name").val();
+    let user_department = $("#user_department").val();
+    let errors = [];
 
     if ($.trim(user_name).length === 0) errors.push("Please Insert UserName");
     if ($.trim(user_password).length < 6)
@@ -20,7 +20,7 @@ $(document).ready(function () {
     if (errors.length > 0) {
       $("#error-form").removeAttr("hidden");
       for (let i = 0; i < errors.length; i++)
-        $("#error-form").prepend(`<p>${errors[i]}</p>`);
+        $("#error-form").append(`<p class="error">${errors[i]}</p>`);
     } else {
       $("#error-form").prop("hidden");
       $("#form-signup").off("submit").submit();

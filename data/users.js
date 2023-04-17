@@ -48,7 +48,7 @@ const exportedMethods = {
     let usersCollection = await users();
     let dbUser = await usersCollection.findOne(
       { emailid },
-      { projection: { _id: 1, emailid: 1, hashedpassword: 1 } }
+      { projection: { _id: 1, emailid: 1, hashedpassword: 1, role: 1 } }
     );
     if (!dbUser) throw new Error(`Either email or password is invalid`);
 
@@ -57,6 +57,7 @@ const exportedMethods = {
     return {
       userAuthenticatedID: dbUser._id.toString(),
       userAuthenticated: true,
+      userRole: dbUser.role,
     };
   },
   async checkIfEmailExists(emailid) {
@@ -81,9 +82,13 @@ const exportedMethods = {
     let events = dbUser.events;
     return events;
   },
+
+  //needs more code
   async registerEvents(eventID) {
     eventID = validations.checkId(eventID);
     let usersCollection = await users();
+
+    throw new Error("PLEASE DONOT USE THIS FUNCTION AS ITS INCOMPLETE");
   },
 };
 
