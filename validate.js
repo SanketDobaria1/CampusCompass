@@ -11,6 +11,14 @@ const exportedMethods = {
     return id;
   },
 
+  checkDepartmentType(type) {
+    type = this.checkString(type, "Department Type");
+    let departmentList = ["Administrative", "Academic"];
+    if (!departmentList.includes(type))
+      throw new Error(`Please check Department type`);
+    return type;
+  },
+
   checkStevensMail(emailid) {
     if (!emailid) throw new Error(`Expected Emailid to be non-empty`);
     if (typeof emailid !== "string" || emailid.trim().length === 0)
