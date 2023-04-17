@@ -46,6 +46,7 @@ const exportedMethods = {
     department._id = department._id.toString();
     return department;
   },
+
   async getDepartmentbyType(type) {
     type = validation.checkDepartmentType(type);
     const departmentCollection = await departments();
