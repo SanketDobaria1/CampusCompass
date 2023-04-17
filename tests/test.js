@@ -1,4 +1,4 @@
-import { userData } from "../data/index.js";
+import { userData, departmentData } from "../data/index.js";
 
 import { closeConnection } from "../config/mongoConnection.js";
 
@@ -10,7 +10,9 @@ console.log(
   //     "administrator"
   //   )
   //   await userData.checkUser("test@stevens.edu", "a123b123c123")
-  await userData.getRegisteredEventsID("64236d854eebf566c9d8d8da")
+  // await userData.getRegisteredEventsID("64236d854eebf566c9d8d8da")
+
+  await departmentData.getDepartmentbyType("Administrative")
 );
 
 await closeConnection();
