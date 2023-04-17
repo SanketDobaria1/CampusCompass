@@ -7,7 +7,7 @@ const exportedMethods = {
     depart_name = validation.checkString(depart_name, "Department Name");
     room_id = validation.checkId(room_id, "Room ID");
     desc = validation.checkString(desc, "Department Description");
-    type = validation.checkString(type, "Department Type");
+    type = validation.checkDepartmentType(type);
 
     //check if room_id exists
     try {
@@ -31,7 +31,7 @@ const exportedMethods = {
     let departmentInfo = await departmentCollection.insertOne(newDeparment);
     if (!departmentInfo.acknowledged || !departmentInfo.insertedId)
       throw new Error(`Could not create department`);
-    let department = await this.getById(departmentInfo.insertedId);
+    let department = await this.getById(departmentInfo.insertedId.toString());
     return department;
   },
 
@@ -46,7 +46,15 @@ const exportedMethods = {
     department._id = department._id.toString();
     return department;
   },
-  async getDepartmentbyType(type) {},
+  async getDepartmentbyType(type) {
+    type = validation.checkDepartmentType(type);
+    const departmentCollection = await departments();
+    const departmentList = await departmentCollection.find({ type }).toArray();
+    departmentList.map((department) => {
+      department._id = department._id.toString();
+    });
+    return departmentList;
+  },
 };
 
 export default exportedMethods;
