@@ -11,6 +11,14 @@ const exportedMethods = {
     return id;
   },
 
+  checkDepartmentType(type) {
+    type = this.checkString(type, "Department Type");
+    let departmentList = ["Administrative", "Academic"];
+    if (!departmentList.includes(type))
+      throw new Error(`Please check Department type`);
+    return type;
+  },
+
   checkStevensMail(emailid) {
     if (!emailid) throw new Error(`Expected Emailid to be non-empty`);
     if (typeof emailid !== "string" || emailid.trim().length === 0)
@@ -54,11 +62,13 @@ const exportedMethods = {
     return strVal;
   },
 
-  checkStringArray(arr, varName) {
+  checkStringArray(arr, varName, length) {
     if (!arr || !Array.isArray(arr))
       throw `You must provide an array of ${varName}`;
     if (arr.length === 0)
       throw `You must supply at least one element in an array of ${varName}`;
+    if (arr.length !== length)
+      throw new Error(`Expected ${varName} to be of length ${length}`);
     for (let i in arr) {
       if (typeof arr[i] !== "string" || arr[i].trim().length === 0) {
         throw `One or more elements in ${varName} array is not a string or is an empty string`;
@@ -66,6 +76,36 @@ const exportedMethods = {
       arr[i] = arr[i].trim();
     }
     return arr;
+  },
+
+  checkTime(time, varName) {
+    let timeRegex = /^([0-1][0-9]|2[0-3]):([0-5][0-9]):([0-5][0-9])$/;
+    if (!time || !varName)
+      throw new Error(`Please ensure time Parameter is passed`);
+
+    if (typeof time !== "string" || time.trim().length < 0)
+      throw Error(`Please time is passed properly`);
+    if (typeof varName !== "string" || varName.trim().length === 0)
+      throw Error(`Please ensure proper parameter is passed for varName`);
+
+    time = time.trim();
+    if (!timeRegex.test(time))
+      throw new Error(
+        `Please Ensure ${varName} is passed in 24 hour HH:MM:SS format`
+      );
+    return time;
+  },
+
+  checkOperatingTimes(startTime, endTime) {
+    startTime = this.checkTime(startTime, "StartTime");
+    endTime = this.checkTime(endTime, "End Time");
+
+    let startTimeDT = new Date(`01/01/2023 ${operating_hours[0]}`);
+    let endTimeDT = new Date(`01/01/2023 ${operating_hours[1]}`);
+
+    if (endTimeDT < startTimeDT)
+      throw new Error("End time cannot be less than starttime");
+    else return true;
   },
 
   checkisPolygon(cordinatesArr, varName) {
