@@ -56,6 +56,15 @@ const exportedMethods = {
     });
     return departmentList;
   },
+
+  async getDepartmentAll() {
+    const departmentCollection = await departments();
+    const departmentList = await departmentCollection.find({}).toArray();
+    departmentList.map((department) => {
+      department._id = department._id.toString();
+    });
+    return departmentList;
+  },
 };
 
 export default exportedMethods;
