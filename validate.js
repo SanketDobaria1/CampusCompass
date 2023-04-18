@@ -108,39 +108,42 @@ const exportedMethods = {
     else return true;
   },
 
-  checkisPolygon(cordinatesArr, varName) {
-    if (!cordinatesArr || !varName)
+  checkisPolygon(coordinatesArr, varName) {
+    if (!coordinatesArr || !varName)
       throw new Error(`Please ensure proper parameter are passed`);
 
-    if (!Array.isArray(cordinatesArr))
+    if (!Array.isArray(coordinatesArr))
       throw new Error(`Expected arr to be of type Array`);
 
-    if (cordinatesArr.length < 4)
+    if (coordinatesArr.length < 4)
       throw new Error("A Polygon must have atleast three side");
 
     //check every co-ordinate and every co-ordinate is number
-    cordinatesArr.forEach((cordinate) => {
-      if (!Array.isArray(cordinate) || cordinate.length < 2)
+    coordinatesArr.forEach((coordinate) => {
+      if (!Array.isArray(coordinate) || coordinate.length < 2)
         throw new Error(
           `Expected Every element inside to be Array of size two`
         );
 
-      if (typeof cordinate[0] !== "number" || typeof cordinate[1] !== "number")
+      if (
+        typeof coordinate[0] !== "number" ||
+        typeof coordinate[1] !== "number"
+      )
         throw new Error(`Expected Co-ordinates to be of type Number`);
     });
 
     //check if start and end of polygon is same or not
     if (
-      cordinatesArr[0][0] !== cordinatesArr[cordinatesArr.length - 1][0] ||
-      cordinatesArr[0][1] !== cordinatesArr[cordinatesArr.length - 1][1]
+      coordinatesArr[0][0] !== coordinatesArr[coordinatesArr.length - 1][0] ||
+      coordinatesArr[0][1] !== coordinatesArr[coordinatesArr.length - 1][1]
     )
       throw new Error("Expected Polygon start and End Point to be same");
 
     //iterate over polygon points and check if two consecutive points are same or not
-    for (let i = 0; i < cordinatesArr.length - 1; i++)
+    for (let i = 0; i < coordinatesArr.length - 1; i++)
       if (
-        cordinatesArr[i][0] === cordinatesArr[i + 1][0] ||
-        cordinatesArr[i][1] === cordinatesArr[i + 1][1]
+        coordinatesArr[i][0] === coordinatesArr[i + 1][0] ||
+        coordinatesArr[i][1] === coordinatesArr[i + 1][1]
       )
         throw new Error(
           `${varName} to be Polygon, it cannot have two consecutive points equal`
@@ -157,8 +160,8 @@ const exportedMethods = {
     if (pointArr.length < 2)
       throw new Error(`Expected ${varName} to have two co-ordinates`);
 
-    pointArr.forEach((cordinate) => {
-      if (typeof cordinate !== "number" || isNaN(cordinate))
+    pointArr.forEach((coordinate) => {
+      if (typeof coordinate !== "number" || isNaN(coordinate))
         throw new Error(
           `Expected Co-ordinates of ${varName} to be of type Number`
         );
