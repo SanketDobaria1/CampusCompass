@@ -100,8 +100,8 @@ const exportedMethods = {
     startTime = this.checkTime(startTime, "StartTime");
     endTime = this.checkTime(endTime, "End Time");
 
-    let startTimeDT = new Date(`01/01/2023 ${operating_hours[0]}`);
-    let endTimeDT = new Date(`01/01/2023 ${operating_hours[1]}`);
+    let startTimeDT = new Date(`01/01/2023 ${startTime}`);
+    let endTimeDT = new Date(`01/01/2023 ${endTime}`);
 
     if (endTimeDT < startTimeDT)
       throw new Error("End time cannot be less than starttime");
