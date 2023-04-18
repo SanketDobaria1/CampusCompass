@@ -1,5 +1,6 @@
 import { Router } from "express";
 import { departmentData } from "../data/index.js";
+import validations from "../validate.js";
 import xss from "xss";
 
 const router = Router();
@@ -13,13 +14,40 @@ router.route("/").get(async (req, res) => {
 });
 
 router.route("/getAll").get(async (req, res) => {
-  let allDepartments;
+  let departmentResponse;
+  console.log(req.session);
+  let finalResponse = {};
+  let pageSize = 20;
+  let pageNumber;
+  if (!req.query.page) pageNumber = 0;
+  else pageNumber = req.query.page;
   try {
-    allDepartments = await departmentData.getDepartmentAll();
-  } catch (error) {
-    return res.status(500).json({ error: "error" });
+    pageNumber = Number(pageNumber);
+  } catch (e) {
+    finalResponse.error = `Expected page number to be Number`;
+    return res.status(400).json(finalResponse);
   }
-  return res.json(allDepartments);
+
+  let skipRecords = pageNumber <= 1 ? 0 : (pageNumber - 1) * pageSize;
+
+  try {
+    departmentResponse = await departmentData.getDepartmentPaginate(
+      skipRecords,
+      pageSize
+    );
+  } catch (error) {
+    finalResponse.error = `Error Processing Data`;
+    console.log(error);
+    return res.status(500).json(finalResponse);
+  }
+  finalResponse.current_page = pageNumber;
+  finalResponse.total_page = Math.ceil(
+    departmentResponse.totalRecords / pageSize
+  );
+  finalResponse.total_records = departmentResponse.totalRecords;
+  finalResponse.page_records_count = pageSize;
+  finalResponse.data = departmentResponse.departments;
+  return res.json(finalResponse);
 });
 
 export default router;
