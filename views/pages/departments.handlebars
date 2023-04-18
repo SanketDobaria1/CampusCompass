@@ -1,15 +1,10 @@
 <section>
   <h1>Departments</h1>
-  <form action="/departments/search" method="POST" id="department-search">
-    <label for="search-bar">Search</label>
-    <input
-      id="search-bar"
-      type="search"
-      name="department-search-term"
-      placeholder="Please Enter Search term"
-    />
-    <button class="submit-button" type="submit">Submit</button>
-  </form>
-  <div id="department-results" hidden></div>
+  
+  <div id="department-results">
+    <div id="container">
+    </div>
+    <div id="pagination"></div>
+  </div>
 </section>
 <script src="/public/js/departments.js"></script>
