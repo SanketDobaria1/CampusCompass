@@ -18,4 +18,4 @@ export const locations = getCollectionFn("locations");
 export const users = getCollectionFn("users");
 export const feedback = getCollectionFn("feedback");
 export const events = getCollectionFn("events");
-export const department = getCollectionFn("department");
+export const departments = getCollectionFn("departments");

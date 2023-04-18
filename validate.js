@@ -11,6 +11,14 @@ const exportedMethods = {
     return id;
   },
 
+  checkDepartmentType(type) {
+    type = this.checkString(type, "Department Type");
+    let departmentList = ["Administrative", "Academic"];
+    if (!departmentList.includes(type))
+      throw new Error(`Please check Department type`);
+    return type;
+  },
+
   checkStevensMail(emailid) {
     if (!emailid) throw new Error(`Expected Emailid to be non-empty`);
     if (typeof emailid !== "string" || emailid.trim().length === 0)
@@ -54,11 +62,25 @@ const exportedMethods = {
     return strVal;
   },
 
-  checkStringArray(arr, varName) {
+  checkDayArray(arr, varName) {
     if (!arr || !Array.isArray(arr))
       throw `You must provide an array of ${varName}`;
     if (arr.length === 0)
       throw `You must supply at least one element in an array of ${varName}`;
+    arr.forEach((elm) => {
+      if (!elm || typeof elm != "number" || isNaN(elm))
+        throw `Expected ${varName} to contain number`;
+      if (elm > 7 || elm < 1) throw `Days needs to between 1 and 7`;
+    });
+  },
+
+  checkStringArray(arr, varName, length) {
+    if (!arr || !Array.isArray(arr))
+      throw `You must provide an array of ${varName}`;
+    if (arr.length === 0)
+      throw `You must supply at least one element in an array of ${varName}`;
+    if (arr.length !== length)
+      throw new Error(`Expected ${varName} to be of length ${length}`);
     for (let i in arr) {
       if (typeof arr[i] !== "string" || arr[i].trim().length === 0) {
         throw `One or more elements in ${varName} array is not a string or is an empty string`;
@@ -68,39 +90,72 @@ const exportedMethods = {
     return arr;
   },
 
-  checkisPolygon(cordinatesArr, varName) {
-    if (!cordinatesArr || !varName)
+  checkTime(time, varName) {
+    let timeRegex = /^([0-1][0-9]|2[0-3]):([0-5][0-9]):([0-5][0-9])$/;
+    if (!time || !varName)
+      throw new Error(`Please ensure time Parameter is passed`);
+
+    if (typeof time !== "string" || time.trim().length < 0)
+      throw Error(`Please time is passed properly`);
+    if (typeof varName !== "string" || varName.trim().length === 0)
+      throw Error(`Please ensure proper parameter is passed for varName`);
+
+    time = time.trim();
+    if (!timeRegex.test(time))
+      throw new Error(
+        `Please Ensure ${varName} is passed in 24 hour HH:MM:SS format`
+      );
+    return time;
+  },
+
+  checkOperatingTimes(startTime, endTime) {
+    startTime = this.checkTime(startTime, "StartTime");
+    endTime = this.checkTime(endTime, "End Time");
+
+    let startTimeDT = new Date(`01/01/2023 ${startTime}`);
+    let endTimeDT = new Date(`01/01/2023 ${endTime}`);
+
+    if (endTimeDT < startTimeDT)
+      throw new Error("End time cannot be less than starttime");
+    else return true;
+  },
+
+  checkisPolygon(coordinatesArr, varName) {
+    if (!coordinatesArr || !varName)
       throw new Error(`Please ensure proper parameter are passed`);
 
-    if (!Array.isArray(cordinatesArr))
+    if (!Array.isArray(coordinatesArr))
       throw new Error(`Expected arr to be of type Array`);
 
-    if (cordinatesArr.length < 4)
+    if (coordinatesArr.length < 4)
       throw new Error("A Polygon must have atleast three side");
 
     //check every co-ordinate and every co-ordinate is number
-    cordinatesArr.forEach((cordinate) => {
-      if (!Array.isArray(cordinate) || cordinate.length < 2)
+    coordinatesArr.forEach((coordinate) => {
+      if (!Array.isArray(coordinate) || coordinate.length < 2)
         throw new Error(
           `Expected Every element inside to be Array of size two`
         );
 
-      if (typeof cordinate[0] !== "number" || typeof cordinate[1] !== "number")
+      if (
+        typeof coordinate[0] !== "number" ||
+        typeof coordinate[1] !== "number"
+      )
         throw new Error(`Expected Co-ordinates to be of type Number`);
     });
 
     //check if start and end of polygon is same or not
     if (
-      cordinatesArr[0][0] !== cordinatesArr[cordinatesArr.length - 1][0] ||
-      cordinatesArr[0][1] !== cordinatesArr[cordinatesArr.length - 1][1]
+      coordinatesArr[0][0] !== coordinatesArr[coordinatesArr.length - 1][0] ||
+      coordinatesArr[0][1] !== coordinatesArr[coordinatesArr.length - 1][1]
     )
       throw new Error("Expected Polygon start and End Point to be same");
 
     //iterate over polygon points and check if two consecutive points are same or not
-    for (let i = 0; i < cordinatesArr.length - 1; i++)
+    for (let i = 0; i < coordinatesArr.length - 1; i++)
       if (
-        cordinatesArr[i][0] === cordinatesArr[i + 1][0] ||
-        cordinatesArr[i][1] === cordinatesArr[i + 1][1]
+        coordinatesArr[i][0] === coordinatesArr[i + 1][0] ||
+        coordinatesArr[i][1] === coordinatesArr[i + 1][1]
       )
         throw new Error(
           `${varName} to be Polygon, it cannot have two consecutive points equal`
@@ -117,8 +172,8 @@ const exportedMethods = {
     if (pointArr.length < 2)
       throw new Error(`Expected ${varName} to have two co-ordinates`);
 
-    pointArr.forEach((cordinate) => {
-      if (typeof cordinate !== "number" || isNaN(cordinate))
+    pointArr.forEach((coordinate) => {
+      if (typeof coordinate !== "number" || isNaN(coordinate))
         throw new Error(
           `Expected Co-ordinates of ${varName} to be of type Number`
         );

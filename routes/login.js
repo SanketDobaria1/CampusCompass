@@ -24,6 +24,7 @@ router.post("/login", async (req, res) => {
 
     if (userExist.userAuthenticated && userExist.userAuthenticated) {
       req.session.userID = userExist.userAuthenticated;
+      req.session.userRole = userExist.userRole;
       res.render("pages/landing", { title: "Welcome", logedin: true });
     }
   } catch (e) {
