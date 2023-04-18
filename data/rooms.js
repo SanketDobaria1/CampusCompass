@@ -42,7 +42,6 @@ const exportedMethods = {
       { returnDocument: "after" }
     );
 
-
     let newId = "";
     locationInfo.value.rooms.forEach((element) => {
       if (element._id.toString() === newRoom._id.toString()) {
