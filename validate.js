@@ -62,6 +62,18 @@ const exportedMethods = {
     return strVal;
   },
 
+  checkDayArray(arr, varName) {
+    if (!arr || !Array.isArray(arr))
+      throw `You must provide an array of ${varName}`;
+    if (arr.length === 0)
+      throw `You must supply at least one element in an array of ${varName}`;
+    arr.forEach((elm) => {
+      if (!elm || typeof elm != "number" || isNaN(elm))
+        throw `Expected ${varName} to contain number`;
+      if (elm > 7 || elm < 1) throw `Days needs to between 1 and 7`;
+    });
+  },
+
   checkStringArray(arr, varName, length) {
     if (!arr || !Array.isArray(arr))
       throw `You must provide an array of ${varName}`;
