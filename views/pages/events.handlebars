@@ -1,0 +1,15 @@
+<section>
+  <h1>Events</h1>
+  <form action="/events/search" method="POST" id="event-search">
+    <label for="search-bar">Search</label>
+    <input
+      id="search-bar"
+      type="search"
+      name="event-search-term"
+      placeholder="Please Enter Search term"
+    />
+    <button class="submit-button" type="submit">Submit</button>
+  </form>
+  <div id="event-results" hidden></div>
+</section>
+<script src="/public/js/events.js"></script>
