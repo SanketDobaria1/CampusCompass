@@ -15,7 +15,9 @@ router.route("/").get(async (req, res) => {
 
 router.route("/getAll").get(async (req, res) => {
   let departmentResponse;
-  console.log(req.session);
+  if (xss(!req.session.userID)) {
+    res.redirect("/");
+  }
   let finalResponse = {};
   let pageSize = 20;
   let pageNumber;
@@ -48,6 +50,21 @@ router.route("/getAll").get(async (req, res) => {
   finalResponse.page_records_count = pageSize;
   finalResponse.data = departmentResponse.departments;
   return res.json(finalResponse);
+});
+
+router.route("/get/:id").get(async (req, res) => {
+  let departmentID = req.params.id;
+  try {
+    departmentID = validations.checkId(departmentID);
+  } catch (e) {
+    return res.status(400).json({ error: e });
+  }
+  try {
+    let departmentObject = await departmentData.getById(departmentID);
+    return res.json(departmentObject);
+  } catch (err) {
+    return res.status(400).json({ error: "No Department found" });
+  }
 });
 
 export default router;
