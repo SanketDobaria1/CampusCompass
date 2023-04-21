@@ -28,3 +28,5 @@ router.route('/')
         res.status(404).json({error: e});
       }
   })
+
+export default router;
