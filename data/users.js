@@ -1,4 +1,4 @@
-import { users } from "../config/mongoCollections.js";
+import { users, events } from "../config/mongoCollections.js";
 import bcrypt from "bcrypt";
 import { ObjectId } from "mongodb";
 import validations from "../validate.js";
@@ -79,16 +79,37 @@ const exportedMethods = {
       { projection: { _id: 1, emailid: 1, events: 1 } }
     );
     if (!dbUser) throw new Error(`No User for UserID: ${userid}`);
-    let events = dbUser.events;
-    return events;
+    let eventList = dbUser.events;
+
+    for (let i = 0; i < eventList.length; i++)
+      eventList[i] = new ObjectId(eventList[i]);
+
+    console.log(eventList);
+    let eventCollection = await events();
+
+    let userEvents = await eventCollection
+      .find(
+        {
+          _id: { $in: eventList },
+        },
+        { projection: { desc: 0, lastupdatedDate: 0, created_by: 0 } }
+      )
+      .toArray();
+
+    userEvents.map((event) => (event._id = event._id.toString()));
+
+    return userEvents;
   },
 
   //needs more code
-  async registerEvents(eventID) {
-    eventID = validations.checkId(eventID);
+  async registerEvents(userid) {
+    userid = validations.checkId(userid);
     let usersCollection = await users();
-
-    throw new Error("PLEASE DONOT USE THIS FUNCTION AS ITS INCOMPLETE");
+    let dbUser = await usersCollection.findOne(
+      { _id: new ObjectId(userid) },
+      { projection: { _id: 1, emailid: 1, events: 1 } }
+    );
+    if (!dbUser) throw new Error(`No User for UserID: ${userid}`);
   },
 };
 
