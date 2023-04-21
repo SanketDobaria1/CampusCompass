@@ -14,17 +14,17 @@ const exportedMethods = {
       return feedback;
     },
   
-    async create(reportedby, reported_object, desc) {
-      // ERROR HANDLING & INPUT VALIDATIONS //
+    async create(//reportedby, 
+    reported_object, desc) {
       desc = validation.checkString(desc, 'Description')
-      reportedby = validation.checkId(reportedby, 'user_id')
+      // reportedby = validation.checkId(reportedby, 'user_id')
       reported_object = validation.checkId(reported_object, 'event_id')
   
       const date = new Date();
       date.setTime(date.getTime() + -240 * 60 * 1000);
   
       let newFeedback = {
-        reportedby: reportedby,
+        //reportedby: reportedby,
         reported_object: reported_object,
         desc: desc,
         lastupdatedDate: date.toISOString(),

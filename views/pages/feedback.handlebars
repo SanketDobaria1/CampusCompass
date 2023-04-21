@@ -1,15 +1,16 @@
 <section>
   <h1>Feedback</h1>
   <div id="feedback-success" hidden><p>Feedback reported successfully!</p></div>
-  <div id="error" class="error" hidden><div class="error-text"></div>
+  <div id="error" class="error" hidden><div class="error-text"></div></div>
   <form action="/feedback" method="POST" id="feedback-form">
-    <label for="user_id">User: </label>
-    <label for="event_list">Event: </label>
-    <select id="event_list" onclick="eventFunction()">
-    </select>
+    <div>
+      <label for="event_list">Event: </label>
+      <select id="event_list" onclick="eventFunction()">
+      </select>
+    </div>
     <label for="feedback_description">Your Feedback: </label>
 	<textarea id="feedback_description" name="feedback_description"></textarea>
     <button class="submit-button" type="submit" onclick="submitFunction()">Submit</button>
   </form>
 </section>
-<script src="/public/js/feedback.js"></script>
+<script src="../../public/js/feedback.js"></script>
