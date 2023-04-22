@@ -5,13 +5,34 @@ import { userData } from "../data/index.js";
 const router = Router();
 
 router.get("/", async (req, res) => {
-  if (xss(req.session.userID))
-    res.render("pages/landing", { title: "Welcome", logedin: true });
+  if (xss(req.session.userID)) res.redirect("/home");
   else {
-    if (req.query.newusercreated)
-      res.render("pages/login", { title: "Login", new_user_created: true });
-    else res.render("pages/login", { title: "Login" });
+    res.render("pages/login", { title: "Login" });
   }
+});
+
+router.get("/home", async (req, res) => {
+  if (!xss(req.session.userID)) return res.redirect("/login");
+  let displayString = "";
+  let userRegisteredEvents;
+  try {
+    userRegisteredEvents = await userData.getRegisteredEventsID(
+      xss(req.session.userID)
+    );
+  } catch (error) {
+    return res.json({ error });
+  }
+
+  if (userRegisteredEvents.length > 0)
+    displayString = "Your Upcoming Classes and Events";
+  else displayString = "No Classes or Events for today";
+  res.render("pages/landing", {
+    title: "Landing",
+    logedin: true,
+    username: req.session.username,
+    displayString,
+    events: userRegisteredEvents,
+  });
 });
 
 router.post("/login", async (req, res) => {
@@ -19,13 +40,19 @@ router.post("/login", async (req, res) => {
   try {
     email = validations.checkStevensMail(xss(req.body.login_email));
     password = validations.checkString(xss(req.body.login_password));
+  } catch (e) {
+    res
+      .status(400)
+      .render("pages/login", { title: "Login", error_msg: e.message });
+  }
 
+  try {
     let userExist = await userData.checkUser(email, password);
-
     if (userExist.userAuthenticated && userExist.userAuthenticated) {
-      req.session.userID = userExist.userAuthenticated;
+      req.session.userID = userExist.userAuthenticatedID;
+      req.session.username = userExist.username;
       req.session.userRole = userExist.userRole;
-      res.render("pages/landing", { title: "Welcome", logedin: true });
+      res.redirect("/home");
     }
   } catch (e) {
     res
