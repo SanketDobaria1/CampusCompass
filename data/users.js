@@ -1,4 +1,4 @@
-import { users, events } from "../config/mongoCollections.js";
+import { users, events, locations } from "../config/mongoCollections.js";
 import bcrypt from "bcrypt";
 import { ObjectId } from "mongodb";
 import validations from "../validate.js";
@@ -48,7 +48,9 @@ const exportedMethods = {
     let usersCollection = await users();
     let dbUser = await usersCollection.findOne(
       { emailid },
-      { projection: { _id: 1, emailid: 1, hashedpassword: 1, role: 1 } }
+      {
+        projection: { _id: 1, name: 1, emailid: 1, hashedpassword: 1, role: 1 },
+      }
     );
     if (!dbUser) throw new Error(`Either email or password is invalid`);
 
@@ -57,6 +59,7 @@ const exportedMethods = {
     return {
       userAuthenticatedID: dbUser._id.toString(),
       userAuthenticated: true,
+      username: dbUser.name,
       userRole: dbUser.role,
     };
   },
@@ -84,19 +87,48 @@ const exportedMethods = {
     for (let i = 0; i < eventList.length; i++)
       eventList[i] = new ObjectId(eventList[i]);
 
-    console.log(eventList);
     let eventCollection = await events();
+    let locationCollection = await locations();
+    const currentDate = new Date();
+    const currentDateEst = new Date(currentDate.getTime() + -5 * 60 * 1000);
+    let currentDay =
+      currentDateEst.getDay() === 0 ? 7 : currentDateEst.getDay();
 
     let userEvents = await eventCollection
       .find(
         {
           _id: { $in: eventList },
+          "event_date.1": { $gte: currentDateEst.toISOString().slice(0, 10) },
+          "event_date.2": { $in: [0, currentDay, ((currentDay - 1) % 7) + 1] },
         },
         { projection: { desc: 0, lastupdatedDate: 0, created_by: 0 } }
       )
       .toArray();
+    for (let i = 0; i < userEvents.length; i++) {
+      let room_id, building_id;
+      building_id = userEvents[i].location_id[0];
+      if (userEvents[i].location_id.length == 2)
+        room_id = userEvents[i].location_id[1];
 
-    userEvents.map((event) => (event._id = event._id.toString()));
+      let location = await locationCollection.findOne(
+        {
+          _id: new ObjectId(building_id),
+        },
+        { projection: { _id: 1, name: 1, rooms: 1 } }
+      );
+
+      if (room_id) {
+        location.rooms = location.rooms.filter((room) => {
+          return room._id.toString() === room_id;
+        });
+        location.rooms = location.rooms[0];
+      }
+      userEvents[i]["Location_details"] = location;
+      if (userEvents[i]["Location_details"])
+        userEvents[i]["Location_details"]._id =
+          userEvents[i]["Location_details"]._id.toString();
+    }
+    console.log(userEvents);
 
     return userEvents;
   },
