@@ -3,5 +3,12 @@
   <p>{{data.desc}}</p>
   <p>Building type: {{data.type}}</p>
   <p>Operating Hours: {{data.operating_hours}}</p>
+  {{#each rooms}}
+    <hr />
+    <p>Room Number: {{room_number}}</p>
+    <p>Capacity: {{capacity}}</p>
+    <p>Floor Number: {{floor_number}}</p>
+    <p>Room Type: {{type}}</p>
+  {{/each}}
   <a href="/locations">Back to all locations</a>
 </main>
