@@ -14,8 +14,7 @@ const exportedMethods = {
     return location;
   },
 
-  async create(name, desc, type, operating_hours) {
-    // ERROR HANDLING & INPUT VALIDATIONS //
+  async create(name, desc, type, operating_hours, location, entrances) {
     name = validation.checkString(name, "Location Name");
     desc = validation.checkString(desc, "Description");
     type = validation.checkString(type, "Location Type");
@@ -47,9 +46,8 @@ const exportedMethods = {
       throw "Could not add Location";
     }
 
-    const newId = insertInfo.insertedId.toString();
-    const location = await this.getById(newId);
-    return location;
+    const Location = await this.getById(insertInfo.insertedId.toString());
+    return Location;
   },
 
   async getAll() {
@@ -63,7 +61,7 @@ const exportedMethods = {
     return locationsList;
   },
 
-  async update(id, name, desc, type, operating_hours) {
+  async update(id, name, desc, type, operating_hours, location, entrances) {
     // ERROR HANDLING & INPUT VALIDATIONS //
     id = validation.checkId(id, "LocationID");
     name = validation.checkString(name, "Location Name");
@@ -90,10 +88,10 @@ const exportedMethods = {
     };
 
     const locationsCollection = await locations();
-    const location = await locationsCollection.findOne({
+    const Location = await locationsCollection.findOne({
       _id: new ObjectId(id),
     });
-    if (location === null) throw "No location found with given Id";
+    if (Location === null) throw "No location found with given Id";
     const updatedInfo = await locationsCollection.findOneAndUpdate(
       { _id: new ObjectId(id) },
       { $set: updatedLocation },
