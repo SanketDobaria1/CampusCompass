@@ -36,6 +36,7 @@ const exportedMethods = {
       throw new Error(`Expected VarName with VarName as String`);
     if (isNaN(number) || typeof number !== "number")
       throw new Error(`Error: Expected ${varName} to be number`);
+    return number;
   },
 
   checkRoomType(type, varName) {
@@ -45,10 +46,11 @@ const exportedMethods = {
       throw new Error(`Expected VarName with VarName as String`);
     type = type.trim().toLowerCase();
 
-    if (type !== "classroom" || type !== "admin" || type !== "laboratory")
+    if (type !== "classroom" && type !== "admin" && type !== "laboratory")
       throw new Error(
         `Expected Room Type to be of classroom, admin, laboratory`
       );
+    return type;
   },
 
   checkString(strVal, varName) {
@@ -72,6 +74,7 @@ const exportedMethods = {
         throw `Expected ${varName} to contain number`;
       if (elm > 7 || elm < 1) throw `Days needs to between 1 and 7`;
     });
+    return arr;
   },
 
   checkStringArray(arr, varName, length) {
