@@ -15,7 +15,6 @@ const exportedMethods = {
   },
 
   async create(name, desc, type, operating_hours, location, entrances) {
-    // ERROR HANDLING & INPUT VALIDATIONS //
     name = validation.checkString(name, "Location Name");
     desc = validation.checkString(desc, "Description");
     type = validation.checkString(type, "Location Type");
