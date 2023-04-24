@@ -1,7 +1,6 @@
 import { Router } from "express";
 import { feedbackData } from "../data/index.js";
 import validation from "../validate.js";
-import { userData } from "../data/index.js";
 const router = Router();
 
 router.route("/").post(async (req, res) => {

@@ -32,6 +32,7 @@ app.engine(
     partialsDir: [path.join(__dirname + "/views/partials")],
   })
 );
+
 app.set("view engine", "handlebars");
 configRoutes(app);
 
