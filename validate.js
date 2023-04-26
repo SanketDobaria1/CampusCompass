@@ -121,7 +121,6 @@ const exportedMethods = {
   },
 
   returnDay(day) {
-    console.log(day);
     if (typeof day !== "number" || isNaN(day))
       throw new Error(`Error expected Day to be Integer`);
     let dayIdDay = {
