@@ -24,10 +24,10 @@ const exportedMethods = {
     validation.checkDayArray(operating_days);
 
     //check if room_id exists
-
     try {
       let dbRoom = await roomDataFunction.getById(room_id);
-      if (!dbRoom) throw `Room doesnot exists for room_id:${room_id}`;
+      if (!dbRoom)
+        throw new Error(`Room doesnot exists for room_id:${room_id}`);
     } catch (e) {
       throw e;
     }
@@ -75,6 +75,63 @@ const exportedMethods = {
     return department;
   },
 
+  async updateDepartment(
+    depart_id,
+    depart_name,
+    room_id,
+    desc,
+    type,
+    operating_hours,
+    operating_days
+  ) {
+    depart_id = validation.checkId(depart_id, "Department ID");
+    depart_name = validation.checkString(depart_name, "Department Name");
+    room_id = validation.checkId(room_id, "Room ID");
+    desc = validation.checkString(desc, "Department Description");
+    type = validation.checkDepartmentType(type);
+    operating_hours = validation.checkStringArray(
+      operating_hours,
+      "Operating Hours",
+      2
+    );
+    validation.checkOperatingTimes(operating_hours[0], operating_hours[1]);
+    validation.checkDayArray(operating_days);
+
+    const departmentCollection = await departments();
+    const department = await departmentCollection.findOne({
+      _id: new ObjectId(depart_id),
+    });
+    if (!department) throw new Error(`No Department Exists for ${depart_id}`);
+
+    try {
+      let dbRoom = await roomDataFunction.getById(room_id);
+      if (!dbRoom)
+        throw new Error(`Room doesnot exists for room_id:${room_id}`);
+    } catch (e) {
+      throw e;
+    }
+
+    const date = new Date();
+    date.setTime(date.getTime() + -240 * 60 * 1000);
+    const updateDepartment = await departmentCollection.findOneAndUpdate(
+      { _id: new ObjectId(id) },
+      {
+        $set: {
+          name: depart_name,
+          room_id,
+          desc,
+          type,
+          operating_hours,
+          operating_days,
+          lastupdatedDate: date,
+        },
+      }
+    );
+
+    if (!updateDepartment.acknowledged || updateDepartment.modifiedCount !== 1)
+      throw new Error(`DB Error`);
+    return;
+  },
   async getDepartmentbyType(type) {
     type = validation.checkDepartmentType(type);
     const departmentCollection = await departments();
