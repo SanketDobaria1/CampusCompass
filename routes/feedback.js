@@ -1,13 +1,21 @@
 import {Router} from 'express';
 import {feedbackData} from '../data/index.js';
 import validation from '../validate.js';
-import { userData } from "../data/index.js";
+import eventdata from '../../data/events.js'
+import locationsdata from '../../data/locations.js'
+import departmentsdata from '../../data/departments.js'
 const router = Router();
 
 router.route('/')
   .get(async (req, res) => {
     try {
-      res.render("pages/feedback");
+
+      if(req.session.userRole=='admin'){
+        res.render("pages/feedback", {admin : true});
+      }
+      else{
+        res.render("pages/feedback", {id : req.session.userID});
+      }
     } catch (e) {
       res.status(404).send(e);
     }

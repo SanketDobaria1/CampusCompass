@@ -3,14 +3,27 @@
   <div id="feedback-success" hidden><p>Feedback reported successfully!</p></div>
   <div id="error" class="error" hidden><div class="error-text"></div></div>
   <form action="/feedback" method="POST" id="feedback-form">
+     <div>
+      {{#if id}}
+      <input type="text" id="user_id" name="user_id" readonly value="{{ id }}" hidden>
+       {{/if}}
+    </div>
+    <div>
+      <label for="event_type">Event type: </label>
+      <select id="event_type" onclick="events()">
+        <option value="departments">Departments</option>
+        <option value="locations">Locations</option>
+        <option value="events">Events</option>
+      </select>
+    </div>
     <div>
       <label for="event_list">Event: </label>
-      <select id="event_list" onclick="eventFunction()">
+      <select id="event_list">
       </select>
     </div>
     <label for="feedback_description">Your Feedback: </label>
 	<textarea id="feedback_description" name="feedback_description"></textarea>
-    <button class="submit-button" type="submit" onclick="submitFunction()">Submit</button>
+    <button class="submit-button" type="submit">Submit</button>
   </form>
 </section>
-<script src="../../public/js/feedback.js"></script>
+<script src = "/public/js/feedback.js"> </script>

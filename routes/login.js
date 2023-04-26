@@ -23,7 +23,7 @@ router.post("/login", async (req, res) => {
     let userExist = await userData.checkUser(email, password);
 
     if (userExist.userAuthenticated && userExist.userAuthenticated) {
-      req.session.userID = userExist.userAuthenticated;
+      req.session.userID = userExist.userAuthenticatedID;
       req.session.userRole = userExist.userRole;
       res.render("pages/landing", { title: "Welcome", logedin: true });
     }
