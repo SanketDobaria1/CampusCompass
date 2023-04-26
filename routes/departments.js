@@ -39,7 +39,7 @@ router.route("/getAll").get(async (req, res) => {
     );
   } catch (error) {
     finalResponse.error = `Error Processing Data`;
-    console.log(error);
+    //console.log(error);
     return res.status(500).json(finalResponse);
   }
   finalResponse.current_page = pageNumber;

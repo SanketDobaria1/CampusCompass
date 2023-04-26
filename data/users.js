@@ -128,7 +128,7 @@ const exportedMethods = {
         userEvents[i]["Location_details"]._id =
           userEvents[i]["Location_details"]._id.toString();
     }
-    console.log(userEvents);
+    //console.log(userEvents);
 
     return userEvents;
   },

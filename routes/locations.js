@@ -1,23 +1,58 @@
 import { Router } from "express";
 import { locationsData } from "../data/index.js";
 import { roomsData } from "../data/index.js";
+import { userData } from "../data/index.js";
 import validation from "../validate.js";
 const router = Router();
 import xss from "xss";
+import { compare } from "bcrypt";
 
 router
   .route("/")
   .get(async (req, res) => {
-    try {
-      const List = await locationsData.getAll();
-      res.render("pages/locations", {
-        data: List,
-        title: "Locations",
-        logedin: true,
-      });
-    } catch (e) {
-      res.status(404).send(e);
+    if (req.query.key) {
+      try {
+        let isAdmin = false;
+        if (req.session.userRole === "admin") {
+          isAdmin = true;
+        }
+        const List = await locationsData.search(req.query.key);
+        res.render("pages/locations", {
+          data: List,
+          key: req.query.key,
+          title: "Locations",
+          logedin: true,
+          isAdmin: isAdmin,
+        });
+      } catch (e) {
+        res.status(404).send(e);
+      }
+    } else {
+      try {
+        let isAdmin = false;
+        if (req.session.userRole === "admin") {
+          isAdmin = true;
+        }
+        const List = await locationsData.getAll();
+        res.render("pages/locations", {
+          data: List,
+          title: "Locations",
+          logedin: true,
+          isAdmin: isAdmin,
+        });
+      } catch (e) {
+        res.status(404).send(e);
+      }
     }
+  })
+  .post(async (req, res) => {
+    console.log(req.params.key);
+  });
+
+router
+  .route("/create")
+  .get(async (req, res) => {
+    return res.render("pages/createLocation");
   })
   .post(async (req, res) => {
     const data = req.body;
@@ -27,26 +62,51 @@ router
         .json({ error: "There are no fields in the request body" });
     }
     try {
-      data.name = validation.checkString(data.name, "Location Name");
-      data.desc = validation.checkString(data.desc, "Description");
-      data.type = validation.checkString(data.type, "Location Type");
+      data.location_name = validation.checkString(
+        data.location_name,
+        "Location Name"
+      );
+      data.location_desc = validation.checkString(
+        data.location_desc,
+        "Description"
+      );
+      data.location_type = validation.checkString(
+        data.location_type,
+        "Location Type"
+      );
+
+      data.operating_hours = JSON.parse(
+        data.operating_hours.replace(/"/g, '"')
+      );
       data.operating_hours = validation.checkStringArray(
         data.operating_hours,
-        "Operating Hours"
+        "Operating Hours",
+        2
       );
+      data.location = data.location;
+      data.location_entrances = data.location_entrances;
     } catch (e) {
       return res.status(400).json({ error: e });
     }
-
     try {
-      const { name, desc, type, operating_hours } = data;
+      const {
+        location_name,
+        location_desc,
+        location_type,
+        operating_hours,
+        location,
+        location_entrances,
+      } = data;
+
       const newLocation = await locationsData.create(
-        name,
-        desc,
-        type,
-        operating_hours
+        location_name,
+        location_desc,
+        location_type,
+        operating_hours,
+        location,
+        location_entrances
       );
-      res.json(newLocation);
+      return res.redirect("/locations");
     } catch (e) {
       res.status(404).json({ error: e });
     }
@@ -131,5 +191,27 @@ router
       res.status(404).json({ error: e });
     }
   });
+
+//   router.route("/:key").get(async (req, res) => {
+//   console.log("I dont know");
+//   try {
+//     let isAdmin = false;
+//     if (req.session.userRole === "admin") {
+//       isAdmin = true;
+//     }
+//     const List = await locationsData.find({
+//       $or: [{ name: { $regex: req.params.key } }],
+//     });
+
+//     res.render("pages/locations", {
+//       data: List,
+//       title: "Locations",
+//       logedin: true,
+//       isAdmin: isAdmin,
+//     });
+//   } catch (e) {
+//     res.status(404).send(e);
+//   }
+// });
 
 export default router;
