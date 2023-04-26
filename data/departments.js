@@ -64,13 +64,13 @@ const exportedMethods = {
       {
         "rooms._id": new ObjectId(department.room_id),
       },
-      { projection: { _id: 1, location: 1 } }
+      { projection: { _id: 1, name: 1, location: 1 } }
     );
-    //console.log(roomLocation);
 
     if (!department) throw new Error(`No Department exists for ${id}`);
     department._id = department._id.toString();
     department.location_id = roomLocation._id.toString();
+    department.location_name = roomLocation.name;
     department.location = roomLocation.location;
     return department;
   },
