@@ -3,6 +3,19 @@
   <p>{{data.desc}}</p>
   <p>Building type: {{data.type}}</p>
   <p>Operating Hours: {{data.operating_hours}}</p>
+
+  {{#if isAdmin}}
+    <a href="/locations/{{data._id}}/create">Create a New Room</a>
+  {{/if}}
+  <form action="/locations/{{data._id}}" method="GET">
+    <input type="text" name="key" placeholder="Search..." />
+    <button type="submit">Search</button>
+  </form>
+  {{#if key}}
+    <h3>Results for "{{key}}"</h3>
+    <a href="/locations">Back to all Locations</a>
+  {{/if}}
+
   {{#each rooms}}
     <hr />
     <p>Room Number: {{room_number}}</p>

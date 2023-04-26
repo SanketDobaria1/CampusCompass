@@ -58,15 +58,6 @@ router
     }
   })
   .post(async (req, res) => {
-    console.log(req.params.key);
-  });
-
-router
-  .route("/create")
-  .get(async (req, res) => {
-    return res.render("pages/createLocation");
-  })
-  .post(async (req, res) => {
     const data = req.body;
     if (!data || Object.keys(data).length === 0) {
       return res
@@ -124,9 +115,14 @@ router
     }
   });
 
+router.route("/create").get(async (req, res) => {
+  return res.render("pages/createLocation");
+});
+
 router
   .route("/:id")
   .get(async (req, res) => {
+    console.log("GET");
     try {
       req.params.id = validation.checkId(req.params.id, "Id URL Parameter");
     } catch (e) {
@@ -145,8 +141,22 @@ router
       res.status(404).json({ error: e });
     }
   })
+  .post(async (req, res) => {
+    try {
+      req.params.id = validation.checkId(req.params.id, "Id URL Parameter");
+    } catch (e) {
+      return res.status(400).json({ error: e });
+    }
+    try {
+      await locationsData.remove(req.params.id);
+      res.redirect("/locations");
+    } catch (e) {
+      res.status(404).json({ error: e });
+    }
+  })
 
   .put(async (req, res) => {
+    console.log("PUT");
     const updatedData = req.body;
     if (!updatedData || Object.keys(updatedData).length === 0) {
       return res
@@ -191,6 +201,7 @@ router
   })
 
   .delete(async (req, res) => {
+    console.log("DELETE");
     try {
       req.params.id = validation.checkId(req.params.id, "Id URL Parameter");
     } catch (e) {

@@ -65,7 +65,10 @@ const exportedMethods = {
     const locationsCollection = await locations();
     let locationsList = await locationsCollection
       .find({
-        $or: [{ name: { $regex: key } }],
+        $or: [
+          { name: { $regex: key, $options: "i" } },
+          { type: { $regex: key, $options: "i" } },
+        ],
       })
       .toArray();
     if (!locationsList) throw "Not Found";
