@@ -4,13 +4,6 @@ import validations from "../validate.js";
 import { userData } from "../data/index.js";
 const router = Router();
 
-router.get("/", async (req, res) => {
-  if (xss(req.session.userID)) res.redirect("/home");
-  else {
-    res.render("pages/login", { title: "Login" });
-  }
-});
-
 router.get("/home", async (req, res) => {
   if (!xss(req.session.userID)) return res.redirect("/login");
   let displayString = "";
@@ -20,12 +13,14 @@ router.get("/home", async (req, res) => {
       xss(req.session.userID)
     );
   } catch (error) {
-    return res.json({ error });
+    return res.json({ error: error.message });
   }
 
   if (userRegisteredEvents.length > 0)
     displayString = "Your Upcoming Classes and Events";
   else displayString = "No Classes or Events for today";
+
+  console.log(userRegisteredEvents);
   res.render("pages/landing", {
     title: "Landing",
     logedin: true,
@@ -67,6 +62,13 @@ router.get("/logout", async (req, res) => {
     // res.render("pages/logout", { title: "Loged out" });
     res.redirect("/");
   } else {
+  }
+});
+
+router.get("/", async (req, res) => {
+  if (xss(req.session.userID)) res.redirect("/home");
+  else {
+    res.render("pages/login", { title: "Login" });
   }
 });
 

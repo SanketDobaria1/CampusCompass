@@ -7,6 +7,18 @@ const router = Router();
 import xss from "xss";
 import { compare } from "bcrypt";
 
+router.route("/getAllRecords").get(async (req, res) => {
+  let locationResponse = await locationsData.getLocationsAll();
+
+  let uniqueTypes = [...new Set(locationResponse.map((obj) => obj.type))];
+
+  return res.json({
+    total_records: locationResponse.length,
+    uniqueTypes,
+    data: locationResponse,
+  });
+});
+
 router
   .route("/")
   .get(async (req, res) => {

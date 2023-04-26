@@ -12,11 +12,21 @@ router.route("/").get(async (req, res) => {
     res.redirect("/");
   }
 });
+router.route("/getAllRecords").get(async (req, res) => {
+  let departmentResponse = await departmentData.getDepartmentAll();
+  let uniqueTypes = [...new Set(departmentResponse.map((obj) => obj.type))];
+
+  return res.json({
+    total_records: departmentResponse.length,
+    uniqueTypes,
+    data: departmentResponse,
+  });
+});
 
 router.route("/getAll").get(async (req, res) => {
   let departmentResponse;
   if (xss(!req.session.userID)) {
-    res.redirect("/");
+    return res.redirect("/");
   }
   let finalResponse = {};
   let pageSize = 20;

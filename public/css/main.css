@@ -6,6 +6,9 @@ main {
   padding: 20px;
 }
 
+body {
+  background-color: rgb(238, 238, 238);
+}
 nav {
   background: #9e9e9e;
 }
@@ -24,6 +27,10 @@ nav ul li a:hover {
   background: #bdbdbd;
 }
 
+main {
+  margin-bottom: 1.5em;
+}
+
 .form-inner {
   width: 60%;
   border: 2px solid black;
@@ -40,6 +47,7 @@ nav ul li a:hover {
   display: flex;
   border: none;
 }
+
 
 .flex-child {
   flex: 1;
@@ -78,6 +86,21 @@ nav ul li a:hover {
   transition: 0.2s;
 }
 
+.Open {
+    background-color: #4CAF50;
+    color: #fff;
+    padding: 4px;
+    border-radius: 2px;
+    width: 10%;
+}
+.Closed {
+  background-color: #a32638;
+  color: #fff;
+  padding: 4px;
+  border-radius: 2px;
+  width: 10%;
+}
+
 .form-input:focus {
   border: 2px solid #010000;
 }
@@ -108,7 +131,7 @@ footer {
 
 #pagination {
     display: inline-block;
-    margin-top: 20px;
+    margin-top: 0.8rem;
 }
 
 #pagination a {
@@ -125,9 +148,15 @@ footer {
 
 
 .cards {
-    padding: 10px;
+    padding: 10px 15px;
     border-radius: 2px;
     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+    margin-top: 0.5em;
+    background-color: #fff;
+}
+
+dl {
+  margin-bottom: 0;
 }
 
 dt {
