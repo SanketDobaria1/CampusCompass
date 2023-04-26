@@ -61,6 +61,7 @@ const exportedMethods = {
       userAuthenticated: true,
       username: dbUser.name,
       userRole: dbUser.role,
+      userEvents: dbUser.events,
     };
   },
   async checkIfEmailExists(emailid) {
@@ -104,6 +105,7 @@ const exportedMethods = {
         { projection: { desc: 0, lastupdatedDate: 0, created_by: 0 } }
       )
       .toArray();
+    // console.log(userEvents);
     for (let i = 0; i < userEvents.length; i++) {
       let room_id, building_id;
       building_id = userEvents[i].location_id[0];
@@ -127,21 +129,61 @@ const exportedMethods = {
       if (userEvents[i]["Location_details"])
         userEvents[i]["Location_details"]._id =
           userEvents[i]["Location_details"]._id.toString();
-    }
-    //console.log(userEvents);
+      let tempDate;
 
+      /**
+       * !todo: Below date logic maybe incorrect check and fix this
+       */
+      if (userEvents[i]["event_date"][2] === 0)
+        tempDate = new Date(currentDateEst.getTime() + 1 * 24 * 60 * 60 * 1000);
+      else
+        tempDate = new Date(
+          currentDateEst.getTime() +
+            userEvents[i]["event_date"][2] * 24 * 60 * 60 * 1000
+        );
+      // console.log(currentDateEst, tempDate);
+      userEvents[i]["next_occurence_date"] =
+        currentDateEst < tempDate
+          ? new Date(
+              `${userEvents[i]["event_date"][1]} ${userEvents[i]["hours"][1]}`
+            )
+          : tempDate;
+    }
+    userEvents.sort((a, b) => {
+      //console.log(a.next_occurence_date - b.next_occurence_date);
+      return a.next_occurence_date - b.next_occurence_date;
+    });
     return userEvents;
   },
 
   //needs more code
-  async registerEvents(userid) {
+  async registerEvents(userid, event_id) {
     userid = validations.checkId(userid);
+    event_id = validations.checkId(event_id);
+
+    const date = new Date();
+    date.setTime(date.getTime() + -240 * 60 * 1000);
+
     let usersCollection = await users();
     let dbUser = await usersCollection.findOne(
       { _id: new ObjectId(userid) },
       { projection: { _id: 1, emailid: 1, events: 1 } }
     );
     if (!dbUser) throw new Error(`No User for UserID: ${userid}`);
+    if (dbUser.events.length < 0 || !dbUser.events.includes(event_id))
+      dbUser = await usersCollection.updateOne(
+        {
+          _id: new ObjectId(userid),
+        },
+        {
+          $push: { events: event_id },
+        },
+        { $set: { lastupdatedDate: date } }
+      );
+
+    if (!dbUser.acknowledged || dbUser.modifiedCount !== 1)
+      throw new Error("DB Error");
+    return { eventID: event_id, registered: true };
   },
 };
 
