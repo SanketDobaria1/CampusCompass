@@ -130,6 +130,28 @@ const exportedMethods = {
     }
     return `'${deletionInfo.value.name}' has been successfully deleted!`;
   },
+
+  async getLocationsAll() {
+    const locationCollection = await locations();
+    const locationList = await locationCollection
+      .find(
+        {},
+        {
+          projection: {
+            _id: 1,
+            name: 1,
+            type: 1,
+            operating_hours: 1,
+            operating_days: 1,
+          },
+        }
+      )
+      .toArray();
+    locationList.map((location) => {
+      location._id = location._id.toString();
+    });
+    return locationList;
+  },
 };
 
 export default exportedMethods;

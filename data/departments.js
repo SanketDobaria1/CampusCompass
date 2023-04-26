@@ -144,7 +144,18 @@ const exportedMethods = {
 
   async getDepartmentAll() {
     const departmentCollection = await departments();
-    const departmentList = await departmentCollection.find({}).toArray();
+    const departmentList = await departmentCollection
+      .find(
+        {},
+        {
+          projection: {
+            desc: 0,
+            room_id: 0,
+            lastupdatedDate: 0,
+          },
+        }
+      )
+      .toArray();
     departmentList.map((department) => {
       department._id = department._id.toString();
     });
