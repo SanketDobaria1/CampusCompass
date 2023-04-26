@@ -89,7 +89,9 @@ $(document).ready(function () {
         }
         const div = `
         <div class="cards">
-          <h2>${element.name}</h2>
+          <h2><a href="${$("#search-type").val()}s/${element._id}">${
+          element.name
+        }</a></h2>
           <dl>
             <dt>Type</dt>
             <dd>${element.type}</dd>
