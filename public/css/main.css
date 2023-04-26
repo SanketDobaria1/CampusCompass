@@ -7,7 +7,7 @@ main {
 }
 
 body {
-  background-color: lightgray;
+  background-color: rgb(238, 238, 238);
 }
 nav {
   background: #9e9e9e;
@@ -27,6 +27,10 @@ nav ul li a:hover {
   background: #bdbdbd;
 }
 
+main {
+  margin-bottom: 1.5em;
+}
+
 .form-inner {
   width: 60%;
   border: 2px solid black;
@@ -38,8 +42,6 @@ nav ul li a:hover {
 .form-inner form > * + * {
   margin-top: 0.2em;
 }
-
-
 
 .flex-container {
   display: flex;
