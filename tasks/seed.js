@@ -8,21 +8,22 @@ import { closeConnection } from "../config/mongoConnection.js";
 
 async function main() {
   console.log("Begining Seed Script");
-  // const admin = await userData.createUser(
-  //   "test",
-  //   "test@stevens.edu",
-  //   "a123b123c123",
-  //   "administrator"
-  // );
+  const admin = await userData.createUser(
+    "test",
+    "test@stevens.edu",
+    "a123b123c123",
+    "administrator",
+    "admin"
+  );
 
-  // const isssDepartment = await departmentData.create(
-  //   "International Student and Scholar Services (ISSS)",
-  //   "64236f804eebf566c9d8d8df",
-  //   "The International Student and Scholar Services (ISSS) office is committed to assisting international students, faculty and scholars in accomplishing their academic, personal and professional objectives through advising, providing immigration services, promoting cross-cultural opportunities and offering specific programs and services to our international population.",
-  //   "Administrative",
-  //   ["08:00:00", "16:00:00"],
-  //   [1, 2, 3, 4, 5]
-  // );
+  const isssDepartment = await departmentData.create(
+    "International Student and Scholar Services (ISSS)",
+    "64236f804eebf566c9d8d8df",
+    "The International Student and Scholar Services (ISSS) office is committed to assisting international students, faculty and scholars in accomplishing their academic, personal and professional objectives through advising, providing immigration services, promoting cross-cultural opportunities and offering specific programs and services to our international population.",
+    "Administrative",
+    ["08:00:00", "16:00:00"],
+    [1, 2, 3, 4, 5]
+  );
 
   const library = await locationsData.create(
     "Samuel C Williams Library",
@@ -60,7 +61,7 @@ async function main() {
   await roomsData.create(howeCenter._id.toString(), 103, 20, 1, "admin");
   await roomsData.create(babioCenter._id.toString(), 201, 60, 2, "classroom");
   await roomsData.create(babioCenter._id.toString(), 202, 30, 2, "laboratory");
-  // const itSupport = await departmentData.create("IT SUPPORT");
+  const itSupport = await departmentData.create("IT SUPPORT");
 
   await closeConnection();
 }

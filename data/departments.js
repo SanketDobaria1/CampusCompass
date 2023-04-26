@@ -66,7 +66,7 @@ const exportedMethods = {
       },
       { projection: { _id: 1, location: 1 } }
     );
-    console.log(roomLocation);
+    //console.log(roomLocation);
 
     if (!department) throw new Error(`No Department exists for ${id}`);
     department._id = department._id.toString();

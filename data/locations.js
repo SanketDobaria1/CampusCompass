@@ -35,8 +35,8 @@ const exportedMethods = {
       type: type,
       operating_hours: operating_hours,
       rooms: [],
-      location: [],
-      entrances: [],
+      location: location,
+      entrances: entrances,
       lastupdatedDate: date.toISOString(),
     };
 
@@ -54,6 +54,21 @@ const exportedMethods = {
     const locationsCollection = await locations();
     let locationsList = await locationsCollection.find({}).toArray();
     if (!locationsList) throw "Could not get all locations";
+    locationsList = locationsList.map((element) => {
+      element._id = element._id.toString();
+      return element;
+    });
+    return locationsList;
+  },
+
+  async search(key) {
+    const locationsCollection = await locations();
+    let locationsList = await locationsCollection
+      .find({
+        $or: [{ name: { $regex: key } }],
+      })
+      .toArray();
+    if (!locationsList) throw "Not Found";
     locationsList = locationsList.map((element) => {
       element._id = element._id.toString();
       return element;

@@ -24,5 +24,5 @@ import { closeConnection } from "../config/mongoConnection.js";
 // );
 
 let events = await userData.getRegisteredEventsID("642b9fa24a4bd39cfe07e17a");
-console.log(events);
+//console.log(events);
 await closeConnection();
