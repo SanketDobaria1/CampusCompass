@@ -1,0 +1,9 @@
+<main>
+    <h1>{{data.name}}</h1>
+    <p>{{data.desc}}</p>
+    <p>Department type: {{data.type}}</p>
+    <p>Working Days: {{data.operating_days_str}}</p>
+    <p>Operating Hours: {{data.formated_time_start}} to {{data.formated_time_end}}</p>
+    <p>Located at: <a href="/locations/{{data.location_id}}">{{data.location_name}}</a> </p>
+    <a href="/departments">Back to all Departments</a>
+</main>

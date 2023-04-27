@@ -69,7 +69,9 @@
       }
       // isOpen = department.operating_days.includes(weekday) ? "Open" : "Closed";
       const div = `<div class="cards">
-                <h2>${department.name}</h2>
+                <h2><a href="departments/${department._id}">${
+        department.name
+      }</a></h2>
                 <dl>
                 <dt>Operating Hours</dt>
                 <dd>${formatTime(

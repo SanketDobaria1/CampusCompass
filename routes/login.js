@@ -15,18 +15,24 @@ router.get("/home", async (req, res) => {
   } catch (error) {
     return res.json({ error: error.message });
   }
-
-  if (userRegisteredEvents.length > 0)
+  let tempGeo;
+  if (userRegisteredEvents.eventsData.length > 0) {
     displayString = "Your Upcoming Classes and Events";
-  else displayString = "No Classes or Events for today";
-
-  console.log(userRegisteredEvents);
+    tempGeo = {
+      type: "FeatureCollection",
+      features: userRegisteredEvents.locationData,
+    };
+  } else displayString = "No Classes or Events for today";
+  // console.dir(userRegisteredEvents, { depth: null });
+  console.log(userRegisteredEvents.eventsData.length);
   res.render("pages/landing", {
     title: "Landing",
     logedin: true,
     username: req.session.username,
     displayString,
-    events: userRegisteredEvents,
+    events: userRegisteredEvents.eventsData,
+    renderMap: true,
+    geoObject: JSON.stringify(tempGeo),
   });
 });
 
