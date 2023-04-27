@@ -94,7 +94,7 @@ const exportedMethods = {
     const currentDateEst = new Date(currentDate.getTime() + -5 * 60 * 1000);
     let currentDay =
       currentDateEst.getDay() === 0 ? 7 : currentDateEst.getDay();
-
+    let locationRender = [];
     let userEvents = await eventCollection
       .find(
         {
@@ -105,8 +105,11 @@ const exportedMethods = {
         { projection: { desc: 0, lastupdatedDate: 0, created_by: 0 } }
       )
       .toArray();
-    // console.log(userEvents);
+
     for (let i = 0; i < userEvents.length; i++) {
+      userEvents[i].hours = `${validations.formatTime(
+        userEvents[i].hours[0]
+      )} to ${validations.formatTime(userEvents[i].hours[1])}`;
       let room_id, building_id;
       building_id = userEvents[i].location_id[0];
       if (userEvents[i].location_id.length == 2)
@@ -116,8 +119,11 @@ const exportedMethods = {
         {
           _id: new ObjectId(building_id),
         },
-        { projection: { _id: 1, name: 1, rooms: 1 } }
+        { projection: { _id: 1, name: 1, rooms: 1, location: 1 } }
       );
+
+      let tempGeo = { type: "Feature", geometry: location.location };
+      locationRender.push(tempGeo);
 
       if (room_id) {
         location.rooms = location.rooms.filter((room) => {
@@ -153,7 +159,7 @@ const exportedMethods = {
       //console.log(a.next_occurence_date - b.next_occurence_date);
       return a.next_occurence_date - b.next_occurence_date;
     });
-    return userEvents;
+    return { locationData: locationRender, eventsData: userEvents };
   },
 
   //needs more code
