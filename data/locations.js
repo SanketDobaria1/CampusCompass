@@ -18,6 +18,11 @@ const exportedMethods = {
     name = validation.checkString(name, "Location Name");
     desc = validation.checkString(desc, "Description");
     type = validation.checkString(type, "Location Type");
+    // if (/^\d{2}:\d{2}:\d{2},\d{2}:\d{2}:\d{2}$/.test(operating_hours)) {
+    //   throw `Provide operating hours in HH:MM:SS,HH:MM:SS format`;
+    // }
+    // operating_hours = operating_hours.split(",");
+    // console.log(operating_hours);
     operating_hours = validation.checkStringArray(
       operating_hours,
       "Operating Hours",
@@ -102,6 +107,8 @@ const exportedMethods = {
       desc: desc,
       type: type,
       operating_hours: operating_hours,
+      location: location,
+      entrances: entrances,
       lastupdatedDate: date.toISOString(),
     };
 

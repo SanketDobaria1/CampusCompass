@@ -25,6 +25,13 @@ const logMiddelWare = (req, res, next) => {
   next();
 };
 
+app.use("/locations/edit/:id", async (req, res, next) => {
+  if (req.method == "POST") {
+    req.method = "PUT";
+  }
+  next();
+});
+
 app.use(logMiddelWare);
 
 app.use("/public", staticDir);
