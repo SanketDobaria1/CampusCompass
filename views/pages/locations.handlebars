@@ -19,7 +19,7 @@
           <form id="delete-form" method="POST" action="/locations/{{_id}}">
             <button type="submit">Delete</button>
           </form>
-          <form id="edit-form" method="PUT" action="/locations/{{_id}}">
+          <form id="edit-form" method="GET" action="/locations/edit/{{_id}}">
             <button type="submit">Edit</button>
           </form>
         {{/if}}
