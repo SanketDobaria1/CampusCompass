@@ -1,20 +1,22 @@
 import {Router} from 'express';
 import {feedbackData} from '../data/index.js';
 import validation from '../validate.js';
-import eventdata from '../../data/events.js'
-import locationsdata from '../../data/locations.js'
-import departmentsdata from '../../data/departments.js'
+import eventdata from '../../CampusCompass/data/events.js'
+import locationsdata from '../../CampusCompass/data/locations.js'
+import departmentsdata from '../../CampusCompass/data/departments.js'
 const router = Router();
 
 router.route('/')
   .get(async (req, res) => {
     try {
-
+      let events = await eventdata.getAll();
+      let departments =  await departmentsdata.getDepartmentAll();
+      let locations = await locationsdata.getAll();
       if(req.session.userRole=='admin'){
-        res.render("pages/feedback", {admin : true});
+        res.render("pages/feedback", {admin : true, events: events, departments: departments, locations:locations});
       }
       else{
-        res.render("pages/feedback", {id : req.session.userID});
+        res.render("pages/feedback", {id : req.session.userID, events: events, departments: departments, locations:locations});
       }
     } catch (e) {
       res.status(404).send(e);
@@ -28,15 +30,16 @@ router.route('/')
         .json({error: 'There are no fields in the request body'});
     }
     try{
+      data.reported_by = validation.checkId(data.reported_by, 'user_id')
       data.reported_object = validation.checkId(data.reported_object, 'event_id')
-      data.desc = validation.checkString(data.desc, 'Description')
+      data.feedback_description = validation.checkString(data.feedback_description, 'Description')
     } catch (e){
       return res.status(400).json({error: e})
     }
 
     try {
-        const {reported_object, desc} = data;
-        const newFeedback = await feedbackData.create(reported_object, desc);
+        const {reported_by, reported_object, feedback_description} = data;
+        const newFeedback = await feedbackData.create(reported_by, reported_object, feedback_description);
         res.json(newFeedback);
       } catch (e) {
         res.status(404).json({error: e});
