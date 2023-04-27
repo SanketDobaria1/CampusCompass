@@ -13,6 +13,27 @@ const staticDir = express.static(__dirname + "/public");
 
 const port = 3000;
 
+const logMiddelWare = (req, res, next) => {
+  console.log(
+    `[${new Date().toUTCString()}]: ${req.method} ${req.originalUrl} ` //${
+    // req.session.userID
+    //    &&(req.session.user.role === "admin" || req.session.user.role === "user")
+    //     ? "(Authenticated User)"
+    //     : "(Non-Authenticated User)"
+    // }`
+  );
+  next();
+};
+
+app.use("/locations/edit/:id", async (req, res, next) => {
+  if (req.method == "POST") {
+    req.method = "PUT";
+  }
+  next();
+});
+
+app.use(logMiddelWare);
+
 app.use("/public", staticDir);
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
@@ -32,6 +53,7 @@ app.engine(
     partialsDir: [path.join(__dirname + "/views/partials")],
   })
 );
+
 app.set("view engine", "handlebars");
 configRoutes(app);
 

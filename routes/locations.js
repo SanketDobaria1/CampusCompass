@@ -1,21 +1,60 @@
 import { Router } from "express";
 import { locationsData } from "../data/index.js";
+import { roomsData } from "../data/index.js";
+import { userData } from "../data/index.js";
 import validation from "../validate.js";
 const router = Router();
 import xss from "xss";
+import { compare } from "bcrypt";
+
+router.route("/getAllRecords").get(async (req, res) => {
+  let locationResponse = await locationsData.getLocationsAll();
+
+  let uniqueTypes = [...new Set(locationResponse.map((obj) => obj.type))];
+
+  return res.json({
+    total_records: locationResponse.length,
+    uniqueTypes,
+    data: locationResponse,
+  });
+});
 
 router
   .route("/")
   .get(async (req, res) => {
-    try {
-      const List = await locationsData.getAll();
-      res.render("pages/locations", {
-        data: List,
-        title: "Locations",
-        logedin: true,
-      });
-    } catch (e) {
-      res.status(404).send(e);
+    if (req.query.key) {
+      try {
+        let isAdmin = false;
+        if (req.session.userRole === "admin") {
+          isAdmin = true;
+        }
+        const List = await locationsData.search(req.query.key);
+        res.render("pages/locations", {
+          data: List,
+          key: req.query.key,
+          title: "Locations",
+          logedin: true,
+          isAdmin: isAdmin,
+        });
+      } catch (e) {
+        res.status(404).send(e);
+      }
+    } else {
+      try {
+        let isAdmin = false;
+        if (req.session.userRole === "admin") {
+          isAdmin = true;
+        }
+        const List = await locationsData.getAll();
+        res.render("pages/locations", {
+          data: List,
+          title: "Locations",
+          logedin: true,
+          isAdmin: isAdmin,
+        });
+      } catch (e) {
+        res.status(404).send(e);
+      }
     }
   })
   .post(async (req, res) => {
@@ -26,26 +65,128 @@ router
         .json({ error: "There are no fields in the request body" });
     }
     try {
-      data.name = validation.checkString(data.name, "Location Name");
-      data.desc = validation.checkString(data.desc, "Description");
-      data.type = validation.checkString(data.type, "Location Type");
+      data.location_name = validation.checkString(
+        data.location_name,
+        "Location Name"
+      );
+      data.location_desc = validation.checkString(
+        data.location_desc,
+        "Description"
+      );
+      data.location_type = validation.checkString(
+        data.location_type,
+        "Location Type"
+      );
+
+      data.operating_hours = JSON.parse(
+        data.operating_hours.replace(/"/g, '"')
+      );
       data.operating_hours = validation.checkStringArray(
         data.operating_hours,
-        "Operating Hours"
+        "Operating Hours",
+        2
       );
+      data.location = data.location;
+      data.location_entrances = data.location_entrances;
+    } catch (e) {
+      return res.status(400).json({ error: e });
+    }
+    try {
+      const {
+        location_name,
+        location_desc,
+        location_type,
+        operating_hours,
+        location,
+        location_entrances,
+      } = data;
+
+      const newLocation = await locationsData.create(
+        location_name,
+        location_desc,
+        location_type,
+        operating_hours,
+        location,
+        location_entrances
+      );
+      return res.redirect("/locations");
+    } catch (e) {
+      res.status(404).json({ error: e });
+    }
+  });
+
+router.route("/create").get(async (req, res) => {
+  return res.render("pages/createLocation");
+});
+router
+  .route("/edit/:id")
+  .get(async (req, res) => {
+    const location = await locationsData.getById(req.params.id);
+    return res.render("pages/editLocation", { data: location });
+  })
+  .put(async (req, res) => {
+    const data = req.body;
+    if (!data || Object.keys(data).length === 0) {
+      return res
+        .status(400)
+        .json({ error: "There are no fields in the request body" });
+    }
+    try {
+      req.params.id = validation.checkId(req.params.id, "Id URL Parameter");
+
+      data.location_name = validation.checkString(
+        data.location_name,
+        "Location Name"
+      );
+
+      data.location_desc = validation.checkString(
+        data.location_desc,
+        "Description"
+      );
+
+      data.location_type = validation.checkString(
+        data.location_type,
+        "Location Type"
+      );
+
+      console.log(data.operating_hours);
+      data.operating_hours = JSON.parse(
+        data.operating_hours.replace(/"/g, '"')
+      );
+      console.log(data.operating_hours);
+
+      data.operating_hours = validation.checkStringArray(
+        data.operating_hours,
+        "Operating Hours",
+        2
+      );
+      console.log(data.operating_hours, "OH VERIFIED");
+
+      data.location = data.location;
+      data.location_entrances = data.location_entrances;
     } catch (e) {
       return res.status(400).json({ error: e });
     }
 
     try {
-      const { name, desc, type, operating_hours } = data;
-      const newLocation = await locationsData.create(
-        name,
-        desc,
-        type,
-        operating_hours
+      const {
+        location_name,
+        location_desc,
+        location_type,
+        operating_hours,
+        location,
+        location_entrances,
+      } = data;
+      const updatedLocation = await locationsData.update(
+        req.params.id,
+        location_name,
+        location_desc,
+        location_type,
+        operating_hours,
+        location,
+        location_entrances
       );
-      res.json(newLocation);
+      res.redirect("/locations");
     } catch (e) {
       res.status(404).json({ error: e });
     }
@@ -61,55 +202,26 @@ router
     }
     try {
       const location = await locationsData.getById(req.params.id);
+      const rooms = await roomsData.getAll(location._id);
       res.render("pages/location", {
         title: "Location",
         data: location,
+        rooms: rooms,
         logedin: true,
       });
     } catch (e) {
       res.status(404).json({ error: e });
     }
   })
-
-  .put(async (req, res) => {
-    const updatedData = req.body;
-    if (!updatedData || Object.keys(updatedData).length === 0) {
-      return res
-        .status(400)
-        .json({ error: "There are no fields in the request body" });
-    }
+  .post(async (req, res) => {
     try {
       req.params.id = validation.checkId(req.params.id, "Id URL Parameter");
-      updatedData.name = validation.checkString(
-        updatedData.name,
-        "Location Name"
-      );
-      updatedData.desc = validation.checkString(
-        updatedData.desc,
-        "Description"
-      );
-      updatedData.type = validation.checkString(
-        updatedData.type,
-        "Location Type"
-      );
-      updatedData.operating_hours = validation.checkStringArray(
-        updatedData.operating_hours,
-        "Operating Hours"
-      );
     } catch (e) {
       return res.status(400).json({ error: e });
     }
-
     try {
-      const { name, desc, type, operating_hours } = updatedData;
-      const updatedLocation = await locationsData.update(
-        req.params.id,
-        name,
-        desc,
-        type,
-        operating_hours
-      );
-      res.json(updatedLocation);
+      await locationsData.remove(req.params.id);
+      res.redirect("/locations");
     } catch (e) {
       res.status(404).json({ error: e });
     }
@@ -128,5 +240,27 @@ router
       res.status(404).json({ error: e });
     }
   });
+
+//   router.route("/:key").get(async (req, res) => {
+//   console.log("I dont know");
+//   try {
+//     let isAdmin = false;
+//     if (req.session.userRole === "admin") {
+//       isAdmin = true;
+//     }
+//     const List = await locationsData.find({
+//       $or: [{ name: { $regex: req.params.key } }],
+//     });
+
+//     res.render("pages/locations", {
+//       data: List,
+//       title: "Locations",
+//       logedin: true,
+//       isAdmin: isAdmin,
+//     });
+//   } catch (e) {
+//     res.status(404).send(e);
+//   }
+// });
 
 export default router;

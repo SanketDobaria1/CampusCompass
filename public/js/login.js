@@ -5,6 +5,8 @@ $(document).ready(function () {
     let user_password = $("#login_password").val();
     let errors = [];
 
+    $("p.error").remove();
+
     if ($.trim(user_name).length === 0 || !validStevensEmail(user_name))
       errors.push("Expected Stevens Email ID");
 

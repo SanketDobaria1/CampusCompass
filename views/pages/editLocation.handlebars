@@ -1,0 +1,34 @@
+<form action="/locations/edit/{{data._id}}" id="location-edit-form" method="POST">
+    <label for="location_name">Name</label>
+    <br>
+    <input class="form-input" id="location_name" name="location_name" type="text" placeholder="Name" value="{{data.name}}">
+    <br>
+    
+    <label for="location_desc">Description</label>
+    <br>
+    <input class="form-input" id="location_desc" name="location_desc" type="text"
+        placeholder="Description" value="{{data.desc}}"> 
+    <br>
+
+    <label for="location_type">Location Type</label>
+    <br>
+    <input class="form-input" id="location_type" name="location_type" type="text" placeholder="Type of this Location" value="{{data.type}}">
+    <br>
+
+    <label for="operating_hours">Operating Hours</label>
+    <br>
+    <input class="form-input" id="operating_hours" name="operating_hours" type="text" placeholder="[&quot;hh:mm:ss&quot;, &quot;hh:mm:ss&quot;]" value="[&quot;{{data.operating_hours.[0]}}&quot;,&quot;{{data.operating_hours.[1]}}&quot;]">
+    <br>
+
+    <label for="location">Location Coordinates</label>
+    <br>
+    <input class="form-input" id="location" name="location" type="text" placeholder="GeoJson of Location" value="{{data.location}}">
+    <br>
+
+    <label for="location_entrances">Entrances Coordinates</label>
+    <br>
+    <input class="form-input" id="location_entrances" name="location_entrances" type="text" placeholder="GeoJson of Entrances" value="{{data.entrances}}">
+    <br>
+
+    <input type="submit" class="submit-button" value="Update"></input>
+</form>

@@ -1,1 +1,38 @@
-<p>Welcome to Portal</p>
+<div class="container-fluid fill">
+    <h1>Hey {{username}}!</h1>
+    <p>{{displayString}}</p>
+    {{!-- <p>{{{geoObject}}}</p> --}}
+    <div class="flex-container">
+        <div class="flex-child">
+            {{#each events}}
+            <div class="cards">
+                <h2>{{name}}</h2>
+                <dl>
+                    <dt>Type</dt>
+                    <dd>{{type}}</dd>
+                    <dt>Hours</dt>
+                    <dd>
+                        {{hours}}
+                    </dd>
+                    <dt>Location</dt>
+                    <dd><a href="/locations/{{Location_details._id}}">{{Location_details.name}}</a></dd>
+                    {{#if Location_details.rooms}}
+                    <dt>Room Number</dt>
+                    <dd>{{Location_details.rooms.room_number}}</dd>
+                    <dt>Floor Number</dt>
+                    <dd>{{Location_details.rooms.floor_number}}</dd>
+                    {{/if}}
+                </dl>
+            </div>
+            {{/each}}
+        </div>
+        <div class="flex-child">
+            {{#if renderMap}}
+            {{> map}}
+            {{/if}}
+            <div id="map"></div>
+        </div>
+    </div>
+    
+</div>
+

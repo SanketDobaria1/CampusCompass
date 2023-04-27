@@ -1,4 +1,4 @@
-import { users } from "../config/mongoCollections.js";
+import { users, events, locations } from "../config/mongoCollections.js";
 import bcrypt from "bcrypt";
 import { ObjectId } from "mongodb";
 import validations from "../validate.js";
@@ -48,7 +48,9 @@ const exportedMethods = {
     let usersCollection = await users();
     let dbUser = await usersCollection.findOne(
       { emailid },
-      { projection: { _id: 1, emailid: 1, hashedpassword: 1, role: 1 } }
+      {
+        projection: { _id: 1, name: 1, emailid: 1, hashedpassword: 1, role: 1 },
+      }
     );
     if (!dbUser) throw new Error(`Either email or password is invalid`);
 
@@ -57,7 +59,9 @@ const exportedMethods = {
     return {
       userAuthenticatedID: dbUser._id.toString(),
       userAuthenticated: true,
+      username: dbUser.name,
       userRole: dbUser.role,
+      userEvents: dbUser.events,
     };
   },
   async checkIfEmailExists(emailid) {
@@ -79,16 +83,113 @@ const exportedMethods = {
       { projection: { _id: 1, emailid: 1, events: 1 } }
     );
     if (!dbUser) throw new Error(`No User for UserID: ${userid}`);
-    let events = dbUser.events;
-    return events;
+    let eventList = dbUser.events;
+
+    for (let i = 0; i < eventList.length; i++)
+      eventList[i] = new ObjectId(eventList[i]);
+
+    let eventCollection = await events();
+    let locationCollection = await locations();
+    const currentDate = new Date();
+    const currentDateEst = new Date(currentDate.getTime() + -5 * 60 * 1000);
+    let currentDay =
+      currentDateEst.getDay() === 0 ? 7 : currentDateEst.getDay();
+    let locationRender = [];
+    let userEvents = await eventCollection
+      .find(
+        {
+          _id: { $in: eventList },
+          "event_date.1": { $gte: currentDateEst.toISOString().slice(0, 10) },
+          "event_date.2": { $in: [0, currentDay, ((currentDay - 1) % 7) + 1] },
+        },
+        { projection: { desc: 0, lastupdatedDate: 0, created_by: 0 } }
+      )
+      .toArray();
+
+    for (let i = 0; i < userEvents.length; i++) {
+      userEvents[i].hours = `${validations.formatTime(
+        userEvents[i].hours[0]
+      )} to ${validations.formatTime(userEvents[i].hours[1])}`;
+      let room_id, building_id;
+      building_id = userEvents[i].location_id[0];
+      if (userEvents[i].location_id.length == 2)
+        room_id = userEvents[i].location_id[1];
+
+      let location = await locationCollection.findOne(
+        {
+          _id: new ObjectId(building_id),
+        },
+        { projection: { _id: 1, name: 1, rooms: 1, location: 1 } }
+      );
+
+      let tempGeo = { type: "Feature", geometry: location.location };
+      locationRender.push(tempGeo);
+
+      if (room_id) {
+        location.rooms = location.rooms.filter((room) => {
+          return room._id.toString() === room_id;
+        });
+        location.rooms = location.rooms[0];
+      }
+      userEvents[i]["Location_details"] = location;
+      if (userEvents[i]["Location_details"])
+        userEvents[i]["Location_details"]._id =
+          userEvents[i]["Location_details"]._id.toString();
+      let tempDate;
+
+      /**
+       * !todo: Below date logic maybe incorrect check and fix this
+       */
+      if (userEvents[i]["event_date"][2] === 0)
+        tempDate = new Date(currentDateEst.getTime() + 1 * 24 * 60 * 60 * 1000);
+      else
+        tempDate = new Date(
+          currentDateEst.getTime() +
+            userEvents[i]["event_date"][2] * 24 * 60 * 60 * 1000
+        );
+      // console.log(currentDateEst, tempDate);
+      userEvents[i]["next_occurence_date"] =
+        currentDateEst < tempDate
+          ? new Date(
+              `${userEvents[i]["event_date"][1]} ${userEvents[i]["hours"][1]}`
+            )
+          : tempDate;
+    }
+    userEvents.sort((a, b) => {
+      //console.log(a.next_occurence_date - b.next_occurence_date);
+      return a.next_occurence_date - b.next_occurence_date;
+    });
+    return { locationData: locationRender, eventsData: userEvents };
   },
 
   //needs more code
-  async registerEvents(eventID) {
-    eventID = validations.checkId(eventID);
-    let usersCollection = await users();
+  async registerEvents(userid, event_id) {
+    userid = validations.checkId(userid);
+    event_id = validations.checkId(event_id);
 
-    throw new Error("PLEASE DONOT USE THIS FUNCTION AS ITS INCOMPLETE");
+    const date = new Date();
+    date.setTime(date.getTime() + -240 * 60 * 1000);
+
+    let usersCollection = await users();
+    let dbUser = await usersCollection.findOne(
+      { _id: new ObjectId(userid) },
+      { projection: { _id: 1, emailid: 1, events: 1 } }
+    );
+    if (!dbUser) throw new Error(`No User for UserID: ${userid}`);
+    if (dbUser.events.length < 0 || !dbUser.events.includes(event_id))
+      dbUser = await usersCollection.updateOne(
+        {
+          _id: new ObjectId(userid),
+        },
+        {
+          $push: { events: event_id },
+        },
+        { $set: { lastupdatedDate: date } }
+      );
+
+    if (!dbUser.acknowledged || dbUser.modifiedCount !== 1)
+      throw new Error("DB Error");
+    return { eventID: event_id, registered: true };
   },
 };
 

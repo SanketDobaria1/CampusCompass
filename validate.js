@@ -36,6 +36,7 @@ const exportedMethods = {
       throw new Error(`Expected VarName with VarName as String`);
     if (isNaN(number) || typeof number !== "number")
       throw new Error(`Error: Expected ${varName} to be number`);
+    return number;
   },
 
   checkRoomType(type, varName) {
@@ -45,10 +46,11 @@ const exportedMethods = {
       throw new Error(`Expected VarName with VarName as String`);
     type = type.trim().toLowerCase();
 
-    if (type !== "classroom" || type !== "admin" || type !== "laboratory")
+    if (type !== "classroom" && type !== "admin" && type !== "laboratory")
       throw new Error(
         `Expected Room Type to be of classroom, admin, laboratory`
       );
+    return type;
   },
 
   checkString(strVal, varName) {
@@ -72,6 +74,7 @@ const exportedMethods = {
         throw `Expected ${varName} to contain number`;
       if (elm > 7 || elm < 1) throw `Days needs to between 1 and 7`;
     });
+    return arr;
   },
 
   checkStringArray(arr, varName, length) {
@@ -90,6 +93,15 @@ const exportedMethods = {
     return arr;
   },
 
+  formatTime(time) {
+    let timeRegex = /^([0-1][0-9]|2[0-3]):([0-5][0-9]):([0-5][0-9])$/;
+    if (!time || typeof time !== "string" || !timeRegex.test(time)) return "";
+    let splitTime = time.split(":");
+    return `${splitTime[0] % 12}:${splitTime[1]}:${splitTime[2]} ${
+      splitTime[0] > 12 ? "PM" : "AM"
+    }`;
+  },
+
   checkTime(time, varName) {
     let timeRegex = /^([0-1][0-9]|2[0-3]):([0-5][0-9]):([0-5][0-9])$/;
     if (!time || !varName)
@@ -106,6 +118,21 @@ const exportedMethods = {
         `Please Ensure ${varName} is passed in 24 hour HH:MM:SS format`
       );
     return time;
+  },
+
+  returnDay(day) {
+    if (typeof day !== "number" || isNaN(day))
+      throw new Error(`Error expected Day to be Integer`);
+    let dayIdDay = {
+      1: "Monday",
+      2: "Tuesday",
+      3: "Wednesday",
+      4: "Thursday",
+      5: "Friday",
+      6: "Saturday",
+      7: "Sunday",
+    };
+    return dayIdDay[day];
   },
 
   checkOperatingTimes(startTime, endTime) {

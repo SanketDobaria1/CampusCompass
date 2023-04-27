@@ -14,11 +14,15 @@ const exportedMethods = {
     return location;
   },
 
-  async create(name, desc, type, operating_hours) {
-    // ERROR HANDLING & INPUT VALIDATIONS //
+  async create(name, desc, type, operating_hours, location, entrances) {
     name = validation.checkString(name, "Location Name");
     desc = validation.checkString(desc, "Description");
     type = validation.checkString(type, "Location Type");
+    // if (/^\d{2}:\d{2}:\d{2},\d{2}:\d{2}:\d{2}$/.test(operating_hours)) {
+    //   throw `Provide operating hours in HH:MM:SS,HH:MM:SS format`;
+    // }
+    // operating_hours = operating_hours.split(",");
+    // console.log(operating_hours);
     operating_hours = validation.checkStringArray(
       operating_hours,
       "Operating Hours",
@@ -36,8 +40,8 @@ const exportedMethods = {
       type: type,
       operating_hours: operating_hours,
       rooms: [],
-      location: [],
-      entrances: [],
+      location: location,
+      entrances: entrances,
       lastupdatedDate: date.toISOString(),
     };
 
@@ -47,9 +51,8 @@ const exportedMethods = {
       throw "Could not add Location";
     }
 
-    const newId = insertInfo.insertedId.toString();
-    const location = await this.getById(newId);
-    return location;
+    const Location = await this.getById(insertInfo.insertedId.toString());
+    return Location;
   },
 
   async getAll() {
@@ -63,7 +66,25 @@ const exportedMethods = {
     return locationsList;
   },
 
-  async update(id, name, desc, type, operating_hours) {
+  async search(key) {
+    const locationsCollection = await locations();
+    let locationsList = await locationsCollection
+      .find({
+        $or: [
+          { name: { $regex: key, $options: "i" } },
+          { type: { $regex: key, $options: "i" } },
+        ],
+      })
+      .toArray();
+    if (!locationsList) throw "Not Found";
+    locationsList = locationsList.map((element) => {
+      element._id = element._id.toString();
+      return element;
+    });
+    return locationsList;
+  },
+
+  async update(id, name, desc, type, operating_hours, location, entrances) {
     // ERROR HANDLING & INPUT VALIDATIONS //
     id = validation.checkId(id, "LocationID");
     name = validation.checkString(name, "Location Name");
@@ -86,14 +107,16 @@ const exportedMethods = {
       desc: desc,
       type: type,
       operating_hours: operating_hours,
+      location: location,
+      entrances: entrances,
       lastupdatedDate: date.toISOString(),
     };
 
     const locationsCollection = await locations();
-    const location = await locationsCollection.findOne({
+    const Location = await locationsCollection.findOne({
       _id: new ObjectId(id),
     });
-    if (location === null) throw "No location found with given Id";
+    if (Location === null) throw "No location found with given Id";
     const updatedInfo = await locationsCollection.findOneAndUpdate(
       { _id: new ObjectId(id) },
       { $set: updatedLocation },
@@ -116,6 +139,28 @@ const exportedMethods = {
       throw `Could not delete Location with given id`;
     }
     return `'${deletionInfo.value.name}' has been successfully deleted!`;
+  },
+
+  async getLocationsAll() {
+    const locationCollection = await locations();
+    const locationList = await locationCollection
+      .find(
+        {},
+        {
+          projection: {
+            _id: 1,
+            name: 1,
+            type: 1,
+            operating_hours: 1,
+            operating_days: 1,
+          },
+        }
+      )
+      .toArray();
+    locationList.map((location) => {
+      location._id = location._id.toString();
+    });
+    return locationList;
   },
 };
 

@@ -1,8 +1,28 @@
 <main>
+  {{#if isAdmin}}
+    <a href="/locations/create">Create a New Location</a>
+  {{/if}}
+  <form action="/locations" method="GET">
+    <input type="text" name="key" placeholder="Search..." />
+    <button type="submit">Search</button>
+  </form>
+  {{#if key}}
+    <h3>Results for "{{key}}"</h3>
+    <a href="/locations">Back to all Locations</a>
+  {{/if}}
   <ol>
     {{#each data}}
       <li>
         <a href="/locations/{{_id}}">{{name}}</a>
+        {{#if @root.isAdmin}}
+          <br />
+          <form id="delete-form" method="POST" action="/locations/{{_id}}">
+            <button type="submit">Delete</button>
+          </form>
+          <form id="edit-form" method="GET" action="/locations/edit/{{_id}}">
+            <button type="submit">Edit</button>
+          </form>
+        {{/if}}
         <hr />
       </li>
     {{/each}}

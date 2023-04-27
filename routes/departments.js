@@ -12,11 +12,21 @@ router.route("/").get(async (req, res) => {
     res.redirect("/");
   }
 });
+router.route("/getAllRecords").get(async (req, res) => {
+  let departmentResponse = await departmentData.getDepartmentAll();
+  let uniqueTypes = [...new Set(departmentResponse.map((obj) => obj.type))];
+
+  return res.json({
+    total_records: departmentResponse.length,
+    uniqueTypes,
+    data: departmentResponse,
+  });
+});
 
 router.route("/getAll").get(async (req, res) => {
   let departmentResponse;
   if (xss(!req.session.userID)) {
-    res.redirect("/");
+    return res.redirect("/");
   }
   let finalResponse = {};
   let pageSize = 20;
@@ -39,7 +49,7 @@ router.route("/getAll").get(async (req, res) => {
     );
   } catch (error) {
     finalResponse.error = `Error Processing Data`;
-    console.log(error);
+    //console.log(error);
     return res.status(500).json(finalResponse);
   }
   finalResponse.current_page = pageNumber;
@@ -52,7 +62,7 @@ router.route("/getAll").get(async (req, res) => {
   return res.json(finalResponse);
 });
 
-router.route("/get/:id").get(async (req, res) => {
+router.route("/:id").get(async (req, res) => {
   let departmentID = req.params.id;
   try {
     departmentID = validations.checkId(departmentID);
@@ -61,9 +71,28 @@ router.route("/get/:id").get(async (req, res) => {
   }
   try {
     let departmentObject = await departmentData.getById(departmentID);
-    return res.json(departmentObject);
+    departmentObject["formated_time_start"] = validations.formatTime(
+      departmentObject.operating_hours[0]
+    );
+    departmentObject["formated_time_end"] = validations.formatTime(
+      departmentObject.operating_hours[1]
+    );
+
+    let operating_days = departmentObject.operating_days.map((day) =>
+      validations.returnDay(day)
+    );
+    departmentObject.operating_days_str = operating_days.join(", ");
+    console.log(departmentObject);
+    return res.render("pages/departmentID", {
+      title: departmentObject.name,
+      logedin: true,
+      data: departmentObject,
+    });
   } catch (err) {
-    return res.status(400).json({ error: "No Department found" });
+    console.log(err);
+    return res
+      .status(400)
+      .json({ error: "No Department found", error_msg: err });
   }
 });
 
