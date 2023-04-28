@@ -10,8 +10,8 @@ router
       const List = await eventsData.getAll();
       res.render("pages/events", {
         data: List,
-        logedin: true,
         title: "Events",
+        logedin: true,
       });
     } catch (e) {
       res.status(404).send(e);
@@ -59,7 +59,7 @@ router
     }
     try {
       const event = await eventsData.getById(req.params.id);
-      res.render("pages/event", { title: "event", data: event });
+      res.render("pages/event", { title: "event", data: event, logedin: true });
     } catch (e) {
       res.status(404).json({ error: e });
     }
