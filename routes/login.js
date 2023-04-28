@@ -51,7 +51,6 @@ router.post("/login", async (req, res) => {
     let userExist = await userData.checkUser(email, password);
     if (userExist.userAuthenticated && userExist.userAuthenticated) {
       req.session.userID = userExist.userAuthenticatedID;
-      req.session.username = userExist.username;
       req.session.userRole = userExist.userRole;
       res.redirect("/home");
     }

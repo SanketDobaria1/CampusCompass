@@ -6,16 +6,15 @@ const exportedMethods = {
     async getById(id) {
       id = validation.checkId(id, "FeedbackId");
       const feedbackCollection = await feedback();
-      const feedback = await feedbackCollection.findOne({
+      const feedbackinfo = await feedbackCollection.findOne({
         _id: new ObjectId(id),
       });
-      if (feedback === null) throw "No feedback element found with that Id";
-      feedback._id = feedback._id.toString();
-      return feedback;
+      if (feedbackinfo === null) throw "No feedback element found with that Id";
+      feedbackinfo._id = feedbackinfo._id.toString();
+      return feedbackinfo;
     },
   
     async create(reportedby, reported_object, desc) {
-      // ERROR HANDLING & INPUT VALIDATIONS //
       desc = validation.checkString(desc, 'Description')
       reportedby = validation.checkId(reportedby, 'user_id')
       reported_object = validation.checkId(reported_object, 'event_id')
@@ -37,8 +36,8 @@ const exportedMethods = {
       }
   
       const newId = insertInfo.insertedId.toString();
-      const feedback = await this.getById(newId);
-      return feedback;
+      const feedbackinfo = await this.getById(newId);
+      return feedbackinfo;
     },
   
   

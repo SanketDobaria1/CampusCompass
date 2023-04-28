@@ -1,39 +1,30 @@
-import eventdata from "../../data/events.js";
 
-let staticForm = document.getElementById("feedback-form");
-function eventFunction() {
-  const selectElement = document.getElementById("mySelect");
-  let events = eventdata.getAll();
-  for (let i = 0; i < events.length(); i++) {
-    let option = document.createElement("option");
-    option.text = events[i].name;
-    option.value = events[i]._id.toString();
-    selectElement.options.add(option, 0);
-  }
+function events() {
+    let staticForm = document.getElementById('feedback-form');
+    if (staticForm) {
+    let userIDField = document.getElementById('user_id');
+    let eventTypeField = document.getElementById('event_type');
+    let eventListField = document.getElementById('events_list');
+    let DepartmentListField = document.getElementById('department_list');
+    let locationsListField = document.getElementById('locations_list');
+    let feedbackDescriptionField = document.getElementById('feedback_description');
+    eventListField.hidden=true;
+    eventTypeInput = eventTypeField.value
+        if (eventTypeInput == "events"){
+            eventListField.hidden=false;
+            DepartmentListField.hidden=true;
+            locationsListField.hidden=true;
+        }
+        else if (eventTypeInput == "departments"){
+            DepartmentListField.hidden=false;
+            eventListField.hidden=true;
+            locationsListField.hidden=true;
+        }
+        else if (eventTypeInput == "locations"){
+            locationsListField.hidden=false;
+            eventListField.hidden=true;
+            DepartmentListField.hidden=true;
+        }
+
 }
-function submitFunction() {
-  if (staticForm) {
-    const textElement = document.getElementById("feedback_description");
-    const resultContainer = document.getElementById("feedback-success");
-    const errorContainer = document.getElementById("error");
-    const errorTextElement =
-      errorContainer.getElementsByClassName("error-text")[0];
-    if (textValue.trim() == "") throw "please enter something";
-
-    staticForm.addEventListener("submit", (event) => {
-      event.preventDefault();
-      try {
-        resultContainer.hidden = false;
-        staticForm.reset();
-        textElement.focus();
-      } catch (e) {
-        const message = typeof e === "string" ? e : e.message;
-        //console.log("error")
-        errorTextElement.textContent = e;
-        errorContainer.hidden = false;
-        staticForm.reset();
-        textElement.focus();
-      }
-    });
-  }
 }
