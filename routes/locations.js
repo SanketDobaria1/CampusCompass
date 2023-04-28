@@ -77,15 +77,18 @@ router
         data.location_type,
         "Location Type"
       );
-
-      data.operating_hours = JSON.parse(
-        data.operating_hours.replace(/"/g, '"')
-      );
-      data.operating_hours = validation.checkStringArray(
-        data.operating_hours,
+      // data.operating_hours = JSON.parse(
+      //   data.operating_hours.replace(/"/g, '"')
+      // );
+      let total_hours = [];
+      total_hours.push(data.opening_hours);
+      total_hours.push(data.closing_hours);
+      total_hours = validation.checkStringArray(
+        total_hours,
         "Operating Hours",
         2
       );
+      data.operating_hours = total_hours;
       data.location = data.location;
       data.location_entrances = data.location_entrances;
     } catch (e) {
@@ -149,19 +152,15 @@ router
         "Location Type"
       );
 
-      console.log(data.operating_hours);
-      data.operating_hours = JSON.parse(
-        data.operating_hours.replace(/"/g, '"')
-      );
-      console.log(data.operating_hours);
-
-      data.operating_hours = validation.checkStringArray(
-        data.operating_hours,
+      let total_hours = [];
+      total_hours.push(data.opening_hours);
+      total_hours.push(data.closing_hours);
+      total_hours = validation.checkStringArray(
+        total_hours,
         "Operating Hours",
         2
       );
-      console.log(data.operating_hours, "OH VERIFIED");
-
+      data.operating_hours = total_hours;
       data.location = data.location;
       data.location_entrances = data.location_entrances;
     } catch (e) {
@@ -195,6 +194,10 @@ router
 router
   .route("/:id")
   .get(async (req, res) => {
+    let isAdmin = false;
+    if (req.session.userRole === "admin") {
+      isAdmin = true;
+    }
     try {
       req.params.id = validation.checkId(req.params.id, "Id URL Parameter");
     } catch (e) {
@@ -207,6 +210,7 @@ router
         title: "Location",
         data: location,
         rooms: rooms,
+        isAdmin: isAdmin,
         logedin: true,
       });
     } catch (e) {

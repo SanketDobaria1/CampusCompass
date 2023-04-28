@@ -8,7 +8,11 @@ router
   .get(async (req, res) => {
     try {
       const List = await eventsData.getAll();
-      res.render("pages/events", { data: List, title: "Events" });
+      res.render("pages/events", {
+        data: List,
+        logedin: true,
+        title: "Events",
+      });
     } catch (e) {
       res.status(404).send(e);
     }
