@@ -15,9 +15,15 @@
     <input class="form-input" id="location_type" name="location_type" type="text" placeholder="Type of this Location">
     <br>
 
-    <label for="operating_hours">Operating Hours</label>
+    <label for="opening_hours">Opening Hours</label>
     <br>
-    <input class="form-input" id="operating_hours" name="operating_hours" type="text" placeholder="[&quot;hh:mm:ss&quot;, &quot;hh:mm:ss&quot;]">
+    <input class="form-input" id="opening_hours" name="opening_hours" type="time" min="00:00:00" max="23:59:59" step="1">
+    {{!-- placeholder="[&quot;hh:mm:ss&quot;, &quot;hh:mm:ss&quot;]" --}}
+    <br>
+
+    <label for="closing_hours">Closing Hours</label>
+    <br>
+    <input class="form-input" id="closing_hours" name="closing_hours" type="time" min="00:00:00" max="23:59:59" step="1">
     <br>
 
     <label for="location">Location Coordinates</label>
