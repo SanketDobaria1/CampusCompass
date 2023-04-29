@@ -67,6 +67,7 @@ router.get("/logout", async (req, res) => {
     // res.render("pages/logout", { title: "Loged out" });
     res.redirect("/");
   } else {
+    res.redirect("/");
   }
 });
 
