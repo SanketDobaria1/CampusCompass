@@ -162,6 +162,24 @@ const exportedMethods = {
     });
     return locationList;
   },
+
+  async getLocationDropdown() {
+    const locationCollection = await locations();
+    const locationList = await locationCollection
+      .find(
+        { type: { $in: ["Residence", "Academic", "Administrative"] } },
+        {
+          projection: {
+            _id: 1,
+            name: 1,
+            type: 1,
+          },
+        }
+      )
+      .toArray();
+
+    return locationList;
+  },
 };
 
 export default exportedMethods;
