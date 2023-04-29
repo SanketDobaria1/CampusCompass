@@ -84,6 +84,29 @@ const exportedMethods = {
 
     return `Room with provided RoomId has been successfully deleted!`;
   },
+
+  async getRoomsDropdown(locationID) {
+    locationID = validation.checkId(locationID, "Location ID");
+    let locationCollection = await locations();
+    let roomsList;
+
+    roomsList = await locationCollection.findOne(
+      {
+        _id: new ObjectId(locationID),
+        "rooms.type": { $in: ["admin", "laboratory"] },
+      },
+      {
+        projection: { _id: 1, "rooms._id": 1, "rooms.room_number": 1 },
+      }
+    );
+
+    if (!roomsList)
+      throw new Error(`No Location for Location ID : ${locationID}`);
+
+    roomsList = roomsList.rooms;
+    roomsList.forEach((room) => (room._id = room._id.toString()));
+    return roomsList;
+  },
 };
 
 export default exportedMethods;
