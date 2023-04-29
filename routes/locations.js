@@ -121,6 +121,7 @@ router
 router.route("/create").get(async (req, res) => {
   return res.render("pages/createLocation");
 });
+
 router
   .route("/edit/:id")
   .get(async (req, res) => {

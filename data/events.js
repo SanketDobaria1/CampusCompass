@@ -19,9 +19,9 @@ const exportedMethods = {
     name = validation.checkString(name, "event Name");
     desc = validation.checkString(desc, "Description");
     type = validation.checkString(type, "event Type");
-    hours = validation.checkStringArray(hours, "Hours");
-    created_by = "adminId";
-    location_id = validation.checkId(location_id, "Location ID");
+    hours = validation.checkStringArray(hours, "Hours", 2);
+    const created_by = "adminId";
+    // location_id = validation.checkId(location_id, "Location ID");
 
     const date = new Date();
     date.setTime(date.getTime() + -240 * 60 * 1000);
@@ -106,6 +106,43 @@ const exportedMethods = {
       throw `Could not delete event with given id`;
     }
     return `'${deletionInfo.value.name}' has been successfully deleted!`;
+  },
+  async getEventsAll() {
+    const eventCollection = await events();
+    const eventList = await eventCollection
+      .find(
+        {},
+        {
+          projection: {
+            _id: 1,
+            name: 1,
+            type: 1,
+            hours: 1,
+          },
+        }
+      )
+      .toArray();
+    eventList.map((event) => {
+      event._id = event._id.toString();
+    });
+    return eventList;
+  },
+  async search(key) {
+    const eventsCollection = await events();
+    let eventsList = await eventsCollection
+      .find({
+        $or: [
+          { name: { $regex: key, $options: "i" } },
+          { type: { $regex: key, $options: "i" } },
+        ],
+      })
+      .toArray();
+    if (!eventsList) throw "Not Found";
+    eventsList = eventsList.map((element) => {
+      element._id = element._id.toString();
+      return element;
+    });
+    return eventsList;
   },
 };
 
