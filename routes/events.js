@@ -3,19 +3,59 @@ import { eventsData } from "../data/index.js";
 import validation from "../validate.js";
 const router = Router();
 
-router
-  .route("/")
-  .get(async (req, res) => {
+router.route("/getAllRecords").get(async (req, res) => {
+  let eventResponse = await eventsData.getEventsAll();
+
+  let uniqueTypes = [...new Set(eventResponse.map((obj) => obj.type))];
+
+  return res.json({
+    total_records: eventResponse.length,
+    uniqueTypes,
+    data: eventResponse,
+  });
+});
+
+router.route("/").get(async (req, res) => {
+  if (req.query.key) {
     try {
+      let isAdmin = false;
+      if (req.session.userRole === "admin") {
+        isAdmin = true;
+      }
+      const List = await eventsData.search(req.query.key);
+      res.render("pages/events", {
+        data: List,
+        key: req.query.key,
+        title: "Events",
+        logedin: true,
+        isAdmin: isAdmin,
+      });
+    } catch (e) {
+      res.status(404).send(e);
+    }
+  } else {
+    try {
+      let isAdmin = false;
+      if (req.session.userRole === "admin") {
+        isAdmin = true;
+      }
       const List = await eventsData.getAll();
       res.render("pages/events", {
         data: List,
         title: "Events",
         logedin: true,
+        isAdmin: isAdmin,
       });
     } catch (e) {
       res.status(404).send(e);
     }
+  }
+});
+
+// GET the form for creating a new event
+router
+  .get("/create", (req, res) => {
+    res.render("pages/createEvent");
   })
   .post(async (req, res) => {
     const data = req.body;
@@ -44,13 +84,14 @@ router
         location_id
       );
       res.json(newevent);
+      return res.redirect("/events");
     } catch (e) {
       res.status(404).json({ error: e });
     }
   });
 
 router
-  .route("/:id")
+  .route("/edit/:id")
   .get(async (req, res) => {
     try {
       req.params.id = validation.checkId(req.params.id, "Id URL Parameter");
@@ -103,6 +144,7 @@ router
         location_id
       );
       res.json(updatedevent);
+      res.redirect("/events");
     } catch (e) {
       res.status(404).json({ error: e });
     }
@@ -122,4 +164,41 @@ router
     }
   });
 
+router
+  .route("/:id")
+  .get(async (req, res) => {
+    let isAdmin = false;
+    if (req.session.userRole === "admin") {
+      isAdmin = true;
+    }
+    try {
+      req.params.id = validation.checkId(req.params.id, "Id URL Parameter");
+    } catch (e) {
+      return res.status(400).json({ error: e });
+    }
+    try {
+      const event = await eventsData.getById(req.params.id);
+      res.render("pages/event", {
+        title: "Event",
+        data: event,
+        isAdmin: isAdmin,
+        logedin: true,
+      });
+    } catch (e) {
+      res.status(404).json({ error: e });
+    }
+  })
+  .delete(async (req, res) => {
+    try {
+      req.params.id = validation.checkId(req.params.id, "Id URL Parameter");
+    } catch (e) {
+      return res.status(400).json({ error: e });
+    }
+    try {
+      await eventsData.remove(req.params.id);
+      res.json({ eventId: req.params.id, deteled: true });
+    } catch (e) {
+      res.status(404).json({ error: e });
+    }
+  });
 export default router;
