@@ -66,6 +66,15 @@ main {
   margin-top: 0.2em;
 }
 
+.form-create {
+  width: 80%;
+  padding: 10px;
+}
+
+.form-inner form>*+* {
+  margin-top: 0.2em;
+}
+
 .fill {
   min-height: 100%;
   height: 100%;
@@ -116,6 +125,18 @@ main {
   width: 100%;
 }
 
+.form-input:focus {
+  border: 2px solid #010000;
+}
+
+.error-input {
+  border: 2px solid red;
+}
+
+ select .form-inner {
+  height: 200px;
+}
+
 .Open {
   background-color: #4caf50;
   color: #fff;
@@ -131,9 +152,7 @@ main {
   width: 10%;
 }
 
-.form-input:focus {
-  border: 2px solid #010000;
-}
+
 
 footer {
   position: fixed;
