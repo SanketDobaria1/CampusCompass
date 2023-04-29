@@ -3,6 +3,11 @@ import { roomsData, locationsData } from "../data/index.js";
 import validation from "../validate.js";
 const router = Router();
 
+router.route("/getRoomsDropdown").get(async (req, res) => {
+  let roomsList = await roomsData.getRoomsDropdown("64236f804eebf566c9d8d8de");
+  return res.json({ totalLength: "2" });
+});
+
 router
   .route("/:id")
   .get(async (req, res) => {
