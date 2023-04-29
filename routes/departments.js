@@ -1,20 +1,37 @@
 import { Router } from "express";
 import xss from "xss";
-import { departmentData } from "../data/index.js";
+import { departmentData, locationsData } from "../data/index.js";
 import validations from "../validate.js";
 
 const router = Router();
 
-router.route("/").get(async (req, res) => {
-  if (xss(req.session.userID)) {
-    res.render("pages/departments", { title: "department", logedin: true });
-  } else {
-    res.redirect("/");
-  }
+router
+  .route("/")
+  .get(async (req, res) => {
+    if (xss(req.session.userID)) {
+      res.render("pages/departments", {
+        title: "department",
+        logedin: true,
+        admin: req.session.userRole === "admin",
+      });
+    } else {
+      res.redirect("/");
+    }
+  })
+  .post(async (req, res) => {});
+
+router.route("/create").get(async (req, res) => {
+  const locationList = await locationsData.getLocationDropdown();
+  return res.render("pages/createdepartment", {
+    title: "Department Create",
+    location: locationList,
+  });
 });
 router.route("/getAllRecords").get(async (req, res) => {
   let departmentResponse = await departmentData.getDepartmentAll();
-  let uniqueTypes = [...new Set(departmentResponse.map((obj) => obj.type))];
+  let uniqueTypes = [
+    ...new Set(departmentResponse.map((obj) => obj.type.trim())),
+  ];
 
   return res.json({
     total_records: departmentResponse.length,
