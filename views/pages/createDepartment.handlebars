@@ -1,0 +1,53 @@
+<div class="container">
+    <h1>New Department Creation form</h1>
+<form class="form-create" action="/departments/" id="department-create-form" method="POST">
+    <label for="department-name">Name</label>
+    <input class="form-input" id="department-name" name="department-name" type="text" placeholder="Department Name" value="{{data.deparmentName}}">
+    <br>
+
+    <label for="department-desc">Description</label>
+    <br>
+    <textarea class="form-input" id="department-desc" name="department-desc" placeholder="Description"></textarea>
+    <br>
+
+    <div class="flex-container w-25">
+        <div class="flex-child"><label for="department-hour-start">Open Time</label>
+        <input class="form-input" id="department-hour-start" name="department-hour-start" type="time" value=""></div>
+        <div class="flex-child"><label for="department-hour-end">Closing Time</label>
+        <input class="form-input" id="department-hour-end" name="department-hour-end" type="time" >
+        </div></div>
+    
+    
+    <label for="department-days">Working Days. Hold down the Ctrl (windows) or Command (Mac) button to select multiple options.</label>
+    <br>
+    <select class="form-input" id="department-days" multiple>
+        <option value="0">Everyday</option>
+        <option value="1">Monday</option>
+        <option value="2">Tuesday</option>
+        <option value="3">Wednesday</option>
+        <option value="4">Thursday</option>
+        <option value="5">Friday</option>
+        <option value="6">Saturday</option>
+        <option value="7">Sunday</option>
+    </select>
+    <br>
+
+    <div class="flex-container w-25">
+        <div class="flex-child"><label for="department-building-location">Location</label>
+        <br>
+        <select class="form-input" name="department-building-location" id="department-building-location">
+            {{#each location}}
+            <option value="#">{{name}}</option>
+            {{/each}}
+        </select></div>
+        <div class="flex-child"><select class="form-input" id="department-room" hidden>
+            <option value="#">Select Room</option>
+        </select></div>
+    
+   
+    
+    </div>
+    <input type="submit" class="submit-button" value="Create">
+</form>
+
+</div>
