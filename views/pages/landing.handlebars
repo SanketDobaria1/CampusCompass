@@ -3,7 +3,7 @@
     <p>{{displayString}}</p>
     {{!-- <p>{{{geoObject}}}</p> --}}
     <div class="flex-container">
-        <div class="flex-child">
+        <div class="flex-child cards-container">
             {{#each events}}
             <div class="cards">
                 <h2>{{name}}</h2>
@@ -30,7 +30,6 @@
             {{#if renderMap}}
             {{> map}}
             {{/if}}
-            <div id="map"></div>
         </div>
     </div>
     
