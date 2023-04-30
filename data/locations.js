@@ -167,7 +167,12 @@ const exportedMethods = {
     const locationCollection = await locations();
     const locationList = await locationCollection
       .find(
-        { type: { $in: ["Residence", "Academic", "Administrative"] } },
+        {
+          type: {
+            $in: ["Residence", "Academic", "Administrative"],
+          },
+          "rooms.type": { $in: ["admin", "laboratory"] },
+        },
         {
           projection: {
             _id: 1,
