@@ -17,7 +17,7 @@ const constructorMethod = (app) => {
   app.use("/search", searchRoutes);
   app.use("/", loginRoutes);
   app.use("*", (req, res) => {
-    res.redirect("/");
+    return res.status(404).json({ error: "Accessing invalid path" });
   });
 };
 
