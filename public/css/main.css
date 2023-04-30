@@ -67,7 +67,6 @@ main {
 }
 
 .form-create {
-  width: 80%;
   padding: 10px;
 }
 
@@ -96,7 +95,15 @@ main {
   justify-content: center;
   align-items: center;
 }
-
+.cards-container {
+  height: 70vh;
+    overflow: auto;
+}
+#form-search{
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
 .submit-button {
   background-color: #555555;
   color: #fff;
