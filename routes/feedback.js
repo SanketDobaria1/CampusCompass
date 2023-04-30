@@ -1,8 +1,10 @@
 import { Router } from "express";
-import departmentsdata from "../../CampusCompass/data/departments.js";
-import eventdata from "../../CampusCompass/data/events.js";
-import locationsdata from "../../CampusCompass/data/locations.js";
-import { feedbackData } from "../data/index.js";
+import {
+  feedbackData,
+  eventsData,
+  locationsData,
+  departmentData,
+} from "../data/index.js";
 import validation from "../validate.js";
 const router = Router();
 
@@ -10,9 +12,9 @@ router
   .route("/")
   .get(async (req, res) => {
     try {
-      let events = await eventdata.getAll();
-      let departments = await departmentsdata.getDepartmentAll();
-      let locations = await locationsdata.getAll();
+      let events = await eventsData.getAll();
+      let departments = await departmentData.getDepartmentAll();
+      let locations = await locationsData.getAll();
       if (req.session.userRole == "admin") {
         res.render("pages/feedback", {
           admin: true,
