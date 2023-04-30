@@ -18,7 +18,23 @@ router
       res.redirect("/");
     }
   })
-  .post(async (req, res) => {});
+  .post(async (req, res) => {
+    console.log(req);
+    let departmentName, room_id, desc, type, operating_hours, operating_days;
+    try {
+      departmentName = validations.checkString(
+        xss(req.body.departmentName),
+        "Department Name"
+      );
+      room_id = validations.checkId(xss(req.body.room_id), "Room Id");
+      desc = validations.checkString(xss(req.body.desc));
+      type = validations.checkString(xss(req.body.departmenttype));
+      operating_hours = [
+        validations.checkOperatingTimes(xss(req.body.departmentOpen)),
+        validations.checkOperatingTimes(xss(req.body.departmentClose)),
+      ];
+    } catch (error) {}
+  });
 
 router.route("/create").get(async (req, res) => {
   const locationList = await locationsData.getLocationDropdown();
