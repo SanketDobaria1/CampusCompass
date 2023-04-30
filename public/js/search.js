@@ -40,7 +40,7 @@ $(document).ready(function () {
     }:${splitTime[1]}:${splitTime[2]} ${splitTime[0] > 12 ? "PM" : "AM"}`;
   }
 
-  function getData(endpoint, filter) {
+  function getData(endpoint) {
     $.ajax({
       url: endpoint,
       success: function (response) {
@@ -70,8 +70,8 @@ $(document).ready(function () {
     if (filterValue !== "#")
       responseData = responseData.filter((elm) => elm.type === filterValue);
     if (searchValue && searchValue.length > 0)
-      responseData = responseData.filter((elm) =>
-        elm["name"].toLowerCase().indexOf(searchStringVal)
+      responseData = responseData.filter(
+        (elm) => elm["name"].toLowerCase().indexOf(searchValue) > -1
       );
     return responseData;
   }
