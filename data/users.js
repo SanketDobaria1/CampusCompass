@@ -1,6 +1,6 @@
-import { users, events, locations } from "../config/mongoCollections.js";
 import bcrypt from "bcrypt";
 import { ObjectId } from "mongodb";
+import { events, locations, users } from "../config/mongoCollections.js";
 import validations from "../validate.js";
 
 const passwordEncryptRounds = 10;

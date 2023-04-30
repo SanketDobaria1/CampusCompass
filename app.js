@@ -1,29 +1,26 @@
 import express from "express";
-import session from "express-session";
-const app = express();
-import configRoutes from "./routes/index.js";
-import { fileURLToPath } from "url";
-import path, { dirname } from "path";
-
 import exphbs from "express-handlebars";
+import session from "express-session";
+import path, { dirname } from "path";
+import { fileURLToPath } from "url";
+import {
+  adminMiddleware,
+  loggingMiddleware,
+  loginMiddleware,
+  logoutMiddleware,
+  registrationMiddleware,
+  rootMiddleware,
+} from "./middleware.js";
+import configRoutes from "./routes/index.js";
+
+const app = express();
+
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 
 const staticDir = express.static(__dirname + "/public");
 
 const port = 3000;
-
-const logMiddelWare = (req, res, next) => {
-  console.log(
-    `[${new Date().toUTCString()}]: ${req.method} ${req.originalUrl} ` //${
-    // req.session.userID
-    //    &&(req.session.user.role === "admin" || req.session.user.role === "user")
-    //     ? "(Authenticated User)"
-    //     : "(Non-Authenticated User)"
-    // }`
-  );
-  next();
-};
 
 app.use("/locations/edit/:id", async (req, res, next) => {
   if (req.method == "POST") {
@@ -32,7 +29,12 @@ app.use("/locations/edit/:id", async (req, res, next) => {
   next();
 });
 
-app.use(logMiddelWare);
+app.use("/events/edit/:id", async (req, res, next) => {
+  if (req.method == "POST") {
+    req.method = "PUT";
+  }
+  next();
+});
 
 app.use("/public", staticDir);
 app.use(express.json());
@@ -45,6 +47,19 @@ app.use(
     saveUninitialized: true,
   })
 );
+
+// Use middleware functions for routes
+app.get("/login", loginMiddleware);
+app.get("/signup", registrationMiddleware);
+app.get("/logout", logoutMiddleware);
+app.use("/locations/create", adminMiddleware);
+app.use("/locations/edit/:id", adminMiddleware);
+app.delete("/locations/:id", adminMiddleware);
+app.use("/events/create", adminMiddleware);
+app.use("/events/edit/:id", adminMiddleware);
+app.delete("/events/:id", adminMiddleware);
+app.get("/home", rootMiddleware);
+app.use(loggingMiddleware);
 
 app.engine(
   "handlebars",

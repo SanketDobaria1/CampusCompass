@@ -1,11 +1,7 @@
 import { Router } from "express";
-import { locationsData } from "../data/index.js";
-import { roomsData } from "../data/index.js";
-import { userData } from "../data/index.js";
+import { locationsData, roomsData } from "../data/index.js";
 import validation from "../validate.js";
 const router = Router();
-import xss from "xss";
-import { compare } from "bcrypt";
 
 router.route("/getAllRecords").get(async (req, res) => {
   let locationResponse = await locationsData.getLocationsAll();

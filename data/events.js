@@ -1,5 +1,5 @@
-import { events } from "../config/mongoCollections.js";
 import { ObjectId } from "mongodb";
+import { events } from "../config/mongoCollections.js";
 import validation from "../validate.js";
 
 const exportedMethods = {
