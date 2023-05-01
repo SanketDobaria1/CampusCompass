@@ -12,6 +12,7 @@ router
   .route("/")
   .get(async (req, res) => {
     try {
+
       let events = await eventsData.getAll();
       let departments = await departmentData.getDepartmentAll();
       let locations = await locationsData.getAll();
@@ -24,14 +25,14 @@ router
           locations: locations,
         });
       } else {
+
         res.render("pages/feedback", {
           id: req.session.userID,
           logedin: true,
           events: events,
           departments: departments,
           locations: locations,
-        });
-      }
+        })
     } catch (e) {
       res.status(404).send(e);
     }
@@ -64,10 +65,45 @@ router
         reported_object,
         feedback_description
       );
-      res.json(newFeedback);
+      res.render("pages/feedback", {success: true, logedin: true,});
     } catch (e) {
       res.status(404).json({ error: e });
     }
   });
+
+router
+  .route("/getAll").get(async (req, res) => {
+    try {
+      if (req.session.userRole == "admin") {
+        res.render("pages/allfeedbacks", {
+          admin: true,
+          logedin: true,
+        });
+      }
+      else{
+        res.status(404).send(e);
+      }
+    } catch (e) {
+      res.status(404).send(e);
+    }
+  })
+
+  router
+  .route("/:id").get(async (req, res) => {
+    try {
+      if (req.session.userRole == "admin") {
+        res.render("pages/feedbackID", {
+          admin: true,
+          logedin: true,
+        });
+      }
+      else{
+        res.status(404).send(e);
+      }
+    } catch (e) {
+      res.status(404).send(e);
+    }
+  })
+
 
 export default router;
