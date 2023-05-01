@@ -86,4 +86,15 @@ router
     }
   });
 
+router.route("/getRoomsDropdown/:id").get(async (req, res) => {
+  let roomId;
+  try {
+    roomId = validation.checkId(req.params.id);
+  } catch (error) {
+    return res.status(400).json({ error: error.message });
+  }
+  let roomsList = await roomsData.getRoomsDropdown(roomId);
+  return res.json({ totalLength: roomsList.length, roomsData: roomsList });
+});
+
 export default router;

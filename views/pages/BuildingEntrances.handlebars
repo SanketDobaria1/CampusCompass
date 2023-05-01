@@ -1,0 +1,20 @@
+
+<div class="container">
+    <h1>Search</h1>
+    <p>Please Select options from below Drop down to filter out results</p>
+<form id="form-search" method="post" onsubmit="">
+    <label for="search-type">Search Type</label>
+    <select name="search-type" id="search-type">
+        <option value="#">Search Options</option>
+        <option value="department">Departments</option>
+        <option value="location">Buildings</option>
+        <option value="room">Rooms</option>
+    </select>
+    <br>
+    <label for="search-string" id="search-string-label" hidden>Search String</label>
+    <input type="text" class="input-field" id="search-string" placeholder="Enter Search Text" hidden>    
+    
+</form>
+<div id="results" class="container" hidden></div>
+</div>
+<script src="/public/js/search.js"></script>

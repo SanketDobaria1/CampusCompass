@@ -11,6 +11,7 @@ html {
   height: 100%;
 }
 
+
 li {
   display: flex;
   justify-content: space-between;
@@ -66,6 +67,15 @@ main {
   margin-top: 0.2em;
 }
 
+
+.form-create {
+  padding: 10px;
+}
+
+.form-inner form>*+* {
+  margin-top: 0.2em;
+}
+
 .fill {
   min-height: 100%;
   height: 100%;
@@ -82,12 +92,28 @@ main {
   flex-basis: 50%;
 }
 
+.cards a {
+  color: #010000;
+  text-decoration: underline;
+}
+
 .center {
   display: flex;
   justify-content: center;
   align-items: center;
 }
-
+.cards-container {
+  height: 70vh;
+    overflow: auto;
+}
+p {
+  margin-bottom: 0rem;
+}
+#form-search{
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
 .submit-button {
   background-color: #555555;
   color: #fff;
@@ -116,6 +142,28 @@ main {
   width: 100%;
 }
 
+.form-input:focus {
+  border: 2px solid #010000;
+}
+#form-search {
+  padding-top: 0.2rem;
+}
+#form-search .form-input {
+  width: auto;
+}
+
+#form-search div {
+  margin-left: 2px;
+  padding: 5px;
+}
+.error-input {
+  border: 2px solid red;
+}
+
+ select .form-inner {
+  height: 200px;
+}
+
 .Open {
   background-color: #4caf50;
   color: #fff;
@@ -131,9 +179,7 @@ main {
   width: 10%;
 }
 
-.form-input:focus {
-  border: 2px solid #010000;
-}
+
 
 footer {
   position: fixed;
@@ -144,7 +190,6 @@ footer {
   background-color: #a32638;
   color: #fff;
   padding: 4px;
-  height: 60px; /* add height to footer */
   display: flex; /* add display: flex */
   align-items: center; /* add align-items: center */
   justify-content: center;
@@ -234,6 +279,21 @@ dd {
   background-color: #f1f1f1;
   padding: 10px;
   text-align: center;
+}
+
+.feedback-btn{
+  position: fixed;
+  right: 5px;
+  bottom: 65px;
+  width: 8%;
+  text-align: center;
+  background-color: #616909;
+  color: #fff;
+  padding: 2px;
+  height: 30px; /* add height to footer */
+  display: flex; /* add display: flex */
+  align-items: center; /* add align-items: center */
+  justify-content: center;
 }
 
 /* Media queries for smaller screens */

@@ -7,9 +7,10 @@ $(document).ready(function () {
     event.preventDefault();
   });
   $("#search-type").change(function () {
-    $("#search-string").removeAttr("hidden");
-    $("#search-string-label").removeAttr("hidden");
+    $("#search-string-div").removeAttr("hidden");
+
     let searchTypeValue = $("#search-type").val();
+
     if (searchTypeValue === "department") {
       getData(departmentGetAllEP);
     }
@@ -40,7 +41,7 @@ $(document).ready(function () {
     }:${splitTime[1]}:${splitTime[2]} ${splitTime[0] > 12 ? "PM" : "AM"}`;
   }
 
-  function getData(endpoint, filter) {
+  function getData(endpoint) {
     $.ajax({
       url: endpoint,
       success: function (response) {
@@ -55,8 +56,9 @@ $(document).ready(function () {
   function renderAdditionalFilter(filterList, referenceObjectByID) {
     $(referenceObjectByID).removeAttr("hidden");
     let optionsToRemove = $(referenceObjectByID).find(
-      "option:not(:selected)[value!='#']:not(:first-child)"
+      "option:not(:first-child)"
     );
+    console.log(optionsToRemove);
     $(optionsToRemove).remove();
     if (filterList.length > 1)
       filterList.map((filterType) => {
@@ -70,8 +72,8 @@ $(document).ready(function () {
     if (filterValue !== "#")
       responseData = responseData.filter((elm) => elm.type === filterValue);
     if (searchValue && searchValue.length > 0)
-      responseData = responseData.filter((elm) =>
-        elm["name"].toLowerCase().indexOf(searchStringVal)
+      responseData = responseData.filter(
+        (elm) => elm["name"].toLowerCase().indexOf(searchValue) > -1
       );
     return responseData;
   }
@@ -122,7 +124,7 @@ $(document).ready(function () {
     }
 
     let filteredResponseList = [];
-    $(".input-field").on("input", function () {
+    $(".form-input").on("input", function () {
       let additionalFilter = $("#search-type-additional").val();
       let searchStringVal = $("#search-string").val().trim().toLowerCase();
       if (additionalFilter !== "#" || searchStringVal.length > 0) {

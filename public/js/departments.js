@@ -57,13 +57,18 @@
       department.operating_days.forEach((day) =>
         operating_days.push(returnDay(day))
       );
-      operating_days = operating_days.join(", ");
+      operating_days = operating_days.join(",");
       if (department.operating_days.includes(weekday)) {
-        let tempDate = new Date(
+        let currentDate = new Date();
+        let openDateTime = new Date(
+          `${date.toISOString().slice(0, 10)} ${department.operating_hours[0]}`
+        );
+        let closeDateTime = new Date(
           `${date.toISOString().slice(0, 10)} ${department.operating_hours[1]}`
         );
 
-        if (tempDate > new Date()) isOpen = "Open";
+        if (openDateTime < currentDate && closeDateTime > currentDate)
+          isOpen = "Open";
       } else {
         isOpen = "Closed";
       }
