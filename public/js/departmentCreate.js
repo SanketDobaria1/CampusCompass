@@ -13,7 +13,7 @@
         },
         error: function () {
           window.alert("Please Reload page");
-          console.log("failed to load data");
+          location.reload();
         },
       });
   });
@@ -21,9 +21,12 @@
   $("#department-create-form").on("submit", function (event) {
     event.preventDefault();
     let errors = [];
+    $("#msg").empty();
+    $("#error-form").empty();
     $("#error-form").attr("hidden", true);
     let departmentName = $("#department-name").val().trim();
     let departmentDesc = $("#department-desc").val().trim();
+    let departmentType = $("#department-type").val().trim();
     let openTime = $("#department-hour-start");
     let closeTime = $("#department-hour-end");
     let location = $("#department-building-location").val();
@@ -32,6 +35,9 @@
 
     if (!departmentName || departmentName.length === 0)
       errors.push("Missing Department Name");
+
+    if (!departmentType || departmentType === "#")
+      errors.push("Please select Department Type");
 
     if (location === "#") {
       errors.push("Please select location from dropdown");
@@ -54,12 +60,15 @@
 
     if (workinDays.length === 0) errors.push("Please select working days");
 
-    if (workinDays.includes(0)) workinDays = [0];
+    if (workinDays.includes("0")) workinDays = ["0"];
 
     if (errors.length === 0) {
+      $("#msg").empty();
+      $("#error-form").empty();
       let responseJSON = {
         departmentName,
         departmentDesc,
+        departmentType,
         departmentOpen: openTime,
         departmentClose: closeTime,
         departmentLocationID: location,
@@ -73,20 +82,32 @@
         contentType: "application/json; charset=utf-8",
 
         success: function (response) {
-          responseData = response;
-          appendRooms(response.roomsData);
+          if (response.departmentCreated) {
+            $("#msg").html("New Department Created!");
+            $("#myModal").modal("show");
+          }
         },
         error: function (xhr, textStatus, error) {
-          console.log(xhr.statusText);
+          console.log(xhr.responseJSON);
           console.log(textStatus);
           console.log(error);
+          $("#msg").html(xhr.responseJSON.error);
+          $("#myModal").modal("show");
+
+          $("#error-form").removeAttr("hidden");
+          $("#error-form").append(
+            `<p class="error">${xhr.responseJSON.error}</p>`
+          );
         },
       });
     } else {
       $("#error-form").removeAttr("hidden");
-      for (let i = 0; i < errors.length; i++)
+      for (let i = 0; i < errors.length; i++) {
         $("#error-form").append(`<p class="error">${errors[i]}</p>`);
+        $("#msg").append(`<p>${errors[i]}</p>`);
+      }
     }
+    $("#myModal").modal("show");
   });
 
   function appendRooms(response) {
