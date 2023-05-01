@@ -90,6 +90,11 @@ main {
   flex-basis: 50%;
 }
 
+.cards a {
+  color: #010000;
+  text-decoration: underline;
+}
+
 .center {
   display: flex;
   justify-content: center;
