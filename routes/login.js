@@ -54,17 +54,20 @@ router
         .render("pages/login", { title: "Login", error_msg: e.message });
     }
 
-    try {
-      let userExist = await userData.checkUser(email, password);
-      if (userExist.userAuthenticated && userExist.userAuthenticated) {
-        req.session.userID = userExist.userAuthenticatedID;
-        req.session.userRole = userExist.userRole;
-        res.redirect("/home");
+
+  try {
+    let userExist = await userData.checkUser(email, password);
+    if (userExist.userAuthenticated && userExist.userAuthenticated) {
+      req.session.userID = userExist.userAuthenticatedID;
+      req.session.username = userExist.username;
+      req.session.userRole = userExist.userRole;
+      res.redirect("/home");
       }
     } catch (e) {
       res
         .status(400)
         .render("pages/login", { title: "Login", error_msg: e.message });
+
     }
   });
 
