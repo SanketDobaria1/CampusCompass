@@ -1,9 +1,9 @@
 import { Router } from "express";
-import { feedbackData } from "../data/index.js";
-import validation from "../validate.js";
+import departmentsdata from "../../CampusCompass/data/departments.js";
 import eventdata from "../../CampusCompass/data/events.js";
 import locationsdata from "../../CampusCompass/data/locations.js";
-import departmentsdata from "../../CampusCompass/data/departments.js";
+import { feedbackData } from "../data/index.js";
+import validation from "../validate.js";
 const router = Router();
 
 router

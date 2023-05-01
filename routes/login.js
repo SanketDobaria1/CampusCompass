@@ -1,11 +1,13 @@
 import { Router } from "express";
 import xss from "xss";
-import validations from "../validate.js";
 import { userData } from "../data/index.js";
+import validations from "../validate.js";
 const router = Router();
 
 router.get("/home", async (req, res) => {
-  if (!xss(req.session.userID)) return res.redirect("/login");
+  if (!req.session.userID) {
+    return res.redirect("/login");
+  }
   let displayString = "";
   let userRegisteredEvents;
   try {
@@ -36,16 +38,22 @@ router.get("/home", async (req, res) => {
   });
 });
 
-router.post("/login", async (req, res) => {
-  let email, password;
-  try {
-    email = validations.checkStevensMail(xss(req.body.login_email));
-    password = validations.checkString(xss(req.body.login_password));
-  } catch (e) {
-    res
-      .status(400)
-      .render("pages/login", { title: "Login", error_msg: e.message });
-  }
+router
+  .route("/login")
+  .get(async (req, res) => {
+    res.render("pages/login", { title: "Login" });
+  })
+  .post(async (req, res) => {
+    let email, password;
+    try {
+      email = validations.checkStevensMail(xss(req.body.login_email));
+      password = validations.checkString(xss(req.body.login_password));
+    } catch (e) {
+      res
+        .status(400)
+        .render("pages/login", { title: "Login", error_msg: e.message });
+    }
+
 
   try {
     let userExist = await userData.checkUser(email, password);
@@ -54,21 +62,30 @@ router.post("/login", async (req, res) => {
       req.session.username = userExist.username;
       req.session.userRole = userExist.userRole;
       res.redirect("/home");
+      }
+    } catch (e) {
+      res
+        .status(400)
+        .render("pages/login", { title: "Login", error_msg: e.message });
+
     }
-  } catch (e) {
-    res
-      .status(400)
-      .render("pages/login", { title: "Login", error_msg: e.message });
-  }
-});
+  });
 
 router.get("/logout", async (req, res) => {
-  if (xss(req.session.userID)) {
-    req.session.destroy();
-    // res.render("pages/logout", { title: "Loged out" });
-    res.redirect("/");
-  } else {
-  }
+  // Clear the session cookie to log the user out
+  req.session.destroy((err) => {
+    if (err) {
+      console.error(err);
+      res.status(500);
+      return res.render("pages/error", {
+        statusCode: 500,
+        errorMessage: "Internal Server Error",
+      });
+    } else {
+      // Redirect the user to the home page
+      res.redirect("/");
+    }
+  });
 });
 
 router.get("/", async (req, res) => {

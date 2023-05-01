@@ -1,7 +1,7 @@
 import { Router } from "express";
+import xss from "xss";
 import { departmentData } from "../data/index.js";
 import validations from "../validate.js";
-import xss from "xss";
 
 const router = Router();
 

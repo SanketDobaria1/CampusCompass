@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { roomsData, locationsData } from "../data/index.js";
+import { locationsData, roomsData } from "../data/index.js";
 import validation from "../validate.js";
 const router = Router();
 

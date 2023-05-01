@@ -1,8 +1,8 @@
 import { Router } from "express";
 import xss from "xss";
-const router = Router();
-import validations from "../validate.js";
 import { userData } from "../data/index.js";
+import validations from "../validate.js";
+const router = Router();
 
 router.get("/", async (req, res) => {
   if (xss(req.session.userID)) res.redirect("/");
