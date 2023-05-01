@@ -23,15 +23,13 @@ router.get("/home", async (req, res) => {
       features: userRegisteredEvents.locationData,
     };
   } else displayString = "No Classes or Events for today";
-  // console.dir(userRegisteredEvents, { depth: null });
-  console.log(userRegisteredEvents.eventsData.length);
   res.render("pages/landing", {
     title: "Landing",
     logedin: true,
     username: req.session.username,
     displayString,
     events: userRegisteredEvents.eventsData,
-    renderMap: true,
+    renderMap: tempGeo.features.length > 0,
     geoObject: JSON.stringify(tempGeo),
   });
 });
@@ -51,6 +49,7 @@ router.post("/login", async (req, res) => {
     let userExist = await userData.checkUser(email, password);
     if (userExist.userAuthenticated && userExist.userAuthenticated) {
       req.session.userID = userExist.userAuthenticatedID;
+      req.session.username = userExist.username;
       req.session.userRole = userExist.userRole;
       res.redirect("/home");
     }
