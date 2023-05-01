@@ -1,5 +1,5 @@
-import { locations } from "../config/mongoCollections.js";
 import { ObjectId } from "mongodb";
+import { locations } from "../config/mongoCollections.js";
 import validation from "../validate.js";
 
 const exportedMethods = {

@@ -1,4 +1,5 @@
 import { Router } from "express";
+import xss from "xss";
 import { eventsData } from "../data/index.js";
 import validation from "../validate.js";
 const router = Router();
@@ -61,13 +62,13 @@ router
         .json({ error: "There are no fields in the request body" });
     }
     try {
-      data.name = validation.checkString(data.event_name, "event Name");
-      data.desc = validation.checkString(data.event_desc, "Description");
-      data.type = validation.checkString(data.event_type, "event Type");
+      data.name = validation.checkString(xss(data.event_name), "event Name");
+      data.desc = validation.checkString(xss(data.event_desc), "Description");
+      data.type = validation.checkString(xss(data.event_type), "event Type");
 
       let hours = [];
-      hours.push(data.opening_hours);
-      hours.push(data.closing_hours);
+      hours.push(xss(data.opening_hours));
+      hours.push(xss(data.closing_hours));
       hours = validation.checkStringArray(hours, "Hours", 2);
       data.hours = hours;
 
@@ -121,6 +122,17 @@ router
         .status(400)
         .json({ error: "There are no fields in the request body" });
     }
+
+    // Sanitize user input to prevent XSS attacks
+    updatedData.name = xss(updatedData.name);
+    updatedData.desc = xss(updatedData.desc);
+    updatedData.type = xss(updatedData.type);
+
+    let hours = [];
+    hours.push(xss(updatedData.opening_hours));
+    hours.push(xss(updatedData.closing_hours));
+    updatedData.hours = hours;
+
     try {
       req.params.id = validation.checkId(req.params.id, "Id URL Parameter");
       updatedData.name = validation.checkString(updatedData.name, "event Name");

@@ -1,7 +1,7 @@
 import { ObjectId } from "mongodb";
+import { departments, locations } from "../config/mongoCollections.js";
 import validation from "../validate.js";
 import roomDataFunction from "./rooms.js";
-import { departments, locations } from "../config/mongoCollections.js";
 const exportedMethods = {
   async create(
     depart_name,
