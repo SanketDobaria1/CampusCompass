@@ -24,7 +24,9 @@
 	<main>
 		{{{body}}}
 	</main>
-
+    {{#if logedin}}
+    {{>feedback }}
+    {{/if}}
 	{{> footer}}
 
 </body>
