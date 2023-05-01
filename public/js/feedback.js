@@ -17,45 +17,21 @@ function events() {
             DepartmentListField.hidden=true;
             eventListField.hidden=true;
             locationsListField.hidden=true;
-            if (DepartmentListField.length > 0) {
-                DepartmentListField.remove(DepartmentListField.length-1);
-            }
-            if (locationsListField.length > 0) {
-                locationsListField.remove(locationsListField.length-1);
-            }
-            if (eventListField.length > 0) {
-                eventListField.remove(eventListField.length-1);
-            }
+            
         }
         else if (eventTypeInput == "departments"){
             DepartmentListField.hidden=false;
             eventsListField.hidden=true;
             eventListField.hidden=true;
             locationsListField.hidden=true;
-            if (locationsListField.length > 0) {
-                locationsListField.remove(locationsListField.length-1);
-            }
-            if (eventListField.length > 0) {
-                eventListField.remove(eventListField.length-1);
-            }
-            if (eventsListField.length > 0) {
-                eventsListField.remove(eventsListField.length-1);
-            }
+            
         }
         else if (eventTypeInput == "locations"){
             locationsListField.hidden=false;
             eventsListField.hidden=true;
             eventListField.hidden=true;
             DepartmentListField.hidden=true;
-            if (DepartmentListField.length > 0) {
-                DepartmentListField.remove(DepartmentListField.length-1);
-            }
-            if (eventsListField.length > 0) {
-                eventsListField.remove(eventsListField.length-1);
-            }
-            if (eventListField.length > 0) {
-                eventListField.remove(eventListField.length-1);
-            }
+            
         }
 
 }
@@ -104,12 +80,39 @@ function submitfeedback() {
             let eventTypeInput = eventTypeField.value;
             if (eventTypeInput == "events"){
                 let eventsListInput= checkId(eventsListField.value, "event id");
+                if (DepartmentListField.length > 0) {
+                    DepartmentListField.remove(DepartmentListField.length-1);
+                }
+                if (locationsListField.length > 0) {
+                    locationsListField.remove(locationsListField.length-1);
+                }
+                if (eventListField.length > 0) {
+                    eventListField.remove(eventListField.length-1);
+                }
             }
             else if (eventTypeInput == "departments"){
                 let DepartmentListInput= checkId(DepartmentListField.value, "event id");
+                if (locationsListField.length > 0) {
+                    locationsListField.remove(locationsListField.length-1);
+                }
+                if (eventListField.length > 0) {
+                    eventListField.remove(eventListField.length-1);
+                }
+                if (eventsListField.length > 0) {
+                    eventsListField.remove(eventsListField.length-1);
+                }
             }
             else if (eventTypeInput == "locations"){
                 let locationsListInput= checkId(locationsListField.value, "event id");
+                if (DepartmentListField.length > 0) {
+                    DepartmentListField.remove(DepartmentListField.length-1);
+                }
+                if (eventsListField.length > 0) {
+                    eventsListField.remove(eventsListField.length-1);
+                }
+                if (eventListField.length > 0) {
+                    eventListField.remove(eventListField.length-1);
+                }
             }
             userIDInput= checkId(userIDInput, "user id");
             userIDInput= checkId(userIDInput, "event id");
