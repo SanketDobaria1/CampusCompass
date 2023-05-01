@@ -19,26 +19,60 @@ router
     }
   })
   .post(async (req, res) => {
-    console.log(req);
+    console.log(req.body);
     let departmentName, room_id, desc, type, operating_hours, operating_days;
     try {
       departmentName = validations.checkString(
         xss(req.body.departmentName),
         "Department Name"
       );
-      room_id = validations.checkId(xss(req.body.room_id), "Room Id");
-      desc = validations.checkString(xss(req.body.desc));
-      type = validations.checkString(xss(req.body.departmenttype));
+      room_id = validations.checkId(xss(req.body.departmentRoomID), "Room Id");
+      desc = validations.checkString(
+        xss(req.body.departmentDesc),
+        "Department Description"
+      );
+      type = validations.checkDepartmentType(xss(req.body.departmentTypee));
       operating_hours = [
-        validations.checkOperatingTimes(xss(req.body.departmentOpen)),
-        validations.checkOperatingTimes(xss(req.body.departmentClose)),
+        xss(req.body.departmentOpen),
+        xss(req.body.departmentClose),
       ];
-    } catch (error) {}
+      validations.checkOperatingTimes(operating_hours[0], operating_hours[1]);
+      operating_days = req.body.departmentWorkinDays;
+      for (let i = 0; i < operating_days.length; i++) {
+        operating_days[i] = Number(operating_days[i]);
+      }
+
+      operating_days = validations.checkDayArray(
+        operating_days,
+        "Operating Days"
+      );
+    } catch (error) {
+      return res.status(400).json({ error: error.message });
+    }
+
+    try {
+      let departmentCreateInfo = await departmentData.create(
+        departmentName,
+        room_id,
+        desc,
+        type,
+        operating_hours,
+        operating_days
+      );
+      if (!departmentCreateInfo)
+        return res.status(500).json({ error: "Error Creating object" });
+      else return res.json({ departmentCreated: true });
+    } catch (error) {
+      if (error.message === "Department Already exists!")
+        return res.status(400).json({ error: error.message });
+      else return res.status(400).json({ error: error.message });
+    }
   });
 
 router.route("/create").get(async (req, res) => {
   const locationList = await locationsData.getLocationDropdown();
   return res.render("pages/createdepartment", {
+    logedin: true,
     title: "Department Create",
     location: locationList,
   });
