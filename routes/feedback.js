@@ -11,6 +11,9 @@ const router = Router();
 router
   .route("/")
   .get(async (req, res) => {
+    if (xss(!req.session.userID)) {
+      return res.redirect("/");
+    }
     try {
 
       let events = await eventsData.getAll();
@@ -73,6 +76,9 @@ router
 
 router
   .route("/getAll").get(async (req, res) => {
+    if (xss(!req.session.userID)) {
+      return res.redirect("/");
+    }
     try {
       if (req.session.userRole == "admin") {
         res.render("pages/allfeedbacks", {
@@ -90,6 +96,9 @@ router
 
   router
   .route("/:id").get(async (req, res) => {
+    if (xss(!req.session.userID)) {
+      return res.redirect("/");
+    }
     try {
       if (req.session.userRole == "admin") {
         res.render("pages/feedbackID", {
