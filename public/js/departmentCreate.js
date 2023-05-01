@@ -60,8 +60,6 @@
 
     if (workinDays.length === 0) errors.push("Please select working days");
 
-    if (workinDays.includes("0")) workinDays = ["0"];
-
     if (errors.length === 0) {
       $("#msg").empty();
       $("#error-form").empty();

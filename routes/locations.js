@@ -202,11 +202,37 @@ router
     }
     try {
       const location = await locationsData.getById(req.params.id);
+      location.operating_hours = [
+        validation.formatTime(location.operating_hours[0]),
+        validation.formatTime(location.operating_hours[1]),
+      ];
       const rooms = await roomsData.getAll(location._id);
+
+      let location_geo = location.location;
+      location_geo.properties = { popupContent: `${location.name}` };
+      let entrances_geo = [];
+      entrances_geo.push(location_geo);
+      location.entrances.forEach((element) => {
+        let accessibleString = "No";
+        if (element.accessible === "Y") accessibleString = "Yes";
+        entrances_geo.push({
+          type: element.location.type,
+          coordinates: element.location.coordinates,
+          properties: {
+            popupContent: `Accessible Entrance : ${accessibleString}`,
+          },
+        });
+      });
+      entrances_geo = {
+        type: "FeatureCollection",
+        features: entrances_geo,
+      };
+      console.dir(entrances_geo, { depth: null });
       res.render("pages/location", {
         title: "Location",
         data: location,
         rooms: rooms,
+        geoObject: JSON.stringify(entrances_geo),
         isAdmin: isAdmin,
         logedin: true,
       });

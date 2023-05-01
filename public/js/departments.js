@@ -57,7 +57,7 @@
       department.operating_days.forEach((day) =>
         operating_days.push(returnDay(day))
       );
-      operating_days = operating_days.join(", ");
+      operating_days = operating_days.join(",");
       if (department.operating_days.includes(weekday)) {
         let currentDate = new Date();
         let openDateTime = new Date(
