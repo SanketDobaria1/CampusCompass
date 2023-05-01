@@ -35,7 +35,6 @@
     <label for="department-days">Working Days*. Hold down the Ctrl (windows) or Command (Mac) button to select multiple options.</label>
     <br>
     <select class="form-input" name="department-days" id="department-days" multiple>
-        <option value="0">Everyday</option>
         <option value="1">Monday</option>
         <option value="2">Tuesday</option>
         <option value="3">Wednesday</option>
@@ -46,23 +45,26 @@
     </select>
     <br>
 
-    <div class="flex-container w-25">
+    <div class="flex-container">
         <div class="flex-child">
-            <label for="department-building-location">Location</label>
+            <label for="department-building-location">Location*</label>
             <br>
             <select class="form-input" name="department-building-location" id="department-building-location">
-                <option value="#">Select Location*</option>
+                <option value="#">Select Location</option>
                 {{#each location}}
                 <option value="{{_id}}">{{name}}</option>
                 {{/each}}
             </select>
         </div>
-        <div id="department-room-div" class="flex-child" hidden>
-            <label for="department-room">Room Number*</label>
-            <br>
-            <select class="form-input" name="department-room" id="department-room">
-            <option value="#">Select Room</option>
-        </select></div>
+        <div class="flex-child" >
+            <div id="department-room-div" hidden>
+                <label for="department-room">Room Number*</label>
+                <br>
+                <select class="form-input" name="department-room" id="department-room">
+                    <option value="#">Select Room</option>
+                </select>
+            </div>
+        </div>
     </div>
     <input type="submit" class="submit-button" value="Create">
 </form>
