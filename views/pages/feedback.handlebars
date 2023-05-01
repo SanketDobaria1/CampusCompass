@@ -45,5 +45,11 @@
     <div id="feedback-success"><p>Thank you for your feedback!</p></div>
   {{/if}}
   </form>
+  {{#if isAdmin}}
+    <br>
+    <form id="get-all-feedback" method="GET" action="/feedback/getAll">
+      <button type="submit" >View all feedback</button>
+    </form>
+  {{/if}}
 </section>
 <script src = "/public/js/feedback.js"> </script>

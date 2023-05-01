@@ -1,5 +1,7 @@
 import { Router } from "express";
+import xss from "xss";
 import departmentsdata from "../../CampusCompass/data/departments.js";
+import feedbacksdata from "../../CampusCompass/data/feedback.js";
 import eventdata from "../../CampusCompass/data/events.js";
 import locationsdata from "../../CampusCompass/data/locations.js";
 import { feedbackData } from "../data/index.js";
@@ -9,8 +11,12 @@ const router = Router();
 router
   .route("/")
   .get(async (req, res) => {
+    let isAdmin =false;
     if (xss(!req.session.userID)) {
       return res.redirect("/");
+    }
+    if (req.session.userRole === "admin") {
+      isAdmin = true;
     }
     try {
       let events = await eventdata.getAll();
@@ -18,6 +24,7 @@ router
       let locations = await locationsdata.getAll();
         res.render("pages/feedback", {
           id: req.session.userID,
+          isAdmin: isAdmin,
           logedin: true,
           events: events,
           departments: departments,
@@ -67,10 +74,12 @@ router
       return res.redirect("/");
     }
     try {
+      let feedbacks = await feedbacksdata.getAll();
       if (req.session.userRole == "admin") {
         res.render("pages/allfeedbacks", {
           admin: true,
           logedin: true,
+          feedbacks: feedbacks
         });
       }
       else{
