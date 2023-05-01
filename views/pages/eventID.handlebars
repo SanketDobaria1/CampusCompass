@@ -1,0 +1,12 @@
+<main>
+  <h1>{{data.name}}</h1>
+  <p>{{data.desc}}</p>
+  <p>Event type: {{data.type}}</p>
+  <p>Hours: {{data.formated_time_start}} to {{data.formated_time_end}}</p>
+  {{#if isAdmin}}
+    <button class="edit" data-id="{{data._id}}">Edit</button>
+    <button class="delete" data-id="{{data._id}}">Delete</button>
+  {{/if}}
+  <a href="/events">Back to all Events</a>
+</main>
+<script src="/public/js/events.js"></script>

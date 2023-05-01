@@ -1,0 +1,40 @@
+<form action="/locations/edit/{{data._id}}" id="location-edit-form" method="POST">
+    <label for="location_name">Name</label>
+    <br>
+    <input class="form-input" id="location_name" name="location_name" type="text" placeholder="Name" value="{{data.name}}">
+    <br>
+    
+    <label for="location_desc">Description</label>
+    <br>
+    <input class="form-input" id="location_desc" name="location_desc" type="text"
+        placeholder="Description" value="{{data.desc}}"> 
+    <br>
+
+    <label for="location_type">Location Type</label>
+    <br>
+    <input class="form-input" id="location_type" name="location_type" type="text" placeholder="Type of this Location" value="{{data.type}}">
+    <br>
+    
+    <label for="opening_hours">Opening Hours</label>
+    <br>
+    <input class="form-input" id="opening_hours" name="opening_hours" type="time" min="00:00:00" max="23:59:59" step="1" value="{{data.operating_hours.[0]}}">
+    {{!-- placeholder="[&quot;hh:mm:ss&quot;, &quot;hh:mm:ss&quot;]" --}}   
+    <br>
+
+    <label for="closing_hours">Closing Hours</label>
+    <br>
+    <input class="form-input" id="closing_hours" name="closing_hours" type="time" min="00:00:00" max="23:59:59" step="1" value="{{data.operating_hours.[1]}}">
+    <br>
+
+    <label for="location">Location Coordinates</label>
+    <br>
+    <input class="form-input" id="location" name="location" type="text" placeholder="GeoJson of Location" value="{{data.location}}">
+    <br>
+
+    <label for="location_entrances">Entrances Coordinates</label>
+    <br>
+    <input class="form-input" id="location_entrances" name="location_entrances" type="text" placeholder="GeoJson of Entrances" value="{{data.entrances}}">
+    <br>
+
+    <input type="submit" class="submit-button" value="Update"></input>
+</form>
