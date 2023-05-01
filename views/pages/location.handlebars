@@ -1,8 +1,16 @@
-<main>
-  <h1>{{data.name}}</h1>
-  <p>{{data.desc}}</p>
-  <p>Building type: {{data.type}}</p>
-  <p>Operating Hours: {{data.operating_hours}}</p>
+
+  <div class="flex-container">
+    <div class="flex-child" style="height: 40vh">
+      <h1>{{data.name}}</h1>
+      <p>{{data.desc}}</p>
+      <p>Building type: {{data.type}}</p>
+      <p>Operating Hours: {{data.operating_hours}}</p>
+    </div>
+    <div class="flex-child">
+      {{>map}}
+    </div>
+  </div>
+  
 
   {{!-- {{#if isAdmin}}
     <form id="create-form" method="GET" action="/rooms/create">
@@ -52,4 +60,3 @@
     </div>
   </div>
   <a href="/locations">Back to all locations</a>
-</main>

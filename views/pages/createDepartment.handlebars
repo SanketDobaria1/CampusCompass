@@ -1,0 +1,94 @@
+<div class="container">
+    <h1>New Department Creation form</h1>
+<form class="form-create" id="department-create-form" method="POST">
+    <p>* Required</p>
+    <label for="department-name">Name*</label>
+    <input class="form-input" id="department-name" name="department-name" type="text" placeholder="Department Name">
+    <br>
+
+    <label for="department-desc">Description</label>
+    <br>
+    <textarea class="form-input" id="department-desc" name="department-desc" placeholder="Description"></textarea>
+    <br>
+
+    <div class="flex-container">
+        <div class="flex-child">
+            <label for="department-hour-start">Open Time*</label>
+            <br>
+            <input class="form-input" id="department-hour-start" name="department-hour-start" type="time" >
+        </div>
+        <div class="flex-child">
+            <label for="department-hour-end">Closing Time*</label>
+            <br>
+            <input class="form-input" id="department-hour-end" name="department-hour-end" type="time" >
+        </div>
+        <div class="flex-child"><label for="department-type">Department Type*</label>
+            <br>
+            <select class="form-input" name="department-type" id="department-type">
+                <option value="#">Select Type</option>
+                <option value="Administrative">Administrative</option>
+                <option value="Academic">Academic</option>
+            </select>
+            <br>
+        </div>
+    </div>
+    <label for="department-days">Working Days*. Hold down the Ctrl (windows) or Command (Mac) button to select multiple options.</label>
+    <br>
+    <select class="form-input" name="department-days" id="department-days" multiple>
+        <option value="1">Monday</option>
+        <option value="2">Tuesday</option>
+        <option value="3">Wednesday</option>
+        <option value="4">Thursday</option>
+        <option value="5">Friday</option>
+        <option value="6">Saturday</option>
+        <option value="7">Sunday</option>
+    </select>
+    <br>
+
+    <div class="flex-container">
+        <div class="flex-child">
+            <label for="department-building-location">Location*</label>
+            <br>
+            <select class="form-input" name="department-building-location" id="department-building-location">
+                <option value="#">Select Location</option>
+                {{#each location}}
+                <option value="{{_id}}">{{name}}</option>
+                {{/each}}
+            </select>
+        </div>
+        <div class="flex-child" >
+            <div id="department-room-div" hidden>
+                <label for="department-room">Room Number*</label>
+                <br>
+                <select class="form-input" name="department-room" id="department-room">
+                    <option value="#">Select Room</option>
+                </select>
+            </div>
+        </div>
+    </div>
+    <input type="submit" class="submit-button" value="Create">
+</form>
+
+<div id="error-form" hidden></div>
+</div>
+
+
+<div class="modal fade" id="myModal" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 class="modal-title">Depatment Alert</h2>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <p id="msg"></p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<script src="/public/js/departmentCreate.js"></script>
