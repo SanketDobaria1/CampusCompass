@@ -122,7 +122,12 @@ const exportedMethods = {
         { projection: { _id: 1, name: 1, rooms: 1, location: 1 } }
       );
 
-      let tempGeo = { type: "Feature", geometry: location.location };
+      let tempGeo = {
+        type: "Feature",
+        geometry: location.location,
+        properties: { popupContent: location.name },
+      };
+
       locationRender.push(tempGeo);
 
       if (room_id) {
