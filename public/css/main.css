@@ -11,6 +11,7 @@ html {
   height: 100%;
 }
 
+
 li {
   display: flex;
   justify-content: space-between;
@@ -66,6 +67,7 @@ main {
   margin-top: 0.2em;
 }
 
+
 .form-create {
   padding: 10px;
 }
@@ -104,6 +106,9 @@ main {
   height: 70vh;
     overflow: auto;
 }
+p {
+  margin-bottom: 0rem;
+}
 #form-search{
   display: flex;
   align-items: center;
@@ -140,7 +145,17 @@ main {
 .form-input:focus {
   border: 2px solid #010000;
 }
+#form-search {
+  padding-top: 0.2rem;
+}
+#form-search .form-input {
+  width: auto;
+}
 
+#form-search div {
+  margin-left: 2px;
+  padding: 5px;
+}
 .error-input {
   border: 2px solid red;
 }
@@ -175,7 +190,6 @@ footer {
   background-color: #a32638;
   color: #fff;
   padding: 4px;
-  height: 60px; /* add height to footer */
   display: flex; /* add display: flex */
   align-items: center; /* add align-items: center */
   justify-content: center;
