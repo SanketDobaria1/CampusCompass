@@ -87,6 +87,11 @@ main {
   padding: 0.5em;
 }
 
+.cards a {
+  color: #010000;
+  text-decoration: underline;
+}
+
 .center {
   display: flex;
   justify-content: center;
