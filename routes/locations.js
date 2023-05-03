@@ -4,7 +4,7 @@ import validation from "../validate.js";
 const router = Router();
 
 router.route("/getAllRecords").get(async (req, res) => {
-  let locationResponse = await locationsData.getLocationsAll();
+  let locationResponse = await locationsData.getLocationEntrance();
 
   let uniqueTypes = [...new Set(locationResponse.map((obj) => obj.type))];
 
@@ -12,6 +12,24 @@ router.route("/getAllRecords").get(async (req, res) => {
     total_records: locationResponse.length,
     uniqueTypes,
     data: locationResponse,
+  });
+});
+
+router.route("/getAllEntrances").get(async (req, res) => {
+  let locationResponse = await locationsData.getLocationEntrance();
+  let uniqueTypes = [...new Set(locationResponse.map((obj) => obj.type))];
+
+  return res.json({
+    total_records: locationResponse.length,
+    uniqueTypes,
+    data: locationResponse,
+  });
+});
+
+router.route("/entrance").get(async (req, res) => {
+  return res.render("pages/BuildingEntrances", {
+    title: "Entrances",
+    logedin: true,
   });
 });
 
@@ -192,6 +210,7 @@ router
   .route("/:id")
   .get(async (req, res) => {
     let isAdmin = false;
+    let accessibleString = "No";
     if (req.session.userRole === "admin") {
       isAdmin = true;
     }
@@ -213,7 +232,6 @@ router
       let entrances_geo = [];
       entrances_geo.push(location_geo);
       location.entrances.forEach((element) => {
-        let accessibleString = "No";
         if (element.accessible === "Y") accessibleString = "Yes";
         entrances_geo.push({
           type: element.location.type,
@@ -227,11 +245,12 @@ router
         type: "FeatureCollection",
         features: entrances_geo,
       };
-      console.dir(entrances_geo, { depth: null });
+      // console.dir(entrances_geo, { depth: null });
       res.render("pages/location", {
         title: "Location",
         data: location,
         rooms: rooms,
+        accessibleEntrances: accessibleString,
         geoObject: JSON.stringify(entrances_geo),
         isAdmin: isAdmin,
         logedin: true,
@@ -267,27 +286,5 @@ router
       res.status(404).json({ error: e });
     }
   });
-
-//   router.route("/:key").get(async (req, res) => {
-//   console.log("I dont know");
-//   try {
-//     let isAdmin = false;
-//     if (req.session.userRole === "admin") {
-//       isAdmin = true;
-//     }
-//     const List = await locationsData.find({
-//       $or: [{ name: { $regex: req.params.key } }],
-//     });
-
-//     res.render("pages/locations", {
-//       data: List,
-//       title: "Locations",
-//       logedin: true,
-//       isAdmin: isAdmin,
-//     });
-//   } catch (e) {
-//     res.status(404).send(e);
-//   }
-// });
 
 export default router;
