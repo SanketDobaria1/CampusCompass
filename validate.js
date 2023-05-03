@@ -58,6 +58,14 @@ const exportedMethods = {
     return type;
   },
 
+  checkPassword(password) {
+    password = password.trim();
+    let regex =
+      /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}/;
+    if (regex.test(password))
+      throw new Error(`Password must contain 8 digit AlphaNumeric Character`);
+  },
+
   checkString(strVal, varName) {
     if (!strVal) throw new Error(`Error: You must supply a ${varName}!`);
     if (typeof strVal !== "string")
