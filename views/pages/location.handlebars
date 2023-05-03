@@ -5,6 +5,7 @@
       <p>{{data.desc}}</p>
       <p>Building type: {{data.type}}</p>
       <p>Operating Hours: {{data.operating_hours}}</p>
+      <p>Accessible Entrances: {{accessibleEntrances}} </p>
     </div>
     <div class="flex-child">
       {{>map}}
@@ -35,25 +36,6 @@
             <p>Capacity: {{capacity}}</p>
             <p>Floor Number: {{floor_number}}</p>
             <p>Room Type: {{type}}</p>
-            {{!-- {{#if @root.isAdmin}}
-              <br />
-              <form id="delete-form" method="POST" action="/locations/{{_id}}">
-                <button
-                  type="submit"
-                  class="btn btn-sm btn-outline-danger"
-                >Delete</button>
-              </form>
-              <form
-                id="edit-form"
-                method="GET"
-                action="/locations/edit/{{_id}}"
-              >
-                <button
-                  type="submit"
-                  class="btn btn-sm btn-outline-dark"
-                >Edit</button>
-              </form>
-            {{/if}} --}}
           </div>
         </div>
       {{/each}}

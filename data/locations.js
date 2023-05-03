@@ -185,6 +185,31 @@ const exportedMethods = {
 
     return locationList;
   },
+
+  async getLocationEntrance() {
+    const locationCollection = await locations();
+
+    const locationList = await locationCollection
+      .find(
+        {},
+        {
+          projection: {
+            _id: 1,
+            name: 1,
+            type: 1,
+            location: 1,
+            entrances: 1,
+          },
+        }
+      )
+      .toArray();
+
+    locationList.forEach((element) => {
+      element._id = element._id.toString();
+    });
+
+    return locationList;
+  },
 };
 
 export default exportedMethods;

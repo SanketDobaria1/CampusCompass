@@ -31,7 +31,7 @@ router
         xss(req.body.departmentDesc),
         "Department Description"
       );
-      type = validations.checkDepartmentType(xss(req.body.departmentTypee));
+      type = validations.checkDepartmentType(xss(req.body.departmentType));
       operating_hours = [
         xss(req.body.departmentOpen),
         xss(req.body.departmentClose),
