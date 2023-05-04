@@ -73,13 +73,11 @@ router
         req.session.username = userExist.username;
         req.session.userRole = userExist.userRole;
         return res.redirect("/home");
-
       }
     } catch (e) {
       res
         .status(400)
         .render("pages/login", { title: "Login", error_msg: e.message });
-
     }
   });
 
