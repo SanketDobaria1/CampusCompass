@@ -32,7 +32,7 @@ router.get("/home", async (req, res) => {
     username: req.session.username,
     displayString,
     events: userRegisteredEvents.eventsData,
-    renderMap: tempGeo.features.length > 0,
+    renderMap: userRegisteredEvents.locationData.length > 0,
     geoObject: JSON.stringify(tempGeo),
   });
 });
@@ -73,13 +73,11 @@ router
         req.session.username = userExist.username;
         req.session.userRole = userExist.userRole;
         return res.redirect("/home");
-
       }
     } catch (e) {
       res
         .status(400)
         .render("pages/login", { title: "Login", error_msg: e.message });
-
     }
   });
 
