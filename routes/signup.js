@@ -19,21 +19,19 @@ router.post("/", async (req, res) => {
     user_email = validations.checkStevensMail(req.body.user_email);
     user_password = validations.checkPassword(req.body.user_password);
   } catch (e) {
-    res.status(400).render("pages/signup", {
+    return res.status(400).render("pages/signup", {
       title: "Sign Up",
       error_msg: e,
       user_name,
       user_email,
-      user_department,
     });
   }
   if (await userData.checkIfEmailExists(user_email))
-    res.status(400).render("pages/signup", {
+    return res.status(400).render("pages/signup", {
       title: "Sign Up",
       error_msg: "User Already Exists in System",
       user_name,
       user_email,
-      user_department,
       user_exist: true,
     });
   let userCreated;
@@ -41,11 +39,10 @@ router.post("/", async (req, res) => {
     userCreated = await userData.createUser(
       user_name,
       user_email,
-      user_password,
-      user_department
+      user_password
     );
   } catch (e) {
-    res.status(500).render("pages/signup", {
+    return res.status(500).render("pages/signup", {
       title: "Signup",
       error_msg: e,
     });

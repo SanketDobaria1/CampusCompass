@@ -4,7 +4,7 @@ import validation from "../validate.js";
 const router = Router();
 
 router.route("/getAllRecords").get(async (req, res) => {
-  let locationResponse = await locationsData.getLocationEntrance();
+  let locationResponse = await locationsData.getLocationsAll();
 
   let uniqueTypes = [...new Set(locationResponse.map((obj) => obj.type))];
 
