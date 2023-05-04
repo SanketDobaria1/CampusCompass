@@ -132,6 +132,22 @@ const exportedMethods = {
       throw new Error(`DB Error`);
     return;
   },
+
+  async deleteDepartment(id) {
+    id = validation.checkId(id, "Department ID");
+    let deparmentCollection = await departments();
+    let departmentObj = await deparmentCollection.findOne({
+      _id: new ObjectId(id),
+    });
+    if (!departmentObj) throw new Error(`Error: No Department Exists for ID`);
+    let deletedObj = await deparmentCollection.deleteOne({
+      _id: new ObjectId(id),
+    });
+    if (!deletedObj.acknowledged || deletedObj.deletedCount !== 1)
+      throw new Error(`Unable to delete object`);
+    return { id, deleted: true };
+  },
+
   async getDepartmentbyType(type) {
     type = validation.checkDepartmentType(type);
     const departmentCollection = await departments();
