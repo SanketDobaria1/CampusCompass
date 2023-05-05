@@ -29,6 +29,13 @@ app.use("/locations/edit/:id", async (req, res, next) => {
   next();
 });
 
+app.use("/departments/edit/:id", async (req, res, next) => {
+  if (req.method == "POST") {
+    req.method = "PUT";
+  }
+  next();
+});
+
 app.use("/events/edit/:id", async (req, res, next) => {
   if (req.method == "POST") {
     req.method = "PUT";
@@ -54,12 +61,30 @@ app.get("/signup", registrationMiddleware);
 app.get("/logout", logoutMiddleware);
 app.use("/locations/create", adminMiddleware);
 app.use("/locations/edit/:id", adminMiddleware);
+app.use("/departments/create", adminMiddleware);
+app.use("/departments/edit/:id", adminMiddleware);
 app.delete("/locations/:id", adminMiddleware);
 app.use("/events/create", adminMiddleware);
 app.use("/events/edit/:id", adminMiddleware);
 app.delete("/events/:id", adminMiddleware);
 app.get("/home", rootMiddleware);
 app.use(loggingMiddleware);
+
+///helper function for <select> tag
+exphbs
+  .create({})
+  .handlebars.registerHelper("selected", function (value, option) {
+    return value === option ? "selected" : "";
+  });
+
+///helper function for <select multiple> tag
+
+exphbs
+  .create({})
+  .handlebars.registerHelper("selectarr", function (value, options) {
+    if (!options) return "";
+    return options.includes(Number(value)) ? "selected" : "";
+  });
 
 app.engine(
   "handlebars",
