@@ -2,20 +2,10 @@
   let responseData;
   let roomsAPI = "/rooms/getRoomsDropdown/";
   let departmentCreateAPI = "/departments";
+  if ($("#department-building-location").val().trim() !== "#")
+    ajaxCall($("#department-building-location").val().trim());
   $("#department-building-location").on("change", function () {
-    let departmentID = $("#department-building-location").val();
-    if (departmentID !== "#")
-      $.ajax({
-        url: roomsAPI + departmentID,
-        success: function (response) {
-          responseData = response;
-          appendRooms(response.roomsData);
-        },
-        error: function () {
-          window.alert("Please Reload page");
-          location.reload();
-        },
-      });
+    ajaxCall($("#department-building-location").val().trim());
   });
 
   $("#department-create-form").on("submit", function (event) {
@@ -80,9 +70,18 @@
         contentType: "application/json; charset=utf-8",
 
         success: function (response) {
-          if (response.departmentCreated) {
-            $("#msg").html("New Department Created!");
+          if (response.departmentEdited && response.departmentEdited) {
+            $("#msg").html("Department Edited!");
+            $("modal-title").html("Status");
             $("#myModal").modal("show");
+            return;
+          }
+
+          if (response.departmentCreated && response.departmentCreated) {
+            $("#msg").html("New Department Created!");
+            $("modal-title").html("Status");
+            $("#myModal").modal("show");
+            return;
           }
         },
         error: function (xhr, textStatus, error) {
@@ -90,6 +89,7 @@
           console.log(textStatus);
           console.log(error);
           $("#msg").html(xhr.responseJSON.error);
+          $("modal-title").html("Error");
           $("#myModal").modal("show");
 
           $("#error-form").removeAttr("hidden");
@@ -104,15 +104,40 @@
         $("#error-form").append(`<p class="error">${errors[i]}</p>`);
         $("#msg").append(`<p>${errors[i]}</p>`);
       }
+      $("#myModal").modal("show");
+      $("modal-title").html("Errors");
     }
-    $("#myModal").modal("show");
   });
+
+  function ajaxCall(locationID) {
+    if (!locationID) return;
+    // let departmentID = $("#department-building-location").val();
+    if (locationID !== "#")
+      $.ajax({
+        url: roomsAPI + locationID,
+        success: function (response) {
+          responseData = response;
+          appendRooms(response.roomsData);
+        },
+        error: function () {
+          window.alert("Please Reload page");
+          location.reload();
+        },
+      });
+    else {
+      window.alert("Please Select Location");
+      $("#department-room-div").attr("hidden", true);
+    }
+  }
 
   function appendRooms(response) {
     if (response.length === 0)
       window.alert("No Rooms available for Selected Location");
     $("#department-room-div").removeAttr("hidden");
-
+    let optionsToRemove = $("#department-room").find(
+      "option:not(:first-child)"
+    );
+    $(optionsToRemove).remove();
     response.map((data) =>
       $("#department-room").append(
         `<option value="${data._id}">${data.room_number}</option>`
