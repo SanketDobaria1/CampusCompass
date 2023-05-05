@@ -291,12 +291,12 @@ dd {
 .feedback-btn{
   position: fixed;
   right: 5px;
-  bottom: 65px;
+  bottom: 3rem;
   width: 8%;
   text-align: center;
   background-color: #616909;
   color: #fff;
-  padding: 2px;
+  padding: 1em 0.8em;
   height: 30px; /* add height to footer */
   display: flex; /* add display: flex */
   align-items: center; /* add align-items: center */
