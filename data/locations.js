@@ -31,6 +31,17 @@ const exportedMethods = {
 
     validation.checkOperatingTimes(operating_hours[0], operating_hours[1]);
 
+    // let coordinates = JSON.parse(location.replace(/\s+/g, ""));
+    // validation.checkisPolygon(
+    //   coordinates[0],
+    //   "GeoJSON Coordinates of Location"
+    // );
+
+    // location = {
+    //   type: "Polygon",
+    //   coordinates: coordinates,
+    // };
+
     const date = new Date();
     date.setTime(date.getTime() + -240 * 60 * 1000);
 

@@ -1,5 +1,6 @@
 import { ObjectId } from "mongodb";
 import booleanPointInPolygon from "@turf/boolean-point-in-polygon";
+import * as turf from "@turf/turf";
 
 const exportedMethods = {
   checkId(id, varName) {
@@ -207,7 +208,7 @@ const exportedMethods = {
   },
 
   checkisPointValid(pointArr, varName) {
-    const stevensCoordinates = [
+    const stevensCoordinates = turf.polygon([
       [
         [-74.02830958083189, 40.742031322137876],
         [-74.02657969024786, 40.74174566451546],
@@ -223,7 +224,7 @@ const exportedMethods = {
         [-74.02638010121169, 40.74829307936275],
         [-74.02830958083189, 40.742031322137876],
       ],
-    ];
+    ]);
     if (!pointArr || !varName)
       throw new Error(`Please ensure proper parameter are passed`);
 
@@ -242,8 +243,8 @@ const exportedMethods = {
 
     this.checkisLongitudeLatitude(pointArr[0], "long");
     this.checkisLongitudeLatitude(pointArr[1], "lat");
-
-    if (!booleanPointInPolygon(pointArr, stevensCoordinates))
+    let pt1 = turf.point(pointArr);
+    if (!booleanPointInPolygon(pt1, stevensCoordinates))
       throw new Error(`Point is outside Stevens Campus boundaries`);
   },
 

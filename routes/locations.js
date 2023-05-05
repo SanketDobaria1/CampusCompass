@@ -102,11 +102,41 @@ router
         "Operating Hours",
         2
       );
+
       data.operating_hours = total_hours;
-      data.location = data.location;
-      data.location_entrances = data.location_entrances;
+
+      let coordinates = JSON.parse(data.location.replace(/\s+/g, ""));
+      validation.checkisPolygon(
+        coordinates[0],
+        "GeoJSON Coordinates of Location"
+      );
+      data.location = {
+        type: "Polygon",
+        coordinates: coordinates,
+      };
+
+      data.location_entrances = data.location_entrances.map((element) => {
+        return JSON.parse(element.replace(/\s+/g, ""));
+      });
+
+      console.log(data.entrance_access);
+      console.log(data.location_entrances);
+
+      let entrance = [];
+      data.location_entrances.forEach((element, index) => {
+        entrance.push({
+          location: {
+            coordinates: element,
+            type: "Point",
+          },
+          accessible: data.entrance_access[index].toUpperCase(),
+        });
+      });
+      //data.location = data.location;
+
+      data.location_entrances = entrance;
     } catch (e) {
-      return res.status(400).json({ error: e });
+      return res.status(400).json({ error: e.message });
     }
     try {
       const {
@@ -128,7 +158,7 @@ router
       );
       return res.redirect("/locations");
     } catch (e) {
-      res.status(404).json({ error: e });
+      res.status(404).json({ error: e.message });
     }
   });
 
@@ -217,7 +247,7 @@ router
     try {
       req.params.id = validation.checkId(req.params.id, "Id URL Parameter");
     } catch (e) {
-      return res.status(400).json({ error: e });
+      return res.status(400).json({ error: e.message });
     }
     try {
       const location = await locationsData.getById(req.params.id);
@@ -256,14 +286,14 @@ router
         logedin: true,
       });
     } catch (e) {
-      res.status(404).json({ error: e });
+      res.status(404).json({ error: e.message });
     }
   })
   .post(async (req, res) => {
     try {
       req.params.id = validation.checkId(req.params.id, "Id URL Parameter");
     } catch (e) {
-      return res.status(400).json({ error: e });
+      return res.status(400).json({ error: e.message });
     }
     try {
       await locationsData.remove(req.params.id);

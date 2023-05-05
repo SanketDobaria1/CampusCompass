@@ -36,6 +36,13 @@ app.use("/events/edit/:id", async (req, res, next) => {
   next();
 });
 
+app.use("/rooms/room/:id", async (req, res, next) => {
+  if (req.method == "GET") {
+    req.method = "DELETE";
+  }
+  next();
+});
+
 app.use("/public", staticDir);
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
