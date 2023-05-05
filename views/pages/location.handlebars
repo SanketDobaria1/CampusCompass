@@ -1,4 +1,3 @@
-
   <div class="flex-container">
     <div class="flex-child" style="height: 40vh">
       <h1>{{data.name}}</h1>
@@ -25,9 +24,7 @@
   </form>
   <hr>
   {{#if isAdmin}}
-  <form id="create-form" method="GET" action="/locations/create">
-    <button type="submit" class="btn btn-sm btn-primary">Create a New Location</button>
-  </form>
+    <a href="/rooms/{{data._id}}" class="btn btn-sm btn-primary">Create a New Room</a>
 {{/if}}
   {{#if key}}
     <h3>Results for "{{key}}"</h3>

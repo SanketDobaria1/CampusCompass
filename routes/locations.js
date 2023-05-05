@@ -218,8 +218,8 @@ router
         2
       );
       data.operating_hours = total_hours;
-      data.location = data.location;
-      data.location_entrances = data.location_entrances;
+      // data.location = data.location;
+      // data.location_entrances = data.location_entrances;
     } catch (e) {
       return res.status(400).json({ error: e });
     }
@@ -230,17 +230,17 @@ router
         location_desc,
         location_type,
         operating_hours,
-        location,
-        location_entrances,
+        // location,
+        // location_entrances,
       } = data;
       const updatedLocation = await locationsData.update(
         req.params.id,
         location_name,
         location_desc,
         location_type,
-        operating_hours,
-        location,
-        location_entrances
+        operating_hours
+        // location,
+        // location_entrances
       );
       res.redirect("/locations");
     } catch (e) {

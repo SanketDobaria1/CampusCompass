@@ -95,7 +95,7 @@ const exportedMethods = {
     return locationsList;
   },
 
-  async update(id, name, desc, type, operating_hours, location, entrances) {
+  async update(id, name, desc, type, operating_hours) {
     // ERROR HANDLING & INPUT VALIDATIONS //
     id = validation.checkId(id, "LocationID");
     name = validation.checkString(name, "Location Name");
@@ -118,8 +118,6 @@ const exportedMethods = {
       desc: desc,
       type: type,
       operating_hours: operating_hours,
-      location: location,
-      entrances: entrances,
       lastupdatedDate: date.toISOString(),
     };
 
