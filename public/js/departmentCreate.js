@@ -2,13 +2,16 @@
   let responseData;
   let roomsAPI = "/rooms/getRoomsDropdown/";
   let departmentCreateAPI = "/departments";
+  let departmentEditAPI = "/deparments/edit";
+  let formAction = $("department-form").target.dataset.function;
+  let departmentID = $("department-form").target.dataset.departmentID;
   if ($("#department-building-location").val().trim() !== "#")
     ajaxCall($("#department-building-location").val().trim());
   $("#department-building-location").on("change", function () {
     ajaxCall($("#department-building-location").val().trim());
   });
 
-  $("#department-create-form").on("submit", function (event) {
+  $("#department-form").on("submit", function (event) {
     event.preventDefault();
     let errors = [];
     $("#msg").empty();
@@ -18,7 +21,9 @@
     let departmentDesc = $("#department-desc").val().trim();
     let departmentType = $("#department-type").val().trim();
     let openTime = $("#department-hour-start");
+    let openTimeVal = openTime.val().trim();
     let closeTime = $("#department-hour-end");
+    let closeTimeVal = closeTime.val().trim();
     let location = $("#department-building-location").val();
     let room = $("#department-room").val();
     let workinDays = $("#department-days").val();
@@ -34,18 +39,17 @@
       if (room === "#") errors.push("Missing room from dropdown");
     }
 
-    if (openTime.val().trim().length === 0) errors.push("Missing Input time");
-    if (closeTime.val().trim().length === 0) errors.push("Missing Input time");
+    if (openTimeVal === 0) errors.push("Missing Input time");
+    if (closeTimeVal === 0) errors.push("Missing Input time");
+    if (openTime.attr("type") === "time" && openTimeVal.length !== 8)
+      openTimeVal = openTimeVal + ":00";
+    if (closeTime.attr("type") === "time" && closeTimeVal.length !== 8)
+      closeTimeVal = closeTimeVal + ":00";
 
-    if (openTime.attr("type") === "time")
-      openTime = openTime.val().trim() + ":00";
-    if (closeTime.attr("type") === "time")
-      closeTime = closeTime.val().trim() + ":00";
-
-    if (!checkTime(openTime) || !checkTime(closeTime))
+    if (!checkTime(openTimeVal) || !checkTime(closeTimeVal))
       errors.push("Please Check input time format");
 
-    if (!checkOperatingTimes(openTime, closeTime))
+    if (!checkOperatingTimes(openTimeVal, closeTimeVal))
       errors.push("Close time cannot be less than open time");
 
     if (workinDays.length === 0) errors.push("Please select working days");
@@ -57,29 +61,32 @@
         departmentName,
         departmentDesc,
         departmentType,
-        departmentOpen: openTime,
-        departmentClose: closeTime,
+        departmentOpen: openTimeVal,
+        departmentClose: closeTimeVal,
         departmentLocationID: location,
         departmentRoomID: room,
         departmentWorkinDays: workinDays,
       };
       $.ajax({
         type: "POST",
-        url: departmentCreateAPI,
+        url:
+          formAction === "edit"
+            ? departmentEditAPI + "/" + departmentID
+            : departmentCreateAPI,
         data: JSON.stringify(responseJSON),
         contentType: "application/json; charset=utf-8",
 
         success: function (response) {
           if (response.departmentEdited && response.departmentEdited) {
             $("#msg").html("Department Edited!");
-            $("modal-title").html("Status");
+            $(".modal-title").text("Status");
             $("#myModal").modal("show");
             return;
           }
 
           if (response.departmentCreated && response.departmentCreated) {
             $("#msg").html("New Department Created!");
-            $("modal-title").html("Status");
+            $(".modal-title").text("Status");
             $("#myModal").modal("show");
             return;
           }
@@ -89,7 +96,7 @@
           console.log(textStatus);
           console.log(error);
           $("#msg").html(xhr.responseJSON.error);
-          $("modal-title").html("Error");
+          $(".modal-title").text("Error");
           $("#myModal").modal("show");
 
           $("#error-form").removeAttr("hidden");
@@ -105,7 +112,7 @@
         $("#msg").append(`<p>${errors[i]}</p>`);
       }
       $("#myModal").modal("show");
-      $("modal-title").html("Errors");
+      $(".modal-title").text("Errors");
     }
   });
 
