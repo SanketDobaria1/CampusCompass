@@ -68,12 +68,13 @@ router
       let department = await departmentData.getById(departmentID);
       department.departmentStart = department.operating_hours[0];
       department.departmentEnd = department.operating_hours[1];
-      console.log(department);
+      // console.log(department);
       const locationList = await locationsData.getLocationDropdown();
-      console.log(locationList);
+      // console.log(locationList);
       return res.render("pages/createdepartment", {
-        logedin: true,
-        title: "Department Create",
+        logedin: "userID" in req.session && req.session.userID.length > 5,
+        title: "Department Edit",
+        form_type: "edit",
         location: locationList,
         department: department,
       });
@@ -136,8 +137,8 @@ router
   .route("/")
   .get(async (req, res) => {
     res.render("pages/departments", {
-      title: "department",
-      logedin: true,
+      title: "Departments",
+      logedin: "userID" in req.session && req.session.userID.length > 5,
       admin: req.session.userRole === "admin",
     });
   })
@@ -194,8 +195,9 @@ router
 router.route("/create").get(async (req, res) => {
   const locationList = await locationsData.getLocationDropdown();
   return res.render("pages/createdepartment", {
-    logedin: true,
+    logedin: "userID" in req.session && req.session.userID.length > 5,
     title: "Department Create",
+    form_type: "create",
     location: locationList,
   });
 });
@@ -225,7 +227,7 @@ router
       console.log(departmentObject);
       return res.render("pages/departmentID", {
         title: departmentObject.name,
-        logedin: true,
+        logedin: "userID" in req.session && req.session.userID.length > 5,
         data: departmentObject,
       });
     } catch (err) {
