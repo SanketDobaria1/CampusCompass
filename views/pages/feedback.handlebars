@@ -6,6 +6,9 @@
       <input type="text" id="reported_by" name="reported_by" readonly value="{{ id }}" hidden>
        {{/if}}
     <br>
+    <label for="username">Username</label>
+    <input id="username" name="username" type="text" placeholder="username" readonly value="{{username}}"> 
+    <br>
       <label for="event_type">Event type: </label>
       <select id="event_type" onclick="events()">
         <option value="departments" >Departments</option>

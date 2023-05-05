@@ -14,10 +14,11 @@ const exportedMethods = {
     return feedbackinfo;
   },
 
-  async create(reportedby, reported_object, desc) {
+  async create(reportedby, reported_object, desc, username) {
     desc = validation.checkString(desc, "Description");
     reportedby = validation.checkId(reportedby, "user_id");
     reported_object = validation.checkId(reported_object, "event_id");
+    username = validation.checkString(username,"user_name");
 
     const date = new Date();
     date.setTime(date.getTime() + -240 * 60 * 1000);
@@ -26,6 +27,7 @@ const exportedMethods = {
       reportedby: reportedby,
       reported_object: reported_object,
       desc: desc,
+      username,username,
       lastupdatedDate: date.toISOString(),
     };
 

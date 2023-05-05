@@ -29,6 +29,7 @@ router
           events: events,
           departments: departments,
           locations: locations,
+          username: req.session.username,
         })
     } catch (e) {
       res.status(404).send(e);
@@ -47,6 +48,7 @@ router
         data.reported_object,
         "event_id"
       );
+      data.username = validation.checkString(data.username, "user_name")
       data.feedback_description = validation.checkString(
         data.feedback_description,
         "Description"
@@ -56,11 +58,12 @@ router
     }
 
     try {
-      const { reported_by, reported_object, feedback_description } = data;
+      const { reported_by, reported_object, feedback_description, username } = data;
       const newFeedback = await feedbackData.create(
         reported_by,
         reported_object,
-        feedback_description
+        feedback_description,
+        username
       );
       res.render("pages/feedback", {success: true, logedin: true,});
     } catch (e) {
@@ -79,7 +82,7 @@ router
         res.render("pages/allfeedbacks", {
           admin: true,
           logedin: true,
-          feedbacks: feedbacks
+          feedbacks: feedbacks,
         });
       }
       else{
@@ -92,21 +95,19 @@ router
 
   router
   .route("/:id").get(async (req, res) => {
+    try {
+      req.params.id = validation.checkId(req.params.id, "user ID");
+    } catch (e) {
+      return res.status(400).json({ error: e });
+    }
     if (xss(!req.session.userID)) {
       return res.redirect("/");
     }
     try {
-      if (req.session.userRole == "admin") {
-        res.render("pages/feedbackID", {
-          admin: true,
-          logedin: true,
-        });
-      }
-      else{
-        res.status(404).send(e);
-      }
+      const feedbackbyID = await feedbacksdata.getById(req.params.id);
+      res.render("pages/feedbackID", { title: "feedback", data: feedbackbyID, logedin: true });
     } catch (e) {
-      res.status(404).send(e);
+      res.status(404).json({ error: e });
     }
   })
 

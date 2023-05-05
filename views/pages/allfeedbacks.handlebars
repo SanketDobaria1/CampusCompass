@@ -2,8 +2,9 @@
     <ol>
         {{#each feedbacks}}
         <li>
-            feedback: {{this.desc}}
-            
+        <a href="/feedback/{{this._id}}">{{this.username}}</a>
+        <br>
+        feedback: {{this.desc}}
         </li>
        {{/each}}
     </ol>
