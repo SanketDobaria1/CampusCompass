@@ -30,7 +30,9 @@ export const adminMiddleware = (req, res, next) => {
 export const loggingMiddleware = (req, res, next) => {
   console.log(
     `[${new Date().toUTCString()}]: ${req.method} ${req.originalUrl} (${
-      req.session.userID ? "Authenticated User" : "Non-Authenticated User"
+      req.session.userID
+        ? `Authenticated User, userID: ${req.session.userID}`
+        : "Non-Authenticated User"
     })`
   );
   next();
