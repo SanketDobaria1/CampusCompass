@@ -9,10 +9,6 @@
   </div>
   <div class="flex-child center">
     <div class="form-inner">
-
-      {{#if new_user_created}}
-        <p class="new_user">New User Created! Please Login</p>
-      {{/if}}
       <h2>Login</h2>
       <form action="/login" id="form-login" method="POST">
         <label for="login_email">Email</label>
@@ -23,6 +19,9 @@
           name="login_email"
           type="email"
           placeholder="mystevens@stevens.edu"
+          {{#if email}}
+          value="{{email}}"
+          {{/if}}
         />
         <br>
         <label for="login_password">Password</label>
