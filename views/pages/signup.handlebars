@@ -25,16 +25,7 @@
                 <input class="form-input" id="user_password" name="user_password" type="password" placeholder="Password">
 
                 <br>
-                <label for="user_department">Department</label>
-                <br>
-                <select name="user_department" id="user_department">
-                    <option value="#">---</option>
-                    <option value="saab">Saab</option>
-                    <option value="opel">Opel</option>
-                    <option value="audi">Audi</option>
-                </select>
-
-                <br>
+        
                 <input type="submit" class="submit-button" value="Register"></input>
             </form>
             <div id="error-form" hidden></div>
@@ -42,10 +33,7 @@
             <p class="error">{{error_msg}}</p>
             {{/if}}
             <a href="/login">Already a User, Click here to Login!</a>
-        </div>
-        {{#if user_exist}}
-        <a href="/login"> Click Here to Login!</a>
-        {{/if}}
+        </div> 
     </div>
 </div>
 </div>

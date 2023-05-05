@@ -1,0 +1,33 @@
+
+
+    <h1>Building Entrances</h1>
+    <p>Please Select options from below Drop down to filter out results</p>
+    <p>For any Particular Location's Entrance. Click on Location</p>
+<form id="form-search" method="post" onsubmit="">
+    <div>
+        <label for="search-string" id="search-string-label">Search String</label>
+        <input type="text" class="form-input" id="search-string" placeholder="Enter Search Text">
+    </div>
+    <div id="search-type-container">
+    <label for="search-type">Search Type</label>
+    <select class="form-input" name="search-type" id="search-type">
+        <option value="#">Search Options</option>
+    </select>
+    </div>
+    <br>
+    
+</form>
+<div id="results" class="flex-container" hidden>
+
+    <div class="flex-child cards-container" id="results-location"></div>
+    <div class="flex-child">
+        <div id="map"></div>
+    </div>
+
+
+</div>
+
+<script src="https://unpkg.com/leaflet@1.9.3/dist/leaflet.js"
+    integrity="sha256-WBkoXOwTeyKclOHuWtc+i2uENFpDZ9YPdf5Hf+D7ewM=" crossorigin=""></script>
+
+<script src="/public/js/entrance.js"></script>

@@ -25,15 +25,14 @@ router.get("/home", async (req, res) => {
       features: userRegisteredEvents.locationData,
     };
   } else displayString = "No Classes or Events for today";
-  // console.dir(userRegisteredEvents, { depth: null });
-  console.log(userRegisteredEvents.eventsData.length);
-  res.render("pages/landing", {
+
+  return res.render("pages/landing", {
     title: "Landing",
     logedin: true,
     username: req.session.username,
     displayString,
     events: userRegisteredEvents.eventsData,
-    renderMap: true,
+    renderMap: userRegisteredEvents.locationData.length > 0,
     geoObject: JSON.stringify(tempGeo),
   });
 });
@@ -54,20 +53,31 @@ router
         .render("pages/login", { title: "Login", error_msg: e.message });
     }
 
-
-  try {
-    let userExist = await userData.checkUser(email, password);
-    if (userExist.userAuthenticated && userExist.userAuthenticated) {
-      req.session.userID = userExist.userAuthenticatedID;
-      req.session.username = userExist.username;
-      req.session.userRole = userExist.userRole;
-      res.redirect("/home");
+    try {
+      let userExist = await userData.checkUser(email, password);
+      if (userExist.userAuthenticated && userExist.userAuthenticated) {
+        req.session.userID = userExist.userAuthenticatedID;
+        req.session.username = userExist.username;
+        req.session.userRole = userExist.userRole;
+        return res.redirect("/home");
       }
     } catch (e) {
       res
         .status(400)
         .render("pages/login", { title: "Login", error_msg: e.message });
-
+    }
+    try {
+      let userExist = await userData.checkUser(email, password);
+      if (userExist.userAuthenticated && userExist.userAuthenticated) {
+        req.session.userID = userExist.userAuthenticatedID;
+        req.session.username = userExist.username;
+        req.session.userRole = userExist.userRole;
+        return res.redirect("/home");
+      }
+    } catch (e) {
+      res
+        .status(400)
+        .render("pages/login", { title: "Login", error_msg: e.message });
     }
   });
 

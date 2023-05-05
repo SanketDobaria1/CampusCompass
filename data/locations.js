@@ -31,6 +31,17 @@ const exportedMethods = {
 
     validation.checkOperatingTimes(operating_hours[0], operating_hours[1]);
 
+    // let coordinates = JSON.parse(location.replace(/\s+/g, ""));
+    // validation.checkisPolygon(
+    //   coordinates[0],
+    //   "GeoJSON Coordinates of Location"
+    // );
+
+    // location = {
+    //   type: "Polygon",
+    //   coordinates: coordinates,
+    // };
+
     const date = new Date();
     date.setTime(date.getTime() + -240 * 60 * 1000);
 
@@ -160,6 +171,54 @@ const exportedMethods = {
     locationList.map((location) => {
       location._id = location._id.toString();
     });
+    return locationList;
+  },
+
+  async getLocationDropdown() {
+    const locationCollection = await locations();
+    const locationList = await locationCollection
+      .find(
+        {
+          type: {
+            $in: ["Residence", "Academic", "Administrative"],
+          },
+          "rooms.type": { $in: ["admin", "laboratory"] },
+        },
+        {
+          projection: {
+            _id: 1,
+            name: 1,
+            type: 1,
+          },
+        }
+      )
+      .toArray();
+
+    return locationList;
+  },
+
+  async getLocationEntrance() {
+    const locationCollection = await locations();
+
+    const locationList = await locationCollection
+      .find(
+        {},
+        {
+          projection: {
+            _id: 1,
+            name: 1,
+            type: 1,
+            location: 1,
+            entrances: 1,
+          },
+        }
+      )
+      .toArray();
+
+    locationList.forEach((element) => {
+      element._id = element._id.toString();
+    });
+
     return locationList;
   },
 };

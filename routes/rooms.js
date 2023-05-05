@@ -80,10 +80,21 @@ router
     }
     try {
       await roomsData.remove(req.params.id);
-      res.json({ RoomId: req.params.id, deteled: true });
+      res.redirect("/locations");
     } catch (e) {
       res.status(404).json({ error: e });
     }
   });
+
+router.route("/getRoomsDropdown/:id").get(async (req, res) => {
+  let roomId;
+  try {
+    roomId = validation.checkId(req.params.id);
+  } catch (error) {
+    return res.status(400).json({ error: error.message });
+  }
+  let roomsList = await roomsData.getRoomsDropdown(roomId);
+  return res.json({ totalLength: roomsList.length, roomsData: roomsList });
+});
 
 export default router;

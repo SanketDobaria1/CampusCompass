@@ -3,8 +3,7 @@
 }
 
 main {
-  padding: 20px;
-  height: 100%;
+  padding: 10px;
 }
 
 html {
@@ -48,9 +47,7 @@ nav ul li a:hover {
   background: #bdbdbd;
 }
 
-main {
-  margin-bottom: 1.5em;
-}
+
 
 .form-inner {
   width: 60%;
@@ -63,6 +60,19 @@ main {
 }
 
 .form-inner form > * + * {
+  margin-top: 0.2em;
+}
+
+.flex-child > p {
+  padding: 2px;
+}
+
+
+.form-create {
+  padding: 10px;
+}
+
+.form-inner form>*+* {
   margin-top: 0.2em;
 }
 
@@ -82,12 +92,41 @@ main {
   flex-basis: 50%;
 }
 
+.cards {
+  width: 100%;
+  padding: 10px 15px;
+  border-radius: 2px;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+  margin-top: 0.5em;
+  background-color: #fff;
+}
+
+.cards a {
+  color: #010000;
+  text-decoration: underline;
+}
+
+.cards:hover {
+  box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2);
+}
+
 .center {
   display: flex;
   justify-content: center;
   align-items: center;
 }
-
+.cards-container {
+  height: 70vh;
+    overflow: auto;
+}
+p {
+  margin-bottom: 0rem;
+}
+#form-search{
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
 .submit-button {
   background-color: #555555;
   color: #fff;
@@ -116,6 +155,28 @@ main {
   width: 100%;
 }
 
+.form-input:focus {
+  border: 2px solid #010000;
+}
+#form-search {
+  padding-top: 0.2rem;
+}
+#form-search .form-input {
+  width: auto;
+}
+
+#form-search div {
+  margin-left: 2px;
+  padding: 5px;
+}
+.error-input {
+  border: 2px solid red;
+}
+
+ select .form-inner {
+  height: 200px;
+}
+
 .Open {
   background-color: #4caf50;
   color: #fff;
@@ -131,9 +192,7 @@ main {
   width: 10%;
 }
 
-.form-input:focus {
-  border: 2px solid #010000;
-}
+
 
 footer {
   position: fixed;
@@ -144,7 +203,6 @@ footer {
   background-color: #a32638;
   color: #fff;
   padding: 4px;
-  height: 60px; /* add height to footer */
   display: flex; /* add display: flex */
   align-items: center; /* add align-items: center */
   justify-content: center;
@@ -179,13 +237,7 @@ footer {
   color: white;
 }
 
-.cards {
-  padding: 10px 15px;
-  border-radius: 2px;
-  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
-  margin-top: 0.5em;
-  background-color: #fff;
-}
+
 
 dl {
   margin-bottom: 0;
@@ -252,7 +304,7 @@ dd {
 }
 
 /* Media queries for smaller screens */
-
+/* 
 @media screen and (max-width: 768px) {
   .flex-container {
     flex-direction: column;
@@ -265,4 +317,4 @@ dd {
   .form-inner {
     max-width: 100%;
   }
-}
+} */

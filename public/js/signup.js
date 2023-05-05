@@ -32,3 +32,16 @@ function validStevensEmail(emailid) {
   let regex = /^[\w._%+-]+(@stevens\.edu)$/;
   return regex.test(emailid);
 }
+
+function checkName(name) {
+  name = name.trim().toLowerCase();
+  let regex = /^[a-zA-Z]{2,25}$/;
+  return regex.test(name);
+}
+
+function checkPassword(password) {
+  password = password.trim();
+  let regex =
+    /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}/;
+  return regex.test(password);
+}

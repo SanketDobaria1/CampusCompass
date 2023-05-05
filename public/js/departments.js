@@ -1,6 +1,7 @@
 (function ($) {
   let current_page = 1;
   let total_page = 1;
+  let isAdmin = false;
 
   let responseData;
 
@@ -57,18 +58,30 @@
       department.operating_days.forEach((day) =>
         operating_days.push(returnDay(day))
       );
-      operating_days = operating_days.join(", ");
+      operating_days = operating_days.join(",");
       if (department.operating_days.includes(weekday)) {
-        let tempDate = new Date(
+        let currentDate = new Date();
+        let openDateTime = new Date(
+          `${date.toISOString().slice(0, 10)} ${department.operating_hours[0]}`
+        );
+        let closeDateTime = new Date(
           `${date.toISOString().slice(0, 10)} ${department.operating_hours[1]}`
         );
 
-        if (tempDate > new Date()) isOpen = "Open";
+        if (openDateTime < currentDate && closeDateTime > currentDate)
+          isOpen = "Open";
       } else {
         isOpen = "Closed";
       }
+      let renderEdit;
+      if (isAdmin)
+        renderEdit = `
+        <button type="button" data-action="edit" class="btn btn-success" data-id="${department._id}">Edit</button>
+        <button type="button" data-action="delete" class="btn btn-danger" data-id="${department._id}">Delete</button>`;
+      else renderEdit = "";
       // isOpen = department.operating_days.includes(weekday) ? "Open" : "Closed";
       const div = `<div class="cards">
+            
                 <h2><a href="departments/${department._id}">${
         department.name
       }</a></h2>
@@ -86,6 +99,7 @@
         department.location_name
       }</a></dd>  
                 </dl>
+                ${renderEdit}
                 </div>
                 </div>`;
       $("#department-container").append(div);
@@ -105,8 +119,10 @@
         url: `/departments/getAll?page=${current_page}`,
         success: function (response) {
           $("#container").empty();
+          if (response.admin) isAdmin = response.admin;
           renderData(response.data);
           total_page = response.total_page;
+
           renderPagination();
         },
         error: function () {
@@ -116,11 +132,34 @@
     }
   });
 
+  $("#department-container").on("click", "button", (e) => {
+    e.preventDefault();
+    let id = e.target.dataset.id;
+    console.log(e.target.dataset.id, e.target.dataset.action);
+    if (e.target.dataset.action === "delete") {
+      $.ajax({
+        url: `/departments/${id}`,
+        type: "DELETE",
+        success: function (response) {
+          window.alert(`Department Deleted Successfully`);
+          location.reload();
+        },
+        error: function (response) {
+          window.alert(`Error`);
+        },
+      });
+    }
+    if (e.target.dataset.action === "edit") {
+      document.location.href = `/departments/edit/${id}`;
+    }
+  });
+
   $(document).ready(function () {
     $.ajax({
       url: "/departments/getAll",
       success: function (response) {
         responseData = response.data;
+        if (response.admin) isAdmin = response.admin;
         renderData(response.data);
         total_page = response.total_page;
         renderPagination();
