@@ -18,10 +18,17 @@
       <button type="submit" class="btn btn-sm btn-primary">Create a New Room</button>
     </form>
   {{/if}} --}}
+  <hr>
   <form action="/locations/{{data._id}}" method="GET">
     <input type="text" name="key" placeholder="Search..." />
     <button type="submit">Search</button>
   </form>
+  <hr>
+  {{#if isAdmin}}
+  <form id="create-form" method="GET" action="/locations/create">
+    <button type="submit" class="btn btn-sm btn-primary">Create a New Location</button>
+  </form>
+{{/if}}
   {{#if key}}
     <h3>Results for "{{key}}"</h3>
     <a href="/locations">Back to all Locations</a>
@@ -37,6 +44,21 @@
             <p>Floor Number: {{floor_number}}</p>
             <p>Room Type: {{type}}</p>
           </div>
+          {{#if @root.isAdmin}}
+        <br />
+        <form method="GET" action="/rooms/room/{{_id}}">
+          <button
+            type="submit"
+            class="btn btn-sm btn-outline-danger">
+            Delete</button>
+        </form>
+        {{!-- <form method="GET" action="/locations/edit/{{_id}}">
+          <button
+            type="submit"
+            class="btn btn-sm btn-outline-dark"
+          >Edit</button>
+        </form> --}}
+      {{/if}}
         </div>
       {{/each}}
     </div>

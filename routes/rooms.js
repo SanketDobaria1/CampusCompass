@@ -80,7 +80,7 @@ router
     }
     try {
       await roomsData.remove(req.params.id);
-      res.json({ RoomId: req.params.id, deteled: true });
+      res.redirect("/locations");
     } catch (e) {
       res.status(404).json({ error: e });
     }
