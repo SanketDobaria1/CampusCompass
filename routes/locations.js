@@ -115,24 +115,36 @@ router
         coordinates: coordinates,
       };
 
-      data.location_entrances = data.location_entrances.map((element) => {
-        return JSON.parse(element.replace(/\s+/g, ""));
-      });
-
-      console.log(data.entrance_access);
-      console.log(data.location_entrances);
-
       let entrance = [];
-      data.location_entrances.forEach((element, index) => {
+
+      if (data.entrance_access.length > 1) {
+        data.location_entrances = data.location_entrances.map((element) => {
+          return JSON.parse(element.replace(/\s+/g, ""));
+        });
+        data.location_entrances.forEach((element, index) => {
+          entrance.push({
+            location: {
+              coordinates: element,
+              type: "Point",
+            },
+            accessible: data.entrance_access[index].toUpperCase(),
+          });
+        });
+      } else if (data.entrance_access.length === 1) {
         entrance.push({
           location: {
-            coordinates: element,
+            coordinates: JSON.parse(
+              data.location_entrances.replace(/\s+/g, "")
+            ),
             type: "Point",
           },
-          accessible: data.entrance_access[index].toUpperCase(),
+          accessible: data.entrance_access.toUpperCase(),
         });
-      });
-      //data.location = data.location;
+      }
+
+      // console.log(data.entrance_access);
+      // console.log(data.location_entrances);
+      // data.location = data.location;
 
       data.location_entrances = entrance;
     } catch (e) {
