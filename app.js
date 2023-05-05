@@ -56,6 +56,7 @@ app.use(
 
 // Use middleware functions for routes
 app.get("/login", loginMiddleware);
+
 app.get("/signup", registrationMiddleware);
 app.get("/logout", logoutMiddleware);
 app.use("/locations/create", adminMiddleware);
