@@ -6,6 +6,7 @@ import loginRoutes from "./login.js";
 import roomRoutes from "./rooms.js";
 import searchRoutes from "./search.js";
 import signupRoutes from "./signup.js";
+import notificationRoutes from "./notification.js"
 
 const constructorMethod = (app) => {
   app.use("/signup", signupRoutes);
@@ -15,6 +16,7 @@ const constructorMethod = (app) => {
   app.use("/events", eventsRoutes);
   app.use("/feedback", feedbackRoutes);
   app.use("/search", searchRoutes);
+  app.use("/notifications", notificationRoutes);
   app.use("/", loginRoutes);
   app.use("*", (req, res) => {
     return res.status(404).json({ error: "Accessing invalid path" });
