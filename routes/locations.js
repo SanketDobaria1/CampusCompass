@@ -1,6 +1,7 @@
 import { Router } from "express";
 import { locationsData, roomsData } from "../data/index.js";
 import validation from "../validate.js";
+import * as turf from "@turf/turf";
 const router = Router();
 import xss from "xss";
 
@@ -271,6 +272,11 @@ router
       const rooms = await roomsData.getAll(location._id);
 
       let location_geo = location.location;
+
+      const tempPolygon = turf.polygon(location_geo.coordinates);
+
+      const centerPoint = turf.centroid(tempPolygon).geometry.coordinates;
+      const reversedArray = [...centerPoint].reverse();
       location_geo.properties = { popupContent: `${location.name}` };
       let entrances_geo = [];
       entrances_geo.push(location_geo);
@@ -295,6 +301,7 @@ router
         rooms: rooms,
         accessibleEntrances: accessibleString,
         geoObject: JSON.stringify(entrances_geo),
+        centerPoint: reversedArray,
         isAdmin: isAdmin,
         logedin: true,
       });
