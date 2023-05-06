@@ -2,6 +2,7 @@ import { Router } from "express";
 import { locationsData, roomsData } from "../data/index.js";
 import validation from "../validate.js";
 const router = Router();
+import xss from "xss";
 
 router.route("/getAllRecords").get(async (req, res) => {
   let locationResponse = await locationsData.getLocationsAll();
@@ -80,23 +81,23 @@ router
     }
     try {
       data.location_name = validation.checkString(
-        data.location_name,
+        xss(data.location_name),
         "Location Name"
       );
       data.location_desc = validation.checkString(
-        data.location_desc,
+        xss(data.location_desc),
         "Description"
       );
       data.location_type = validation.checkString(
-        data.location_type,
+        xss(data.location_type),
         "Location Type"
       );
       // data.operating_hours = JSON.parse(
       //   data.operating_hours.replace(/"/g, '"')
       // );
       let total_hours = [];
-      total_hours.push(data.opening_hours);
-      total_hours.push(data.closing_hours);
+      total_hours.push(xss(data.opening_hours));
+      total_hours.push(xss(data.closing_hours));
       total_hours = validation.checkStringArray(
         total_hours,
         "Operating Hours",
@@ -105,7 +106,7 @@ router
 
       data.operating_hours = total_hours;
 
-      let coordinates = JSON.parse(data.location.replace(/\s+/g, ""));
+      let coordinates = JSON.parse(xss(data.location).replace(/\s+/g, ""));
       validation.checkisPolygon(
         coordinates[0],
         "GeoJSON Coordinates of Location"
@@ -114,7 +115,7 @@ router
         type: "Polygon",
         coordinates: coordinates,
       };
-
+      data.entrance_access = xss(data.entrance_access);
       let entrance = [];
 
       if (data.entrance_access.length > 1) {
@@ -195,23 +196,23 @@ router
       req.params.id = validation.checkId(req.params.id, "Id URL Parameter");
 
       data.location_name = validation.checkString(
-        data.location_name,
+        xss(data.location_name),
         "Location Name"
       );
 
       data.location_desc = validation.checkString(
-        data.location_desc,
+        xss(data.location_desc),
         "Description"
       );
 
       data.location_type = validation.checkString(
-        data.location_type,
+        xss(data.location_type),
         "Location Type"
       );
 
       let total_hours = [];
-      total_hours.push(data.opening_hours);
-      total_hours.push(data.closing_hours);
+      total_hours.push(xss(data.opening_hours));
+      total_hours.push(xss(data.closing_hours));
       total_hours = validation.checkStringArray(
         total_hours,
         "Operating Hours",
