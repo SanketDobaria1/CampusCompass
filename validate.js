@@ -84,7 +84,7 @@ const exportedMethods = {
     arr.forEach((elm) => {
       if (typeof elm != "number" || isNaN(elm))
         throw new Error(`Expected ${varName} to contain number`);
-      if (elm > 7 || elm < 0) throw new Error(`Days needs to between 0 and 7`);
+      if (elm > 8 || elm < 0) throw new Error(`Days needs to between 0 and 8`);
     });
     return arr;
   },
