@@ -19,8 +19,11 @@ $(document).ready(function () {
 
     if (errors.length > 0) {
       $("#error-form").removeAttr("hidden");
-      for (let i = 0; i < errors.length; i++)
-        $("#error-form").append(`<p class="error">${errors[i]}</p>`);
+      for (let i = 0; i < errors.length; i++) {
+        let errorParagraph = $(`<p class="error">${errors[i]}</p>`);
+        $("#error-form").append(errorParagraph);
+        removeErrorAfterTime(errorParagraph, 3000);
+      }
     } else {
       $("#error-form").prop("hidden");
       $("#form-signup").off("submit").submit();
@@ -45,3 +48,14 @@ function checkPassword(password) {
     /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}/;
   return regex.test(password);
 }
+
+
+function removeErrorAfterTime(errorElement, time) {
+  setTimeout(function () {
+    errorElement.remove();
+    if ($("#error-form").children().length === 0) {
+      $("#error-form").attr("hidden", true);
+    }
+  }, time);
+}
+
