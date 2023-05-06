@@ -1,6 +1,7 @@
 import { ObjectId } from "mongodb";
 import { locations } from "../config/mongoCollections.js";
 import validation from "../validate.js";
+import notifications from "../data/notification.js"
 
 const exportedMethods = {
   async getById(id) {
@@ -136,6 +137,29 @@ const exportedMethods = {
     if (updatedInfo.lastErrorObject.n === 0)
       throw "Could not update Location successfully !";
 
+    let notificationTitle = "Location update";
+    let notificationDetails = `Updated the location ${Location.name}`;
+    let notificationDesc = `Updated the location ${Location.name}`;
+    if(Location.name !== updatedInfo.value.name){
+      notificationDetails = notificationDetails+` name from ${Location.name} to ${updatedInfo.value.name}`;
+    }
+    else if(Location.desc !== updatedInfo.value.desc){
+      notificationDetails = notificationDetails+` description from ${Location.desc} to ${updatedInfo.value.desc}`;
+    }
+    else if(Location.type !== updatedInfo.value.type){
+      notificationDetails = notificationDetails+` type from ${Location.type} to ${updatedInfo.value.type}`;
+    }
+    else if(Location.operating_hours !== updatedInfo.value.operating_hours){
+      notificationDetails = notificationDetails+` operating hours from ${Location.operating_hours} to ${updatedInfo.value.operating_hours}`;
+    }
+    else if(Location.location !== updatedInfo.value.location){
+      notificationDetails = notificationDetails+` location from ${Location.location} to ${updatedInfo.value.location}`;
+    }
+    else if(Location.entrances !== updatedInfo.value.entrances){
+      notificationDetails = notificationDetails+` entrances from ${Location.entrances} to ${updatedInfo.value.entrances}`;
+    }
+    let newNotification = notifications.create(notificationTitle, notificationDesc, notificationDetails);
+    
     updatedInfo.value._id = updatedInfo.value._id.toString();
     return updatedInfo.value;
   },
