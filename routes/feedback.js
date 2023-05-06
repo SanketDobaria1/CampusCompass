@@ -1,11 +1,10 @@
 import { Router } from "express";
 import xss from "xss";
-
 import {
   feedbackData,
-  departmentData,
   eventsData,
   locationsData,
+  departmentData,
 } from "../data/index.js";
 import validation from "../validate.js";
 const router = Router();
