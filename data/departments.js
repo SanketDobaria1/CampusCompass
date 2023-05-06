@@ -98,9 +98,12 @@ const exportedMethods = {
     validation.checkDayArray(operating_days);
 
     const departmentCollection = await departments();
-    const department = await departmentCollection.findOne({
-      _id: new ObjectId(depart_id),
-    });
+    const department = await departmentCollection.findOne(
+      {
+        _id: new ObjectId(depart_id),
+      },
+      { projection: { _id: 1 } }
+    );
     if (!department) throw new Error(`No Department Exists for ${depart_id}`);
 
     try {
@@ -113,8 +116,8 @@ const exportedMethods = {
 
     const date = new Date();
     date.setTime(date.getTime() + -240 * 60 * 1000);
-    const updateDepartment = await departmentCollection.findOneAndUpdate(
-      { _id: new ObjectId(id) },
+    const updateDepartment = await departmentCollection.updateOne(
+      { _id: new ObjectId(depart_id) },
       {
         $set: {
           name: depart_name,
@@ -130,7 +133,7 @@ const exportedMethods = {
 
     if (!updateDepartment.acknowledged || updateDepartment.modifiedCount !== 1)
       throw new Error(`DB Error`);
-    return;
+    return { id: depart_id, updated: true };
   },
 
   async deleteDepartment(id) {

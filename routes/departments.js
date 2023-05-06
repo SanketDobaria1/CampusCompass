@@ -83,6 +83,12 @@ router
     }
   })
   .put(async (req, res) => {
+    let departmentID = req.params.id;
+    try {
+      departmentID = validations.checkId(departmentID);
+    } catch (e) {
+      return res.status(400).json({ error: e });
+    }
     let departmentName, room_id, desc, type, operating_hours, operating_days;
     try {
       departmentName = validations.checkString(
@@ -116,6 +122,7 @@ router
 
     try {
       let departmentCreateInfo = await departmentData.updateDepartment(
+        departmentID,
         departmentName,
         room_id,
         desc,
@@ -125,7 +132,7 @@ router
       );
       if (!departmentCreateInfo)
         return res.status(500).json({ error: "Error Creating object" });
-      else return res.json({ departmentCreated: true });
+      else return res.json({ departmentEdited: true });
     } catch (error) {
       if (error.message === "Department Already exists!")
         return res.status(400).json({ error: error.message });

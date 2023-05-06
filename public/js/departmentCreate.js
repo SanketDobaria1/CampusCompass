@@ -2,15 +2,20 @@
   let responseData;
   let roomsAPI = "/rooms/getRoomsDropdown/";
   let departmentCreateAPI = "/departments";
-  let departmentEditAPI = "/deparments/edit";
-  let formAction = $("department-form").target.dataset.function;
-  let departmentID = $("department-form").target.dataset.departmentID;
+  let departmentEditAPI = "/departments/edit";
+  let formAction = $("#department-form").attr("data-function");
+  let departmentID = $("#department-form").attr("data-departmentID");
+  console.log(departmentID, formAction);
   if ($("#department-building-location").val().trim() !== "#")
     ajaxCall($("#department-building-location").val().trim());
   $("#department-building-location").on("change", function () {
     ajaxCall($("#department-building-location").val().trim());
   });
 
+  $("#back-btn").on("click", function (event) {
+    event.preventDefault();
+    location.href = "/departments/";
+  });
   $("#department-form").on("submit", function (event) {
     event.preventDefault();
     let errors = [];
@@ -24,7 +29,7 @@
     let openTimeVal = openTime.val().trim();
     let closeTime = $("#department-hour-end");
     let closeTimeVal = closeTime.val().trim();
-    let location = $("#department-building-location").val();
+    let locationVal = $("#department-building-location").val();
     let room = $("#department-room").val();
     let workinDays = $("#department-days").val();
 
@@ -34,7 +39,7 @@
     if (!departmentType || departmentType === "#")
       errors.push("Please select Department Type");
 
-    if (location === "#") {
+    if (locationVal === "#") {
       errors.push("Please select location from dropdown");
       if (room === "#") errors.push("Missing room from dropdown");
     }
@@ -63,7 +68,7 @@
         departmentType,
         departmentOpen: openTimeVal,
         departmentClose: closeTimeVal,
-        departmentLocationID: location,
+        departmentLocationID: locationVal,
         departmentRoomID: room,
         departmentWorkinDays: workinDays,
       };
@@ -82,6 +87,8 @@
             $(".modal-title").text("Status");
             $("#myModal").modal("show");
             return;
+          } else {
+            location.reload();
           }
 
           if (response.departmentCreated && response.departmentCreated) {
