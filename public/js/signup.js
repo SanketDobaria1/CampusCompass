@@ -19,8 +19,11 @@ $(document).ready(function () {
 
     if (errors.length > 0) {
       $("#error-form").removeAttr("hidden");
-      for (let i = 0; i < errors.length; i++)
-        $("#error-form").append(`<p class="error">${errors[i]}</p>`);
+      for (let i = 0; i < errors.length; i++) {
+        let errorParagraph = $(`<p class="error">${errors[i]}</p>`);
+        $("#error-form").append(errorParagraph);
+        removeErrorAfterTime(errorParagraph, 3000);
+      }
     } else {
       $("#error-form").prop("hidden");
       $("#form-signup").off("submit").submit();
@@ -31,4 +34,26 @@ $(document).ready(function () {
 function validStevensEmail(emailid) {
   let regex = /^[\w._%+-]+(@stevens\.edu)$/;
   return regex.test(emailid);
+}
+
+function checkName(name) {
+  name = name.trim().toLowerCase();
+  let regex = /^[a-zA-Z]{2,25}$/;
+  return regex.test(name);
+}
+
+function checkPassword(password) {
+  password = password.trim();
+  let regex =
+    /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}/;
+  return regex.test(password);
+}
+
+function removeErrorAfterTime(errorElement, time) {
+  setTimeout(function () {
+    errorElement.remove();
+    if ($("#error-form").children().length === 0) {
+      $("#error-form").attr("hidden", true);
+    }
+  }, time);
 }
