@@ -9,7 +9,7 @@ const exportedMethods = {
     const notificationInfo = await notificationCollection.findOne({
       _id: new ObjectId(id),
     });
-    if (notificationInfo === null) throw "No feedback element found with that Id";
+    if (notificationInfo === null) throw "No notification element found with that Id";
     notificationInfo._id = notificationInfo._id.toString();
     return notificationInfo;
   },
@@ -30,7 +30,7 @@ const exportedMethods = {
     };
 
     const notificationCollection = await notifications();
-    const insertInfo = await notificationCollection.insertOne(newFeedback);
+    const insertInfo = await notificationCollection.insertOne(newNotification);
     if (!insertInfo.acknowledged || !insertInfo.insertedId) {
       throw "Could not add Notification";
     }

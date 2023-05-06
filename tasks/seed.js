@@ -8,57 +8,57 @@ import { closeConnection } from "../config/mongoConnection.js";
 
 async function main() {
   console.log("Begining Seed Script");
-  const admin = await userData.createUser(
-    "test",
-    "test@stevens.edu",
-    "a123b123c123",
-    "administrator",
-    "admin"
-  );
+  // const admin = await userData.createUser(
+  //   "test",
+  //   "test@stevens.edu",
+  //   "a123b123c123",
+  //   "administrator",
+  //   "admin"
+  // );
 
-  const isssDepartment = await departmentData.create(
-    "International Student and Scholar Services (ISSS)",
-    "64236f804eebf566c9d8d8df",
-    "The International Student and Scholar Services (ISSS) office is committed to assisting international students, faculty and scholars in accomplishing their academic, personal and professional objectives through advising, providing immigration services, promoting cross-cultural opportunities and offering specific programs and services to our international population.",
-    "Administrative",
-    ["08:00:00", "16:00:00"],
-    [1, 2, 3, 4, 5]
-  );
+  // const isssDepartment = await departmentData.create(
+  //   "International Student and Scholar Services (ISSS)",
+  //   "64236f804eebf566c9d8d8df",
+  //   "The International Student and Scholar Services (ISSS) office is committed to assisting international students, faculty and scholars in accomplishing their academic, personal and professional objectives through advising, providing immigration services, promoting cross-cultural opportunities and offering specific programs and services to our international population.",
+  //   "Administrative",
+  //   ["08:00:00", "16:00:00"],
+  //   [1, 2, 3, 4, 5]
+  // );
 
-  const library = await locationsData.create(
-    "Samuel C Williams Library",
-    "The Samuel C. Williams Library is the center for information discovery and preservation at Stevens Institute of Technology. The Library is dedicated to fostering an innovative environment with technology, education, and culture. It is our goal to create a distinctive library experience through services and resources that promote information and media literacy, knowledge creation, global scholarly communication, and critical and creative thinking for our students, faculty, and researchers around the world.",
-    "Library",
-    ["08:00:00", "23:00:00"],
-    {
-      type: "Polygon",
-      coordinates: [
-        [
-          [-74.02546182494333, 40.74506705869908],
-          [-74.02560283482114, 40.744579791007254],
-          [-74.02521485991508, 40.744510582978734],
-          [-74.0250598089466, 40.74499829604784],
-          [-74.02546182494333, 40.74506705869908],
-        ],
-      ],
-    },
-    [
-      {
-        location: {
-          coordinates: [-74.02517768966909, 40.74462860838662],
-          type: "Point",
-        },
-        accessible: "N",
-      },
-      {
-        location: {
-          coordinates: [-74.02529033008382, 40.74452404375421],
-          type: "Point",
-        },
-        accessible: "Y",
-      },
-    ]
-  );
+  // const library = await locationsData.create(
+  //   "Samuel C Williams Library",
+  //   "The Samuel C. Williams Library is the center for information discovery and preservation at Stevens Institute of Technology. The Library is dedicated to fostering an innovative environment with technology, education, and culture. It is our goal to create a distinctive library experience through services and resources that promote information and media literacy, knowledge creation, global scholarly communication, and critical and creative thinking for our students, faculty, and researchers around the world.",
+  //   "Library",
+  //   ["08:00:00", "23:00:00"],
+  //   {
+  //     type: "Polygon",
+  //     coordinates: [
+  //       [
+  //         [-74.02546182494333, 40.74506705869908],
+  //         [-74.02560283482114, 40.744579791007254],
+  //         [-74.02521485991508, 40.744510582978734],
+  //         [-74.0250598089466, 40.74499829604784],
+  //         [-74.02546182494333, 40.74506705869908],
+  //       ],
+  //     ],
+  //   },
+  //   [
+  //     {
+  //       location: {
+  //         coordinates: [-74.02517768966909, 40.74462860838662],
+  //         type: "Point",
+  //       },
+  //       accessible: "N",
+  //     },
+  //     {
+  //       location: {
+  //         coordinates: [-74.02529033008382, 40.74452404375421],
+  //         type: "Point",
+  //       },
+  //       accessible: "Y",
+  //     },
+  //   ]
+  // );
 
   const howeCenter = await locationsData.create(
     "Howe Center",
