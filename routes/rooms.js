@@ -2,6 +2,7 @@ import { Router } from "express";
 import { locationsData, roomsData } from "../data/index.js";
 import validation from "../validate.js";
 const router = Router();
+import xss from "xss";
 
 router
   .route("/:id")
@@ -18,9 +19,9 @@ router
     }
     try {
       req.params.id = validation.checkId(req.params.id, "Id URL Parameter");
-      data.room_number = JSON.parse(data.room_number);
-      data.capacity = JSON.parse(data.capacity);
-      data.floor_number = JSON.parse(data.floor_number);
+      data.room_number = JSON.parse(xss(data.room_number));
+      data.capacity = JSON.parse(xss(data.capacity));
+      data.floor_number = JSON.parse(xss(data.floor_number));
 
       if (typeof data.room_number !== "number")
         throw `Room number must be a Number !`;
@@ -28,7 +29,7 @@ router
         throw `Room capacity must be a Number !`;
       if (typeof data.floor_number !== "number")
         throw `Floor number must be a Number !`;
-      data.type = validation.checkString(data.type, "Room Type");
+      data.type = validation.checkString(xss(data.type), "Room Type");
     } catch (e) {
       return res.status(400).json({ error: e });
     }

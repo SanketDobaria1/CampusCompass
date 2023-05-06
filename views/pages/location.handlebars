@@ -11,30 +11,14 @@
     </div>
   </div>
   
-
-  {{!-- {{#if isAdmin}}
-    <form id="create-form" method="GET" action="/rooms/create">
-      <button type="submit" class="btn btn-sm btn-primary">Create a New Room</button>
-    </form>
-  {{/if}} --}}
-  <hr>
-  <form action="/locations/{{data._id}}" method="GET">
-    <input type="text" name="key" placeholder="Search..." />
-    <button type="submit">Search</button>
-  </form>
-  <hr>
   {{#if isAdmin}}
     <a href="/rooms/{{data._id}}" class="btn btn-sm btn-primary">Create a New Room</a>
-{{/if}}
-  {{#if key}}
-    <h3>Results for "{{key}}"</h3>
-    <a href="/locations">Back to all Locations</a>
   {{/if}}
 
   <div class="container-fluid">
     <div class="row align-items-center">
       {{#each rooms}}
-        <div class="card col-md-4 my-2">
+        <div class="card col-md-4 my-2 col-sm-6">
           <div class="card-body">
             <p>Room Number: {{room_number}}</p>
             <p>Capacity: {{capacity}}</p>
@@ -49,15 +33,9 @@
             class="btn btn-sm btn-outline-danger">
             Delete</button>
         </form>
-        {{!-- <form method="GET" action="/locations/edit/{{_id}}">
-          <button
-            type="submit"
-            class="btn btn-sm btn-outline-dark"
-          >Edit</button>
-        </form> --}}
       {{/if}}
         </div>
       {{/each}}
     </div>
   </div>
-  <a href="/locations">Back to all locations</a>
+  <a href="/locations" class="btn btn-info">Back to all locations</a>
