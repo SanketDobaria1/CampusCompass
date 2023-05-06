@@ -55,6 +55,7 @@
 }
 </style>
 
+{{{centerPoint}}}
 <div id="map"></div>
 
 <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js" integrity="sha512-XQoYMqMTK8LvdxXYG3nZ448hOEQiglfqkJs1NOQV44cWnUrBc8PkAOcXy20w0vlaXaVUearIOBhiXZ5V3ynxwA==" crossorigin=""></script>
@@ -62,8 +63,8 @@
 <script src="https://unpkg.com/osrm-text-instructions@0.1.1/dist/leaflet-routing-machine-osrm-text-instructions.min.js"></script>
 <script>
   // Initialize the map
-  const map = L.map('map').setView([40.7448, -74.0255], 16);
-
+  const map = L.map('map').setView([{{{centerPoint}}}], 16);
+ const buildingName = "{{ data.name }}"
   // Add OpenStreetMap tiles
   L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
     attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
@@ -110,8 +111,8 @@
 }
 
   // Add a marker for a building
-  const buildingLatLng = L.latLng(40.7448, -74.0255); // Replace with actual building coordinates
-  const buildingMarker = L.marker(buildingLatLng).addTo(map).bindPopup('Building Name').openPopup();
+  const buildingLatLng = L.latLng({{{ centerPoint }}}); // Replace with actual building coordinates
+  const buildingMarker = L.marker(buildingLatLng).addTo(map).bindPopup(buildingName).openPopup();
   buildingMarker.on('click', () => {
     // Check if the user has already granted location access
     const alreadyAskedForLocation = localStorage.getItem('alreadyAskedForLocation');
