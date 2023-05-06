@@ -1,4 +1,6 @@
 <form action="/locations/edit/{{data._id}}" id="location-edit-form" method="POST">
+    <input name='_method' value="PUT" hidden />
+    
     <label for="location_name">Name</label>
     <br>
     <input class="form-input" id="location_name" name="location_name" type="text" placeholder="Name" value="{{data.name}}">
