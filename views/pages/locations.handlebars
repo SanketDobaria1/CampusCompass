@@ -1,38 +1,38 @@
-  <h1>{{title}}</h1>
-  <form action="/locations" method="GET">
-    <input type="text" name="key" placeholder="Search..." />
-    <button type="submit">Search</button>
+<h1>{{title}}</h1>
+<form action="/locations" method="GET">
+  <input type="text" name="key" placeholder="Search..." />
+  <button type="submit">Search</button>
+</form>
+<hr />
+{{#if key}}
+  <h3>Results for "{{key}}"</h3>
+  <a href="/locations">Back to all Locations</a>
+{{/if}}
+<ol>
+  {{#each data}}
+    <li>
+      <a href="/locations/{{_id}}">{{name}}</a>
+      {{#if @root.isAdmin}}
+        <br />
+        <form method="POST" action="/locations/{{_id}}">
+          <button
+            type="submit"
+            class="btn btn-sm btn-outline-danger"
+          >Delete</button>
+        </form>
+        <form method="GET" action="/locations/edit/{{_id}}">
+          <button
+            type="submit"
+            class="btn btn-sm btn-outline-dark"
+          >Edit</button>
+        </form>
+      {{/if}}
+    </li>
+    <hr />
+  {{/each}}
+</ol>
+{{#if isAdmin}}
+  <form id="create-form" method="GET" action="/locations/create">
+    <button type="submit" class="btn btn-sm btn-primary">Create a New Location</button>
   </form>
-  <hr />
-  {{#if key}}
-    <h3>Results for "{{key}}"</h3>
-    <a href="/locations">Back to all Locations</a>
-  {{/if}}
-  <ol>
-    {{#each data}}
-      <li>
-        <a href="/locations/{{_id}}">{{name}}</a>
-        {{#if @root.isAdmin}}
-          <br />
-          <form id="delete-form" method="POST" action="/locations/{{_id}}">
-            <button
-              type="submit"
-              class="btn btn-sm btn-outline-danger"
-            >Delete</button>
-          </form>
-          <form id="edit-form" method="GET" action="/locations/edit/{{_id}}">
-            <button
-              type="submit"
-              class="btn btn-sm btn-outline-dark"
-            >Edit</button>
-          </form>
-        {{/if}}
-        <hr />
-      </li>
-    {{/each}}
-  </ol>
-  {{#if isAdmin}}
-    <form id="create-form" method="GET" action="/locations/create">
-      <button type="submit" class="btn btn-sm btn-primary">Create a New Location</button>
-    </form>
-  {{/if}}
+{{/if}}

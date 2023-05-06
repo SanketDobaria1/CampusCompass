@@ -1,62 +1,41 @@
-
   <div class="flex-container">
     <div class="flex-child" style="height: 40vh">
       <h1>{{data.name}}</h1>
       <p>{{data.desc}}</p>
       <p>Building type: {{data.type}}</p>
       <p>Operating Hours: {{data.operating_hours}}</p>
+      <p>Accessible Entrances: {{accessibleEntrances}} </p>
     </div>
     <div class="flex-child">
       {{>map}}
     </div>
   </div>
   
-
-  {{!-- {{#if isAdmin}}
-    <form id="create-form" method="GET" action="/rooms/create">
-      <button type="submit" class="btn btn-sm btn-primary">Create a New Room</button>
-    </form>
-  {{/if}} --}}
-  <form action="/locations/{{data._id}}" method="GET">
-    <input type="text" name="key" placeholder="Search..." />
-    <button type="submit">Search</button>
-  </form>
-  {{#if key}}
-    <h3>Results for "{{key}}"</h3>
-    <a href="/locations">Back to all Locations</a>
+  {{#if isAdmin}}
+    <a href="/rooms/{{data._id}}" class="btn btn-sm btn-primary">Create a New Room</a>
   {{/if}}
 
   <div class="container-fluid">
     <div class="row align-items-center">
       {{#each rooms}}
-        <div class="card col-md-4 my-2">
+        <div class="card col-md-4 my-2 col-sm-6">
           <div class="card-body">
             <p>Room Number: {{room_number}}</p>
             <p>Capacity: {{capacity}}</p>
             <p>Floor Number: {{floor_number}}</p>
             <p>Room Type: {{type}}</p>
-            {{!-- {{#if @root.isAdmin}}
-              <br />
-              <form id="delete-form" method="POST" action="/locations/{{_id}}">
-                <button
-                  type="submit"
-                  class="btn btn-sm btn-outline-danger"
-                >Delete</button>
-              </form>
-              <form
-                id="edit-form"
-                method="GET"
-                action="/locations/edit/{{_id}}"
-              >
-                <button
-                  type="submit"
-                  class="btn btn-sm btn-outline-dark"
-                >Edit</button>
-              </form>
-            {{/if}} --}}
           </div>
+          {{#if @root.isAdmin}}
+        <br />
+        <form method="GET" action="/rooms/room/{{_id}}">
+          <button
+            type="submit"
+            class="btn btn-sm btn-outline-danger">
+            Delete</button>
+        </form>
+      {{/if}}
         </div>
       {{/each}}
     </div>
   </div>
-  <a href="/locations">Back to all locations</a>
+  <a href="/locations" class="btn btn-info">Back to all locations</a>

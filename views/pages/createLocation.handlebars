@@ -1,40 +1,92 @@
 <form action="/locations" id="location-create-form" method="POST">
-    <label for="location_name">Name</label>
-    <br>
-    <input class="form-input" id="location_name" name="location_name" type="text" placeholder="Name" value={{location_name}}>
-    <br>
-    
-    <label for="location_desc">Description</label>
-    <br>
-    <input class="form-input" id="location_desc" name="location_desc" type="text"
-        placeholder="Description" value={{location_desc}}> 
-    <br>
+  <label for="location_name">Name</label>
+  <br />
+  <input
+    class="form-input"
+    id="location_name"
+    name="location_name"
+    type="text"
+    placeholder="Name"
+  />
+  <br />
 
-    <label for="location_type">Location Type</label>
-    <br>
-    <input class="form-input" id="location_type" name="location_type" type="text" placeholder="Type of this Location">
-    <br>
+  <label for="location_desc">Description</label>
+  <br />
+  <input
+    class="form-input"
+    id="location_desc"
+    name="location_desc"
+    type="text"
+    placeholder="Description"
+  />
+  <br />
 
-    <label for="opening_hours">Opening Hours</label>
-    <br>
-    <input class="form-input" id="opening_hours" name="opening_hours" type="time" min="00:00:00" max="23:59:59" step="1">
-    {{!-- placeholder="[&quot;hh:mm:ss&quot;, &quot;hh:mm:ss&quot;]" --}}
-    <br>
+  <label for="location_type">Location Type</label>
+  <br />
+  <input
+    class="form-input"
+    id="location_type"
+    name="location_type"
+    type="text"
+    placeholder="Type of this Location"
+  />
+  <br />
 
-    <label for="closing_hours">Closing Hours</label>
-    <br>
-    <input class="form-input" id="closing_hours" name="closing_hours" type="time" min="00:00:00" max="23:59:59" step="1">
-    <br>
+  <label for="opening_hours">Opening Hours</label>
+  <br />
+  <input
+    class="form-input"
+    id="opening_hours"
+    name="opening_hours"
+    type="time"
+    min="00:00:00"
+    max="23:59:59"
+    step="1"
+  />
+  {{! placeholder="[&quot;hh:mm:ss&quot;, &quot;hh:mm:ss&quot;]" }}
+  <br />
 
-    <label for="location">Location Coordinates</label>
-    <br>
-    <input class="form-input" id="location" name="location" type="text" placeholder="GeoJson of Location">
-    <br>
+  <label for="closing_hours">Closing Hours</label>
+  <br />
+  <input
+    class="form-input"
+    id="closing_hours"
+    name="closing_hours"
+    type="time"
+    min="00:00:00"
+    max="23:59:59"
+    step="1"
+  />
+  <br />
 
-    <label for="location_entrances">Entrances Coordinates</label>
-    <br>
-    <input class="form-input" id="location_entrances" name="location_entrances" type="text" placeholder="GeoJson of Entrances">
-    <br>
+  <label for="location">Location Coordinates</label>
+  <br />
+  <input
+    class="form-input"
+    id="location"
+    name="location"
+    type="text"
+    placeholder="GeoJson of Location"
+  />
+  <br />
 
-    <input type="submit" class="submit-button" value="Create"></input>
+  <div id="entrances-container"></div>
+  <button type="button" id="add-entrance">Add Entrance</button>
+  <input type="submit" class="submit-button" value="Create" />
+  <br />
+  <a href="/locations" class="btn btn-info">Back to all locations</a>
 </form>
+
+<script>
+  const entrancesContainer = document.querySelector('#entrances-container');
+  const addEntranceButton = document.querySelector('#add-entrance'); let
+  numEntrances = 1; addEntranceButton.addEventListener('click', () => { const
+  newEntranceHtml = ` <fieldset> <label for="location_entrances">Entrance
+  ${numEntrances}'s Coordinates:</label> <br> <input class="form-input"
+  id="location_entrances" name="location_entrances" type="text"
+  placeholder="Cordinates of Entrances"> <label
+  for="entrance_access">Accessible? (Y/N): <input class="form-input" type="text"
+  name="entrance_access" pattern="[YyNn]"></label><br> </fieldset> `;
+  entrancesContainer.insertAdjacentHTML('beforeend', newEntranceHtml);
+  numEntrances++; });
+</script>

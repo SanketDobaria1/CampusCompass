@@ -49,6 +49,7 @@ function checkPassword(password) {
   return regex.test(password);
 }
 
+
 function removeErrorAfterTime(errorElement, time) {
   setTimeout(function () {
     errorElement.remove();
@@ -57,3 +58,4 @@ function removeErrorAfterTime(errorElement, time) {
     }
   }, time);
 }
+

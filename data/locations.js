@@ -1,6 +1,7 @@
 import { ObjectId } from "mongodb";
 import { locations } from "../config/mongoCollections.js";
 import validation from "../validate.js";
+import notifications from "../data/notification.js"
 
 const exportedMethods = {
   async getById(id) {
@@ -30,6 +31,17 @@ const exportedMethods = {
     );
 
     validation.checkOperatingTimes(operating_hours[0], operating_hours[1]);
+
+    // let coordinates = JSON.parse(location.replace(/\s+/g, ""));
+    // validation.checkisPolygon(
+    //   coordinates[0],
+    //   "GeoJSON Coordinates of Location"
+    // );
+
+    // location = {
+    //   type: "Polygon",
+    //   coordinates: coordinates,
+    // };
 
     const date = new Date();
     date.setTime(date.getTime() + -240 * 60 * 1000);
@@ -84,7 +96,7 @@ const exportedMethods = {
     return locationsList;
   },
 
-  async update(id, name, desc, type, operating_hours, location, entrances) {
+  async update(id, name, desc, type, operating_hours) {
     // ERROR HANDLING & INPUT VALIDATIONS //
     id = validation.checkId(id, "LocationID");
     name = validation.checkString(name, "Location Name");
@@ -107,8 +119,6 @@ const exportedMethods = {
       desc: desc,
       type: type,
       operating_hours: operating_hours,
-      location: location,
-      entrances: entrances,
       lastupdatedDate: date.toISOString(),
     };
 
@@ -125,6 +135,29 @@ const exportedMethods = {
     if (updatedInfo.lastErrorObject.n === 0)
       throw "Could not update Location successfully !";
 
+    let notificationTitle = "Location update";
+    let notificationDetails = `Updated the location ${Location.name}`;
+    let notificationDesc = `Updated the location ${Location.name}`;
+    if(Location.name !== updatedInfo.value.name){
+      notificationDetails = notificationDetails+` name from ${Location.name} to ${updatedInfo.value.name}`;
+    }
+    else if(Location.desc !== updatedInfo.value.desc){
+      notificationDetails = notificationDetails+` description from ${Location.desc} to ${updatedInfo.value.desc}`;
+    }
+    else if(Location.type !== updatedInfo.value.type){
+      notificationDetails = notificationDetails+` type from ${Location.type} to ${updatedInfo.value.type}`;
+    }
+    else if(Location.operating_hours !== updatedInfo.value.operating_hours){
+      notificationDetails = notificationDetails+` operating hours from ${Location.operating_hours} to ${updatedInfo.value.operating_hours}`;
+    }
+    else if(Location.location !== updatedInfo.value.location){
+      notificationDetails = notificationDetails+` location from ${Location.location} to ${updatedInfo.value.location}`;
+    }
+    else if(Location.entrances !== updatedInfo.value.entrances){
+      notificationDetails = notificationDetails+` entrances from ${Location.entrances} to ${updatedInfo.value.entrances}`;
+    }
+    let newNotification = notifications.create(notificationTitle, notificationDesc, notificationDetails);
+    
     updatedInfo.value._id = updatedInfo.value._id.toString();
     return updatedInfo.value;
   },
@@ -182,6 +215,31 @@ const exportedMethods = {
         }
       )
       .toArray();
+
+    return locationList;
+  },
+
+  async getLocationEntrance() {
+    const locationCollection = await locations();
+
+    const locationList = await locationCollection
+      .find(
+        {},
+        {
+          projection: {
+            _id: 1,
+            name: 1,
+            type: 1,
+            location: 1,
+            entrances: 1,
+          },
+        }
+      )
+      .toArray();
+
+    locationList.forEach((element) => {
+      element._id = element._id.toString();
+    });
 
     return locationList;
   },
