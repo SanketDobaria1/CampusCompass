@@ -1,6 +1,6 @@
 <h1>{{title}}</h1>
 <form action="/locations" method="GET">
-  <input type="text" name="key" placeholder="Search..." />
+  <input type="text" class="form-input" name="key" placeholder="Search..." />
   <button type="submit">Search</button>
 </form>
 <hr />
@@ -8,29 +8,36 @@
   <h3>Results for "{{key}}"</h3>
   <a href="/locations">Back to all Locations</a>
 {{/if}}
-<ol>
+<div class="container">
   {{#each data}}
-    <li>
-      <a href="/locations/{{_id}}">{{name}}</a>
+    <div class="cards">
+      <h2><a href="/locations/{{_id}}">{{name}}</a></h2>
+      <dl>
+        <dt>Type</dt>
+        <dd>{{type}}</dd>
+        <dt>Operating hours</dt>
+        <dd>{{open}} : {{close}}</dd>
+      </dl>
       {{#if @root.isAdmin}}
-        <br />
+        <div class="container inline-forms">
         <form method="POST" action="/locations/{{_id}}">
           <button
             type="submit"
-            class="btn btn-sm btn-outline-danger"
+            class="submit-button"
           >Delete</button>
         </form>
         <form method="GET" action="/locations/edit/{{_id}}">
           <button
             type="submit"
-            class="btn btn-sm btn-outline-dark"
+            class="submit-button"
           >Edit</button>
         </form>
+        </div>
       {{/if}}
-    </li>
-    <hr />
+    </div>
+
   {{/each}}
-</ol>
+</div>
 {{#if isAdmin}}
   <form id="create-form" method="GET" action="/locations/create">
     <button type="submit" class="btn btn-sm btn-primary">Create a New Location</button>

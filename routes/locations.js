@@ -62,7 +62,11 @@ router
           isAdmin = true;
         }
         const List = await locationsData.getAll();
-        res.render("pages/locations", {
+        List.forEach((location) => {
+          location.open = validation.formatTime(location.operating_hours[0]);
+          location.close = validation.formatTime(location.operating_hours[1]);
+        });
+        return res.render("pages/locations", {
           data: List,
           title: "Locations",
           logedin: true,
