@@ -438,6 +438,120 @@ async function main() {
     ]
   );
 
+  const castlePointHall = await locationsData.create(
+    "Castle Point Hall",
+    "Castle Point Hall is one of Stevens’ residences that predominantly houses first-year students. Located on upper campus near the university’s main dining facilities and administrative offices, Castle Point Hall offers riverside rooms with incredible views of the Hudson River and Manhattan skyline. ",
+    "Residence",
+    ["06:00:00", "23:00:00"],
+    {
+      type: "Polygon",
+      coordinates: [
+        [
+          [-74.02431643146276, 40.747034830879585],
+          [-74.02430290635891, 40.74701140678448],
+          [-74.02433654072838, 40.746998976990966],
+          [-74.02406964138088, 40.74658558551269],
+          [-74.0240172591151, 40.74660699268162],
+          [-74.02400434706128, 40.746585701520814],
+          [-74.02394372121044, 40.74660884508532],
+          [-74.02395835377641, 40.74662805960028],
+          [-74.02393430706337, 40.746639507908924],
+          [-74.0242011709504, 40.74704966371684],
+          [-74.02422256796886, 40.74704166363014],
+          [-74.02423736590846, 40.74706299671996],
+          [-74.02431643146276, 40.747034830879585],
+        ],
+      ],
+    },
+    [
+      {
+        location: {
+          coordinates: [-74.02420596650852, 40.746791913455496],
+          type: "Point",
+        },
+        accessible: "Y",
+      },
+    ]
+  );
+
+  const jonasHall = await locationsData.create(
+    "Jonas Hall",
+    "Jonas Hall is an upper-campus residence near Greek housing and Stevens’ main athletic field. It is the university’s largest residence hall and is made up of traditional doubles and a few triple rooms. Jonas residents can socialize in cozy common lounges or kitchen areas. Each room also has its own private bathroom.",
+    "Residence",
+    ["06:00:00", "23:00:00"],
+    {
+      type: "Polygon",
+      coordinates: [
+        [
+          [-74.02542708313723, 40.74592491252264],
+          [-74.02554519978068, 40.74581855294443],
+          [-74.02552787586338, 40.74580869113487],
+          [-74.02556757136031, 40.74577268145933],
+          [-74.02567916622006, 40.745791653996946],
+          [-74.02568393660746, 40.74577642257174],
+          [-74.02585322223788, 40.745805849311466],
+          [-74.02587166794778, 40.74574689723511],
+          [-74.02590053896753, 40.74575237235254],
+          [-74.02592582547611, 40.74567303196605],
+          [-74.02567892240903, 40.74562807464474],
+          [-74.02567499962349, 40.74564468883622],
+          [-74.0254968255331, 40.74561007402801],
+          [-74.02534286057215, 40.7457470413795],
+          [-74.02535578966877, 40.74575740212251],
+          [-74.02530809840235, 40.74580395886326],
+          [-74.02533038210821, 40.7458226440456],
+          [-74.02526628986408, 40.74588209603036],
+          [-74.02534636441409, 40.74593609390277],
+          [-74.0253864780023, 40.745901442286026],
+          [-74.02542708313723, 40.74592491252264],
+        ],
+      ],
+    },
+    [
+      {
+        location: {
+          coordinates: [-74.02589516722067, 40.74575134589986],
+          type: "Point",
+        },
+        accessible: "Y",
+      },
+      {
+        location: {
+          coordinates: [-74.02531243422149, 40.74583951994228],
+          type: "Point",
+        },
+        accessible: "Y",
+      },
+    ]
+  );
+
+  const wellnessCenter = await locationsData.create(
+    "Student Wellness Center",
+    "All students must wear a mask at all times and practice social distancing. Students are encouraged to minimize the number of personal belongings brought into the facilities.",
+    "Health",
+    ["07:00:00", "23:00:00"],
+    {
+      type: "Polygon",
+      coordinates: [
+        [
+          [-74.02527932837376, 40.74649093644484],
+          [-74.02530992789303, 40.74638995466634],
+          [-74.02507179191204, 40.74634841281849],
+          [-74.02503964333557, 40.74645115589581],
+          [-74.02527932837376, 40.74649093644484],
+        ],
+      ],
+    },
+    [
+      {
+        location: {
+          coordinates: [-74.02505688023838, 40.74639825550861],
+          type: "Point",
+        },
+        accessible: "Y",
+      },
+    ]
+  );
   const ucc = await locationsData.create(
     "University Campus Center",
     "The University Center Complex will revitalize Castle Point for the entire Stevens community. With a design that accentuates stunning views of the Manhattan skyline, the university center will become the heart of campus life, while the residential towers will signal the rise of Stevens to millions in the metropolitan region. Throughout 70,000 square feet, the university center will benefit students, faculty and alumni in numerous ways. By creating spaces for student clubs and activities, such as fitness, gaming, dining and more, the university center will provide an enriched collegiate experience.With versatile event venues, Stevens will be able to showcase its innovation and entrepreneurship to visitors from academia, industry and government, furthering the university’s impact and prestige.",
