@@ -32,7 +32,7 @@ body {
   padding-bottom: 60px;
 }
 nav {
-  background: #9e9e9e;
+  background: #2b2929;
 }
 
 nav ul {
@@ -100,9 +100,29 @@ nav ul li a:hover {
   background-color: #fff;
 }
 
+.cards .cards-inner {
+  padding: 0.5em;
+}
+
+.cards .cards-inner a{
+  display: flex;
+  justify-content:center;
+}
+
+.cards .cards-inner a span{
+font-size: 20px;
+}
+.cards .cards-inner a *+* {
+  margin-left: 0.5em;
+}
+
 .cards a {
   color: #010000;
   text-decoration: underline;
+}
+
+.cards .cards-inner a img {
+  height: inherit;
 }
 
 .cards:hover {
@@ -125,13 +145,18 @@ p {
   display: flex;
   align-items: center;
   justify-content: space-between;
+  padding-top: 0.2rem;
+}
+
+#form-search div {
+  flex: 1;
 }
 .submit-button {
   background-color: #555555;
   color: #fff;
   outline: none;
   cursor: pointer;
-  border: none;
+  border: 2px solid;
   text-decoration: none;
   padding: 10px 15px;
   text-align: center;
@@ -143,6 +168,12 @@ p {
   background-color: #fff;
   color: #555555;
   border: 2px solid #555555;
+}
+
+.warn {
+  background-color: #dc3545;
+  border: none;
+  color: #010000;
 }
 
 .form-input {
@@ -157,9 +188,7 @@ p {
 .form-input:focus {
   border: 2px solid #010000;
 }
-#form-search {
-  padding-top: 0.2rem;
-}
+
 #form-search .form-input {
   width: auto;
 }
@@ -286,12 +315,12 @@ dd {
 .feedback-btn {
   position: fixed;
   right: 5px;
-  bottom: 65px;
+  bottom: 3rem;
   width: 8%;
   text-align: center;
   background-color: #616909;
   color: #fff;
-  padding: 2px;
+  padding: 1em 0.8em;
   height: 30px; /* add height to footer */
   display: flex; /* add display: flex */
   align-items: center; /* add align-items: center */
@@ -365,8 +394,7 @@ p:nth-child(5) {
   padding: 8px 16px;
   border-radius: 4px;
   text-decoration: none;
-  font-size: 14px;
-  font-weight: bold;
+  font-size: 18px;
   color: #fff;
 }
 
@@ -396,13 +424,6 @@ p:nth-child(5) {
 }
 
 
-
-/* Form */
-form {
-  max-width: 400px;
-  margin: 0 auto;
-}
-
 /* Label */
 label {
   font-size: 25px;
@@ -418,8 +439,22 @@ label {
   border: 2px solid #ccc;
 }
 
+.form-input .center {
+  text-align: center;
+}
+
+.form-input::placeholder{
+  text-align: center;
+}
+
+
+
+.inline-forms form {
+  display: inline-block;
+}
+
 /* Button */
-.submit-button,
+/* .submit-button, */
 #add-entrance {
   display: inline-block;
   padding: 8px 16px;
@@ -434,7 +469,7 @@ label {
   transition: background-color 0.3s;
 }
 
-.submit-button:hover,
+/* .submit-button:hover, */
 #add-entrance:hover {
   background-color: #0056b3;
 }

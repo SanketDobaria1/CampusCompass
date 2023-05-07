@@ -1,5 +1,5 @@
   <div class="flex-container">
-    <div class="flex-child" style="height: 40vh">
+    <div class="flex-child" style="height: 60vh">
       <h1>{{data.name}}</h1>
       <p>{{data.desc}}</p>
       <p>Building type: {{data.type}}</p>
@@ -18,7 +18,7 @@
   <div class="container-fluid">
     <div class="row align-items-center">
       {{#each rooms}}
-        <div class="card col-md-4 my-2 col-sm-6">
+        <div class="cards col-md-4 my-2 col-sm-6">
           <div class="card-body">
             <p>Room Number: {{room_number}}</p>
             <p>Capacity: {{capacity}}</p>
@@ -26,7 +26,6 @@
             <p>Room Type: {{type}}</p>
           </div>
           {{#if @root.isAdmin}}
-        <br />
         <form method="GET" action="/rooms/room/{{_id}}">
           <button
             type="submit"

@@ -2,23 +2,21 @@
   let responseData;
   let roomsAPI = "/rooms/getRoomsDropdown/";
   let departmentCreateAPI = "/departments";
+  let departmentEditAPI = "/departments/edit";
+  let formAction = $("#department-form").attr("data-function");
+  let departmentID = $("#department-form").attr("data-departmentID");
+  console.log(departmentID, formAction);
+  if ($("#department-building-location").val().trim() !== "#")
+    ajaxCall($("#department-building-location").val().trim());
   $("#department-building-location").on("change", function () {
-    let departmentID = $("#department-building-location").val();
-    if (departmentID !== "#")
-      $.ajax({
-        url: roomsAPI + departmentID,
-        success: function (response) {
-          responseData = response;
-          appendRooms(response.roomsData);
-        },
-        error: function () {
-          window.alert("Please Reload page");
-          location.reload();
-        },
-      });
+    ajaxCall($("#department-building-location").val().trim());
   });
 
-  $("#department-create-form").on("submit", function (event) {
+  $("#back-btn").on("click", function (event) {
+    event.preventDefault();
+    location.href = "/departments/";
+  });
+  $("#department-form").on("submit", function (event) {
     event.preventDefault();
     let errors = [];
     $("#msg").empty();
@@ -28,8 +26,10 @@
     let departmentDesc = $("#department-desc").val().trim();
     let departmentType = $("#department-type").val().trim();
     let openTime = $("#department-hour-start");
+    let openTimeVal = openTime.val().trim();
     let closeTime = $("#department-hour-end");
-    let location = $("#department-building-location").val();
+    let closeTimeVal = closeTime.val().trim();
+    let locationVal = $("#department-building-location").val();
     let room = $("#department-room").val();
     let workinDays = $("#department-days").val();
 
@@ -39,23 +39,22 @@
     if (!departmentType || departmentType === "#")
       errors.push("Please select Department Type");
 
-    if (location === "#") {
+    if (locationVal === "#") {
       errors.push("Please select location from dropdown");
       if (room === "#") errors.push("Missing room from dropdown");
     }
 
-    if (openTime.val().trim().length === 0) errors.push("Missing Input time");
-    if (closeTime.val().trim().length === 0) errors.push("Missing Input time");
+    if (openTimeVal === 0) errors.push("Missing Input time");
+    if (closeTimeVal === 0) errors.push("Missing Input time");
+    if (openTime.attr("type") === "time" && openTimeVal.length !== 8)
+      openTimeVal = openTimeVal + ":00";
+    if (closeTime.attr("type") === "time" && closeTimeVal.length !== 8)
+      closeTimeVal = closeTimeVal + ":00";
 
-    if (openTime.attr("type") === "time")
-      openTime = openTime.val().trim() + ":00";
-    if (closeTime.attr("type") === "time")
-      closeTime = closeTime.val().trim() + ":00";
-
-    if (!checkTime(openTime) || !checkTime(closeTime))
+    if (!checkTime(openTimeVal) || !checkTime(closeTimeVal))
       errors.push("Please Check input time format");
 
-    if (!checkOperatingTimes(openTime, closeTime))
+    if (!checkOperatingTimes(openTimeVal, closeTimeVal))
       errors.push("Close time cannot be less than open time");
 
     if (workinDays.length === 0) errors.push("Please select working days");
@@ -67,22 +66,36 @@
         departmentName,
         departmentDesc,
         departmentType,
-        departmentOpen: openTime,
-        departmentClose: closeTime,
-        departmentLocationID: location,
+        departmentOpen: openTimeVal,
+        departmentClose: closeTimeVal,
+        departmentLocationID: locationVal,
         departmentRoomID: room,
         departmentWorkinDays: workinDays,
       };
       $.ajax({
         type: "POST",
-        url: departmentCreateAPI,
+        url:
+          formAction === "edit"
+            ? departmentEditAPI + "/" + departmentID
+            : departmentCreateAPI,
         data: JSON.stringify(responseJSON),
         contentType: "application/json; charset=utf-8",
 
         success: function (response) {
-          if (response.departmentCreated) {
-            $("#msg").html("New Department Created!");
+          if (response.departmentEdited && response.departmentEdited) {
+            $("#msg").html("Department Edited!");
+            $(".modal-title").text("Status");
             $("#myModal").modal("show");
+            return;
+          } else {
+            location.reload();
+          }
+
+          if (response.departmentCreated && response.departmentCreated) {
+            $("#msg").html("New Department Created!");
+            $(".modal-title").text("Status");
+            $("#myModal").modal("show");
+            return;
           }
         },
         error: function (xhr, textStatus, error) {
@@ -90,6 +103,7 @@
           console.log(textStatus);
           console.log(error);
           $("#msg").html(xhr.responseJSON.error);
+          $(".modal-title").text("Error");
           $("#myModal").modal("show");
 
           $("#error-form").removeAttr("hidden");
@@ -104,15 +118,40 @@
         $("#error-form").append(`<p class="error">${errors[i]}</p>`);
         $("#msg").append(`<p>${errors[i]}</p>`);
       }
+      $("#myModal").modal("show");
+      $(".modal-title").text("Errors");
     }
-    $("#myModal").modal("show");
   });
+
+  function ajaxCall(locationID) {
+    if (!locationID) return;
+    // let departmentID = $("#department-building-location").val();
+    if (locationID !== "#")
+      $.ajax({
+        url: roomsAPI + locationID,
+        success: function (response) {
+          responseData = response;
+          appendRooms(response.roomsData);
+        },
+        error: function () {
+          window.alert("Please Reload page");
+          location.reload();
+        },
+      });
+    else {
+      window.alert("Please Select Location");
+      $("#department-room-div").attr("hidden", true);
+    }
+  }
 
   function appendRooms(response) {
     if (response.length === 0)
       window.alert("No Rooms available for Selected Location");
     $("#department-room-div").removeAttr("hidden");
-
+    let optionsToRemove = $("#department-room").find(
+      "option:not(:first-child)"
+    );
+    $(optionsToRemove).remove();
     response.map((data) =>
       $("#department-room").append(
         `<option value="${data._id}">${data.room_number}</option>`

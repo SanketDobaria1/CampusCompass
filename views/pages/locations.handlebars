@@ -1,39 +1,57 @@
 <h1>{{title}}</h1>
 <form action="/locations" method="GET">
+
    <label for="search-bar">Search</label>
    <input type="text" name="key" id="search-bar" placeholder="Search..." />
    <button class="submit" type="submit">Search</button>
+
 </form>
 <hr />
 {{#if key}}
   <h3>Results for "{{key}}"</h3>
   <a href="/locations">Back to all Locations</a>
 {{/if}}
-<ol>
+<div class="container">
+{{#if isAdmin}}
+  <div class="cards">
+    <div class="cards-inner">
+      <a href="/locations/create">
+        <img src="/public/img/plus-circle.svg" alt="Create new Department">
+        <span>Create New Location</span>
+      </a>
+    </div>
+  </div>
+{{/if}}
   {{#each data}}
-    <li>
-      <a href="/locations/{{_id}}">{{name}}</a>
+    <div class="cards">
+      <h2><a href="/locations/{{_id}}">{{name}}</a></h2>
+      <dl>
+        <dt>Type</dt>
+        <dd>{{type}}</dd>
+        <dt>Operating hours</dt>
+        <dd>{{open}} : {{close}}</dd>
+      </dl>
       {{#if @root.isAdmin}}
-        <br />
+        <div class="container inline-forms">
         <form method="POST" action="/locations/{{_id}}">
           <button
             type="submit"
-            class="btn btn-sm btn-outline-danger"
+            class="submit-button"
           >Delete</button>
         </form>
         <form method="GET" action="/locations/edit/{{_id}}">
           <button
             type="submit"
-            class="btn btn-sm btn-outline-dark"
+            class="submit-button"
           >Edit</button>
         </form>
+        </div>
       {{/if}}
-    </li>
-    <hr />
+    </div>
+
   {{/each}}
-</ol>
-{{#if isAdmin}}
+</div>
+{{!-- 
   <form id="create-form" method="GET" action="/locations/create">
     <button type="submit" class="btn btn-sm btn-primary">Create a New Location</button>
-  </form>
-{{/if}}
+  </form> --}}
