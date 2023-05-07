@@ -41,6 +41,13 @@ app.use("/rooms/room/:id", async (req, res, next) => {
   next();
 });
 
+app.use("/locations/edit/:id", async (req, res, next) => {
+  if (req.method == "POST") {
+    req.method = "PUT";
+  }
+  next();
+});
+
 app.use("/public", staticDir);
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
