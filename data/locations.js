@@ -1,6 +1,7 @@
 import { ObjectId } from "mongodb";
 import { locations } from "../config/mongoCollections.js";
 import validation from "../validate.js";
+import notifications from "../data/notification.js";
 
 const exportedMethods = {
   async getById(id) {
@@ -31,6 +32,54 @@ const exportedMethods = {
 
     validation.checkOperatingTimes(operating_hours[0], operating_hours[1]);
 
+    if (
+      !location ||
+      Object.keys(location).length !== 2 ||
+      !location.hasOwnProperty("type") ||
+      !location.hasOwnProperty("coordinates") ||
+      location.type !== "Polygon"
+    )
+      throw new Error(`Missing Parameters in Location`);
+
+    validation.checkisPolygon(location.coordinates[0], "Co-ordinates");
+
+    if (!entrances || !Array.isArray(entrances) || entrances.length < 1)
+      throw new Error(`Missing Entrances`);
+
+    entrances.forEach((entrance) => {
+      if (
+        !entrance ||
+        Object.keys(entrance).length !== 2 ||
+        !entrance.hasOwnProperty("location") ||
+        !entrance.hasOwnProperty("accessible") ||
+        !entrance.location.hasOwnProperty("type") ||
+        !entrance.location.hasOwnProperty("coordinates") ||
+        entrance.location.type !== "Point"
+      )
+        throw new Error(`Missing Parameters in Entrances`);
+      validation.checkisPointValid(
+        entrance.location.coordinates,
+        "Entrance Points"
+      );
+    });
+
+    const locationsCollection = await locations();
+
+    //check if object exists with same name
+    let checkExistingLocation = await locationsCollection.findOne(
+      {
+        $or: [
+          { name: name }, // Check for existing ID
+          { location: { $geoIntersects: { $geometry: location } } }, // Check for existing location
+        ],
+      },
+      { projection: { _id: 1, name: 1 } }
+    );
+    if (checkExistingLocation)
+      throw new Error(
+        `There Already Exists an location with name ${checkExistingLocation.name} whose either name or co-ordinates are same `
+      );
+
     const date = new Date();
     date.setTime(date.getTime() + -240 * 60 * 1000);
 
@@ -44,8 +93,6 @@ const exportedMethods = {
       entrances: entrances,
       lastupdatedDate: date.toISOString(),
     };
-
-    const locationsCollection = await locations();
     const insertInfo = await locationsCollection.insertOne(newLocation);
     if (!insertInfo.acknowledged || !insertInfo.insertedId) {
       throw "Could not add Location";
@@ -124,6 +171,40 @@ const exportedMethods = {
     );
     if (updatedInfo.lastErrorObject.n === 0)
       throw "Could not update Location successfully !";
+
+    let notificationTitle = "Location update";
+    let notificationDetails = `Updated the location ${Location.name}`;
+    let notificationDesc = `Updated the location ${Location.name}`;
+    if (Location.name !== updatedInfo.value.name) {
+      notificationDetails =
+        notificationDetails +
+        ` name from ${Location.name} to ${updatedInfo.value.name}`;
+    } else if (Location.desc !== updatedInfo.value.desc) {
+      notificationDetails =
+        notificationDetails +
+        ` description from ${Location.desc} to ${updatedInfo.value.desc}`;
+    } else if (Location.type !== updatedInfo.value.type) {
+      notificationDetails =
+        notificationDetails +
+        ` type from ${Location.type} to ${updatedInfo.value.type}`;
+    } else if (Location.operating_hours !== updatedInfo.value.operating_hours) {
+      notificationDetails =
+        notificationDetails +
+        ` operating hours from ${Location.operating_hours} to ${updatedInfo.value.operating_hours}`;
+    } else if (Location.location !== updatedInfo.value.location) {
+      notificationDetails =
+        notificationDetails +
+        ` location from ${Location.location} to ${updatedInfo.value.location}`;
+    } else if (Location.entrances !== updatedInfo.value.entrances) {
+      notificationDetails =
+        notificationDetails +
+        ` entrances from ${Location.entrances} to ${updatedInfo.value.entrances}`;
+    }
+    let newNotification = notifications.create(
+      notificationTitle,
+      notificationDesc,
+      notificationDetails
+    );
 
     updatedInfo.value._id = updatedInfo.value._id.toString();
     return updatedInfo.value;
