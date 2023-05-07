@@ -1,26 +1,10 @@
-{{!-- <section>
-  <h1>Events</h1>
-  <form action="/events/search" method="GET" id="event-search">
-    <label for="search-bar">Search</label>
-    <input
-      id="search-bar"
-      type="search"
-      name="event-search-term"
-      placeholder="Please Enter Search term"
-    />
-    <button class="submit-button" type="submit">Submit</button>
-  </form>
-  <div id="event-results" hidden></div>
-</section>
-<script src="/public/js/events.js"></script>
- --}}
 
 
   <h1>{{title}}</h1>
   <form action="/events" method="GET">
     <label for="search-bar">Search</label>
-    <input type="text" name="key" placeholder="Search..." />
-    <button class="submit" type="submit">Submit</button>
+    <input type="text" name="key" id="search-bar" placeholder="Search..." />
+    <button class="submit" type="submit">Search</button>
   </form>
   {{#if key}}
     <h3>Results for "{{key}}"</h3>
@@ -32,12 +16,6 @@
         <a href="/events/{{_id}}">{{name}}</a>
         {{#if @root.isAdmin}}
           <br />
-          {{!-- <form id="delete-form" method="POST" action="/events/{{_id}}">
-            <button type="submit">Delete</button>
-          </form>
-          <form id="edit-form" method="GET" action="/events/edit/{{_id}}">
-            <button type="submit">Edit</button>
-          </form> --}}
           {{#if ../isAdmin}}
       <button class="edit" data-id="{{this._id}}">Edit</button>
       <button class="delete" data-id="{{this._id}}">Delete</button>

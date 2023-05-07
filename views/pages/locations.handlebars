@@ -1,7 +1,8 @@
 <h1>{{title}}</h1>
 <form action="/locations" method="GET">
-  <input type="text" name="key" placeholder="Search..." />
-  <button type="submit">Search</button>
+   <label for="search-bar">Search</label>
+   <input type="text" name="key" id="search-bar" placeholder="Search..." />
+   <button class="submit" type="submit">Search</button>
 </form>
 <hr />
 {{#if key}}

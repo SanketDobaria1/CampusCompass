@@ -16,26 +16,28 @@ const exportedMethods = {
     return event;
   },
 
-  async create(name, desc, type, hours, location_id) {
+  async create(name, desc, type, event_date, hours, created_by, location_id) {
     // ERROR HANDLING & INPUT VALIDATIONS //
     name = validation.checkString(name, "event Name");
     desc = validation.checkString(desc, "Description");
     type = validation.checkString(type, "event Type");
+    event_date = validation.checkStringArray(event_date, "event Date", 3);
     hours = validation.checkStringArray(hours, "Hours", 2);
-    const created_by = "adminId";
-    // location_id = validation.checkId(location_id, "Location ID");
+    created_by = validation.checkId(created_by, "Created By");
+    location_id = validation.checkId(location_id, "Location ID");
 
-    const date = new Date();
-    date.setTime(date.getTime() + -240 * 60 * 1000);
+    const lastupdatedDate = new Date();
+    lastupdatedDate.setTime(lastupdatedDate.getTime() + -240 * 60 * 1000);
 
     let newevent = {
       name: name,
       desc: desc,
       type: type,
+      event_date: event_date,
       hours: hours,
       created_by: created_by,
       location_id: location_id,
-      lastupdatedDate: date,
+      lastupdatedDate: lastupdatedDate,
     };
 
     const eventsCollection = await events();
@@ -60,25 +62,29 @@ const exportedMethods = {
     return eventsList;
   },
 
-  async update(id, name, desc, type, hours, location_id) {
+  async update(id, name, desc, type, event_date, hours, created_by, location_id) {
     // ERROR HANDLING & INPUT VALIDATIONS //
     id = validation.checkId(id, "eventID");
     name = validation.checkString(name, "event Name");
     desc = validation.checkString(desc, "Description");
     type = validation.checkString(type, "event Type");
-    hours = validation.checkStringArray(hours, "Hours");
+    event_date = validation.checkStringArray(event_date, "event Date", 3);
+    hours = validation.checkStringArray(hours, "Hours", 2);
+    created_by = validation.checkId(created_by, "Created By");
     location_id = validation.checkId(location_id, "Location ID");
 
-    const date = new Date();
-    date.setTime(date.getTime() + -240 * 60 * 1000);
+    const lastupdatedDate = new Date();
+    lastupdatedDate.setTime(lastupdatedDate.getTime() + -240 * 60 * 1000);
 
     const updatedevent = {
       name: name,
       desc: desc,
       type: type,
+      event_date: event_date,
       hours: hours,
+      created_by: created_by,
       location_id: location_id,
-      lastupdatedDate: date,
+      lastupdatedDate: lastupdatedDate,
     };
 
     const eventsCollection = await events();
