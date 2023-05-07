@@ -28,15 +28,17 @@
     <input class="form-input" id="closing_hours" name="closing_hours" type="time" min="00:00:00" max="23:59:59" step="1" value="{{data.operating_hours.[1]}}">
     <br>
 
-    <label for="location">Location Coordinates</label>
+    {{!-- <label for="location">Location Coordinates</label>
     <br>
-    <input class="form-input" id="location" name="location" type="text" placeholder="GeoJson of Location" value="{{data.location}}">
+    <input class="form-input" id="location" name="location" type="text" placeholder="GeoJson of Location" value="{{data.location.coordinates}}">
     <br>
 
     <label for="location_entrances">Entrances Coordinates</label>
     <br>
     <input class="form-input" id="location_entrances" name="location_entrances" type="text" placeholder="GeoJson of Entrances" value="{{data.entrances}}">
-    <br>
+    <br> --}}
 
     <input type="submit" class="submit-button" value="Update"></input>
+    <br />
+    <a href="/locations" class="btn btn-info">Back to all locations</a>
 </form>

@@ -1,6 +1,8 @@
 import { ObjectId } from "mongodb";
 import { events } from "../config/mongoCollections.js";
 import validation from "../validate.js";
+import notifications from "../data/notification.js"
+
 
 const exportedMethods = {
   async getById(id) {
@@ -97,7 +99,25 @@ const exportedMethods = {
     );
     if (updatedInfo.lastErrorObject.n === 0)
       throw "Could not update event successfully !";
-
+    let notificationTitle = "Event update";
+    let notificationDetails = `Updated the event ${event.name}`;
+    let notificationDesc = `Updated the event ${event.name}`;
+    if(event.name !== updatedInfo.value.name){
+      notificationDetails = notificationDetails+` name from ${event.name} to ${updatedInfo.value.name}`;
+    }
+    else if(event.desc !== updatedInfo.value.desc){
+      notificationDetails = notificationDetails+` description from ${event.desc} to ${updatedInfo.value.desc}`;
+    }
+    else if(event.type !== updatedInfo.value.type){
+      notificationDetails = notificationDetails+` type from ${event.type} to ${updatedInfo.value.type}`;
+    }
+    else if(event.hours !== updatedInfo.value.hours){
+      notificationDetails = notificationDetails+` hours from ${event.hours} to ${updatedInfo.value.hours}`;
+    }
+    else if(event.location_id !== updatedInfo.value.location_id){
+      notificationDetails = notificationDetails+` location from ${event.location_id} to ${updatedInfo.value.location_id}`;
+    }
+    let newNotification = notifications.create(notificationTitle, notificationDesc, notificationDetails);
     updatedInfo.value._id = updatedInfo.value._id.toString();
     return updatedInfo.value;
   },
