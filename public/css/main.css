@@ -32,7 +32,7 @@ body {
   padding-bottom: 60px;
 }
 nav {
-  background: #9e9e9e;
+  background: #2b2929;
 }
 
 nav ul {
@@ -125,13 +125,18 @@ p {
   display: flex;
   align-items: center;
   justify-content: space-between;
+  padding-top: 0.2rem;
+}
+
+#form-search div {
+  flex: 1;
 }
 .submit-button {
   background-color: #555555;
   color: #fff;
   outline: none;
   cursor: pointer;
-  border: none;
+  border: 2px solid;
   text-decoration: none;
   padding: 10px 15px;
   text-align: center;
@@ -143,6 +148,12 @@ p {
   background-color: #fff;
   color: #555555;
   border: 2px solid #555555;
+}
+
+.warn {
+  background-color: #dc3545;
+  border: none;
+  color: #010000;
 }
 
 .form-input {
@@ -157,9 +168,7 @@ p {
 .form-input:focus {
   border: 2px solid #010000;
 }
-#form-search {
-  padding-top: 0.2rem;
-}
+
 #form-search .form-input {
   width: auto;
 }
@@ -365,8 +374,7 @@ p:nth-child(5) {
   padding: 8px 16px;
   border-radius: 4px;
   text-decoration: none;
-  font-size: 14px;
-  font-weight: bold;
+  font-size: 18px;
   color: #fff;
 }
 
@@ -396,13 +404,6 @@ p:nth-child(5) {
 }
 
 
-
-/* Form */
-form {
-  max-width: 400px;
-  margin: 0 auto;
-}
-
 /* Label */
 label {
   font-size: 25px;
@@ -418,8 +419,14 @@ label {
   border: 2px solid #ccc;
 }
 
+
+
+.inline-forms form {
+  display: inline-block;
+}
+
 /* Button */
-.submit-button,
+/* .submit-button, */
 #add-entrance {
   display: inline-block;
   padding: 8px 16px;
@@ -434,7 +441,7 @@ label {
   transition: background-color 0.3s;
 }
 
-.submit-button:hover,
+/* .submit-button:hover, */
 #add-entrance:hover {
   background-color: #0056b3;
 }
