@@ -36,6 +36,11 @@
     <input class="form-input" id="location_entrances" name="location_entrances" type="text" placeholder="GeoJson of Entrances" value="{{data.entrances}}">
     <br> --}}
 
+{{#if error}}
+  <p class="error">{{{error}}}</p>
+{{/if}}
+
+
     <input type="submit" class="submit-button" value="Update"></input>
     <br />
     <a href="/locations" class="btn btn-info">Back to all locations</a>

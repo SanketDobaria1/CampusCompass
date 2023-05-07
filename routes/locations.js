@@ -150,7 +150,10 @@ router
 
       data.location_entrances = entrance;
     } catch (e) {
-      return res.status(400).json({ error: e.message });
+      return res.status(400).render("pages/createLocation", {
+        data: req.body,
+        error: e,
+      });
     }
     try {
       const {
@@ -172,7 +175,10 @@ router
       );
       return res.redirect("/locations");
     } catch (e) {
-      res.status(404).json({ error: e.message });
+      return res.status(400).render("pages/createLocation", {
+        data: req.body,
+        error: e,
+      });
     }
   });
 
@@ -223,7 +229,10 @@ router
       // data.location = data.location;
       // data.location_entrances = data.location_entrances;
     } catch (e) {
-      return res.status(400).json({ error: e });
+      return res.status(400).render("pages/editLocation", {
+        data: req.body,
+        error: e,
+      });
     }
 
     try {
@@ -246,7 +255,10 @@ router
       );
       res.redirect("/locations");
     } catch (e) {
-      res.status(404).json({ error: e });
+      return res.status(400).render("pages/editLocation", {
+        data: req.body,
+        error: e,
+      });
     }
   });
 
