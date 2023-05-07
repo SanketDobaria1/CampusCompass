@@ -68,6 +68,7 @@ app.use("/events/create", adminMiddleware);
 app.use("/events/edit/:id", adminMiddleware);
 app.delete("/events/:id", adminMiddleware);
 app.get("/home", rootMiddleware);
+app.get("/departments", rootMiddleware);
 app.use(loggingMiddleware);
 
 ///helper function for <select> tag

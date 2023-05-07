@@ -31,7 +31,7 @@ router.route("/getAllEntrances").get(async (req, res) => {
 router.route("/entrance").get(async (req, res) => {
   return res.render("pages/BuildingEntrances", {
     title: "Entrances",
-    logedin: true,
+    logedin: "userID" in req.session && req.session.userID.length > 5,
   });
 });
 
@@ -49,7 +49,7 @@ router
           data: List,
           key: req.query.key,
           title: "Locations",
-          logedin: true,
+          logedin: "userID" in req.session && req.session.userID.length > 5,
           isAdmin: isAdmin,
         });
       } catch (e) {
@@ -69,7 +69,7 @@ router
         return res.render("pages/locations", {
           data: List,
           title: "Locations",
-          logedin: true,
+          logedin: "userID" in req.session && req.session.userID.length > 5,
           isAdmin: isAdmin,
         });
       } catch (e) {
@@ -307,7 +307,7 @@ router
         geoObject: JSON.stringify(entrances_geo),
         centerPoint: reversedArray,
         isAdmin: isAdmin,
-        logedin: true,
+        logedin: "userID" in req.session && req.session.userID.length > 5,
       });
     } catch (e) {
       res.status(404).json({ error: e.message });

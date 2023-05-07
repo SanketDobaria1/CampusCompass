@@ -100,9 +100,29 @@ nav ul li a:hover {
   background-color: #fff;
 }
 
+.cards .cards-inner {
+  padding: 0.5em;
+}
+
+.cards .cards-inner a{
+  display: flex;
+  justify-content:center;
+}
+
+.cards .cards-inner a span{
+font-size: 20px;
+}
+.cards .cards-inner a *+* {
+  margin-left: 0.5em;
+}
+
 .cards a {
   color: #010000;
   text-decoration: underline;
+}
+
+.cards .cards-inner a img {
+  height: inherit;
 }
 
 .cards:hover {
@@ -417,6 +437,14 @@ label {
   margin-bottom: 10px;
   border-radius: 4px;
   border: 2px solid #ccc;
+}
+
+.form-input .center {
+  text-align: center;
+}
+
+.form-input::placeholder{
+  text-align: center;
 }
 
 

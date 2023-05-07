@@ -26,7 +26,7 @@ router
       res.render("pages/feedback", {
         id: req.session.userID,
         isAdmin: isAdmin,
-        logedin: true,
+        logedin: "userID" in req.session && req.session.userID.length > 5,
         events: events,
         departments: departments,
         locations: locations,
@@ -55,7 +55,7 @@ router
         "Description"
       );
     } catch (e) {
-      return res.status(400).json({ error: e });
+      return res.status(400).json({ error: e.message });
     }
 
     try {
@@ -67,7 +67,10 @@ router
         feedback_description,
         username
       );
-      res.render("pages/feedback", { success: true, logedin: true });
+      res.render("pages/feedback", {
+        success: true,
+        logedin: "userID" in req.session && req.session.userID.length > 5,
+      });
     } catch (e) {
       res.status(404).json({ error: e });
     }
@@ -82,7 +85,7 @@ router.route("/getAll").get(async (req, res) => {
     if (req.session.userRole == "admin") {
       res.render("pages/allfeedbacks", {
         admin: true,
-        logedin: true,
+        logedin: "userID" in req.session && req.session.userID.length > 5,
         feedbacks: feedbacks,
       });
     } else {
@@ -107,7 +110,7 @@ router.route("/:id").get(async (req, res) => {
     res.render("pages/feedbackID", {
       title: "feedback",
       data: feedbackbyID,
-      logedin: true,
+      logedin: "userID" in req.session && req.session.userID.length > 5,
     });
   } catch (e) {
     res.status(404).json({ error: e });

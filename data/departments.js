@@ -31,6 +31,14 @@ const exportedMethods = {
     } catch (e) {
       throw e;
     }
+    const departmentCollection = await departments();
+    let regexSearchString = depart_name.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+    const existingDepartment = await departmentCollection.findOne({
+      name: { $regex: new RegExp(`^${regexSearchString}$`, "i") },
+    });
+    if (existingDepartment) {
+      throw new Error(`Department with name "${depart_name}" already exists.`);
+    }
 
     const date = new Date();
     date.setTime(date.getTime() + -240 * 60 * 1000);
@@ -44,7 +52,7 @@ const exportedMethods = {
       operating_days,
       lastupdatedDate: date,
     };
-    const departmentCollection = await departments();
+
     let departmentInfo = await departmentCollection.insertOne(newDeparment);
     if (!departmentInfo.acknowledged || !departmentInfo.insertedId)
       throw new Error(`Could not create department`);
