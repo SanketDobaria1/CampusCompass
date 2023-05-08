@@ -1,56 +1,81 @@
 const form = document.querySelector("#location-create-form");
-const errorDiv = document.querySelector("#error");
 
 form.addEventListener("submit", (event) => {
   // Clear previous errors
-  errorDiv.innerHTML = "";
-  errorDiv.hidden = true;
+  clearFieldErrors();
+
+  // Track the first input field with an error
+  let firstErrorField = null;
 
   // Validate name field
   const nameInput = document.querySelector("#location_name");
   if (nameInput.value.trim() === "") {
-    showError("Location Name is required !");
+    showError(nameInput, "Name is required.");
+    if (!firstErrorField) {
+      firstErrorField = nameInput;
+    }
     event.preventDefault();
-    return;
   }
 
+  // Validate description field
   const descInput = document.querySelector("#location_desc");
   if (descInput.value.trim() === "") {
-    showError("Description is required.");
+    showError(descInput, "Description is required.");
+    if (!firstErrorField) {
+      firstErrorField = descInput;
+    }
     event.preventDefault();
-    return;
   }
 
   // Validate location type field
   const typeInput = document.querySelector("#location_type");
   if (typeInput.value.trim() === "") {
-    showError("Location type is required.");
+    showError(typeInput, "Location type is required.");
+    if (!firstErrorField) {
+      firstErrorField = typeInput;
+    }
     event.preventDefault();
-    return;
   }
 
-  // Validate opening hours field
   const openingHoursInput = document.querySelector("#opening_hours");
-  if (openingHoursInput.value === "") {
-    showError("Opening hours is required.");
-    event.preventDefault();
-    return;
-  }
-
-  // Validate closing hours field
   const closingHoursInput = document.querySelector("#closing_hours");
-  if (closingHoursInput.value === "") {
-    showError("Closing hours is required.");
+
+  if (openingHoursInput.value === "") {
+    showError(openingHoursInput, "Opening hours is required.");
+    if (!firstErrorField) {
+      firstErrorField = openingHoursInput;
+    }
     event.preventDefault();
-    return;
+  } else if (closingHoursInput.value === "") {
+    showError(closingHoursInput, "Closing hours is required.");
+    if (!firstErrorField) {
+      firstErrorField = closingHoursInput;
+    }
+    event.preventDefault();
+  } else {
+    const openingTime = new Date(`2000-01-01T${openingHoursInput.value}`);
+    const closingTime = new Date(`2000-01-01T${closingHoursInput.value}`);
+
+    if (closingTime <= openingTime) {
+      showError(
+        closingHoursInput,
+        "Closing time must be greater than opening time."
+      );
+      if (!firstErrorField) {
+        firstErrorField = closingHoursInput;
+      }
+      event.preventDefault();
+    }
   }
 
   // Validate location coordinates field
   const locationInput = document.querySelector("#location");
   if (locationInput.value.trim() === "") {
-    showError("Location coordinates are required.");
+    showError(locationInput, "Location coordinates are required.");
+    if (!firstErrorField) {
+      firstErrorField = locationInput;
+    }
     event.preventDefault();
-    return;
   }
 
   // Validate entrances
@@ -62,23 +87,46 @@ form.addEventListener("submit", (event) => {
   );
   for (let i = 0; i < entranceInputs.length; i++) {
     if (entranceInputs[i].value.trim() === "") {
-      showError(`Coordinates for Entrance ${i + 1} are required.`);
+      showError(
+        entranceInputs[i],
+        `Coordinates for Entrance ${i + 1} are required.`
+      );
+      if (!firstErrorField) {
+        firstErrorField = entranceInputs[i];
+      }
       event.preventDefault();
-      return;
     }
     if (!/^[YNyn]$/.test(entranceAccessInputs[i].value)) {
       showError(
+        entranceAccessInputs[i],
         `Invalid accessibility value for Entrance ${i + 1}. Enter 'Y' or 'N'.`
       );
+      if (!firstErrorField) {
+        firstErrorField = entranceAccessInputs[i];
+      }
       event.preventDefault();
-      return;
     }
+  }
+
+  // Focus on the first input field with an error
+  if (firstErrorField) {
+    firstErrorField.focus();
   }
 });
 
-function showError(message) {
-  const errorItem = document.createElement("p");
-  errorItem.textContent = message;
-  errorDiv.appendChild(errorItem);
-  errorDiv.hidden = false;
+function showError(inputElement, message) {
+  const errorElement = document.createElement("p");
+  errorElement.textContent = message;
+  errorElement.classList.add("field-error");
+  inputElement.parentNode.insertBefore(errorElement, inputElement.nextSibling);
+  inputElement.classList.add("input-error");
+}
+
+function clearFieldErrors() {
+  const errorElements = document.querySelectorAll(".field-error");
+  const inputElements = document.querySelectorAll(".form-input");
+  errorElements.forEach((errorElement) => errorElement.remove());
+  inputElements.forEach((inputElement) =>
+    inputElement.classList.remove("input-error")
+  );
 }

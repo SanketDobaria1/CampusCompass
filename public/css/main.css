@@ -346,7 +346,7 @@ dd {
 /* #################################################### */
 /* Flex container */
 
-.divError {
+.field-error {
   font-weight: bold;
   color: red;
 }
