@@ -2,7 +2,6 @@ import { ObjectId } from "mongodb";
 import { locations } from "../config/mongoCollections.js";
 import validation from "../validate.js";
 
-
 const exportedMethods = {
   async getById(id) {
     id = validation.checkId(id, "LocationID");
@@ -31,7 +30,6 @@ const exportedMethods = {
     );
 
     validation.checkOperatingTimes(operating_hours[0], operating_hours[1]);
-
 
     if (
       !location ||
@@ -80,7 +78,6 @@ const exportedMethods = {
       throw new Error(
         `There Already Exists an location with name ${checkExistingLocation.name} whose either name or co-ordinates are same `
       );
-
 
     const date = new Date();
     date.setTime(date.getTime() + -240 * 60 * 1000);
@@ -251,7 +248,15 @@ const exportedMethods = {
       .toArray();
 
     locationList.forEach((element) => {
+      let accessible = "N";
       element._id = element._id.toString();
+      for (let i = 0; i < element.entrances.length; i++) {
+        if (element.entrances[i].accessible === "Y") {
+          accessible = "Y";
+          break;
+        }
+      }
+      element.accessible = accessible;
     });
 
     return locationList;
