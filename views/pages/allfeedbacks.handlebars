@@ -1,0 +1,12 @@
+<section>
+    <ol>
+        {{#each feedbacks}}
+        <li>
+        <a href="/feedback/{{this._id}}">{{this.username}}</a>
+        <br>
+        feedback: {{this.desc}}
+        </li>
+       {{/each}}
+    </ol>
+    
+</section>

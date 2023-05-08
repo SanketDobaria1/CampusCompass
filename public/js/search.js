@@ -138,6 +138,8 @@ $(document).ready(function () {
           ? renderData(filteredResponseList)
           : renderData(response);
         filteredResponseList = [];
+      } else {
+        renderData(response);
       }
     });
   }

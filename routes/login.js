@@ -5,9 +5,6 @@ import validations from "../validate.js";
 const router = Router();
 
 router.get("/home", async (req, res) => {
-  if (!req.session.userID) {
-    return res.redirect("/login");
-  }
   let displayString = "";
   let userRegisteredEvents;
   try {
@@ -32,7 +29,7 @@ router.get("/home", async (req, res) => {
     username: req.session.username,
     displayString,
     events: userRegisteredEvents.eventsData,
-    renderMap: tempGeo.features.length > 0,
+    renderMap: userRegisteredEvents.locationData.length > 0,
     geoObject: JSON.stringify(tempGeo),
   });
 });
@@ -48,9 +45,11 @@ router
       email = validations.checkStevensMail(xss(req.body.login_email));
       password = validations.checkString(xss(req.body.login_password));
     } catch (e) {
-      res
-        .status(400)
-        .render("pages/login", { title: "Login", error_msg: e.message });
+      return res.status(400).render("pages/login", {
+        title: "Login",
+        email: email,
+        error_msg: e.message,
+      });
     }
 
     try {
@@ -62,9 +61,17 @@ router
         return res.redirect("/home");
       }
     } catch (e) {
-      res
-        .status(400)
-        .render("pages/login", { title: "Login", error_msg: e.message });
+      if (e.message === "connect ECONNREFUSED 127.0.0.1:27017")
+        return res.status(500).render("pages/login", {
+          title: "Login",
+          email: email,
+          error_msg: "Database Server is down! Please try again after sometime",
+        });
+      return res.status(400).render("pages/login", {
+        title: "Login",
+        email: email,
+        error_msg: e.message,
+      });
     }
     try {
       let userExist = await userData.checkUser(email, password);
@@ -73,13 +80,13 @@ router
         req.session.username = userExist.username;
         req.session.userRole = userExist.userRole;
         return res.redirect("/home");
-
       }
     } catch (e) {
-      res
-        .status(400)
-        .render("pages/login", { title: "Login", error_msg: e.message });
-
+      return res.status(400).render("pages/login", {
+        title: "Login",
+        error_msg: e.message,
+        email: email,
+      });
     }
   });
 

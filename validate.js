@@ -1,4 +1,6 @@
 import { ObjectId } from "mongodb";
+import booleanPointInPolygon from "@turf/boolean-point-in-polygon";
+import * as turf from "@turf/turf";
 
 const exportedMethods = {
   checkId(id, varName) {
@@ -58,6 +60,15 @@ const exportedMethods = {
     return type;
   },
 
+  checkPassword(password) {
+    password = password.trim();
+    let regex =
+      /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}/;
+    if (!regex.test(password))
+      throw new Error(`Password must contain 8 digit AlphaNumeric Character`);
+    return password;
+  },
+
   checkString(strVal, varName) {
     if (!strVal) throw new Error(`Error: You must supply a ${varName}!`);
     if (typeof strVal !== "string")
@@ -84,7 +95,7 @@ const exportedMethods = {
     arr.forEach((elm) => {
       if (typeof elm != "number" || isNaN(elm))
         throw new Error(`Expected ${varName} to contain number`);
-      if (elm > 7 || elm < 0) throw new Error(`Days needs to between 0 and 7`);
+      if (elm > 8 || elm < 0) throw new Error(`Days needs to between 0 and 8`);
     });
     return arr;
   },
@@ -175,16 +186,7 @@ const exportedMethods = {
 
     //check every co-ordinate and every co-ordinate is number
     coordinatesArr.forEach((coordinate) => {
-      if (!Array.isArray(coordinate) || coordinate.length < 2)
-        throw new Error(
-          `Expected Every element inside to be Array of size two`
-        );
-
-      if (
-        typeof coordinate[0] !== "number" ||
-        typeof coordinate[1] !== "number"
-      )
-        throw new Error(`Expected Co-ordinates to be of type Number`);
+      this.checkisPointValid(coordinate, "Co-ordinates");
     });
 
     //check if start and end of polygon is same or not
@@ -205,7 +207,24 @@ const exportedMethods = {
         );
   },
 
-  checkisPoint(pointArr, varName) {
+  checkisPointValid(pointArr, varName) {
+    const stevensCoordinates = turf.polygon([
+      [
+        [-74.02830958083189, 40.742031322137876],
+        [-74.02657969024786, 40.74174566451546],
+        [-74.02604002352678, 40.74252421867942],
+        [-74.02484979966336, 40.74236738835782],
+        [-74.02462801881939, 40.74326915765775],
+        [-74.02528596865676, 40.74336997582563],
+        [-74.02352651675685, 40.74434454634505],
+        [-74.02330473591242, 40.745716758328626],
+        [-74.02367437405573, 40.746545672031345],
+        [-74.02447278509482, 40.74778342353321],
+        [-74.02465021062717, 40.74799624740484],
+        [-74.02638010121169, 40.74829307936275],
+        [-74.02830958083189, 40.742031322137876],
+      ],
+    ]);
     if (!pointArr || !varName)
       throw new Error(`Please ensure proper parameter are passed`);
 
@@ -221,17 +240,23 @@ const exportedMethods = {
           `Expected Co-ordinates of ${varName} to be of type Number`
         );
     });
+
+    this.checkisLongitudeLatitude(pointArr[0], "long");
+    this.checkisLongitudeLatitude(pointArr[1], "lat");
+    let pt1 = turf.point(pointArr);
+    if (!booleanPointInPolygon(pt1, stevensCoordinates))
+      throw new Error(`Point is outside Stevens Campus boundaries`);
   },
 
-  checkisLongitudeLatitude(point, type) {
-    if (!pointArr || !type)
+  checkisLongitudeLatitude(coordinate, type) {
+    if (!coordinate || !type)
       throw new Error(`Please ensure proper parameter are passed`);
-    if (typeof point !== "number" || isNaN(point))
+    if (typeof coordinate !== "number" || isNaN(coordinate))
       throw new Error(`Expected Co-ordinates typeto be of type Number`);
 
-    if ((type = "long" && (point < -180 || point > 180)))
+    if ((type = "long" && (coordinate < -180 || coordinate > 180)))
       throw new Error(`Longitude needs to be in range of -180 and 180`);
-    if ((type = "lat" && (point < -90 || point > 90)))
+    if ((type = "lat" && (coordinate < -90 || coordinate > 90)))
       throw new Error(`Latitude needs to be in range of -90 and 90`);
   },
 };

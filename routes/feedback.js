@@ -1,4 +1,5 @@
 import { Router } from "express";
+import xss from "xss";
 import {
   feedbackData,
   eventsData,
@@ -11,31 +12,26 @@ const router = Router();
 router
   .route("/")
   .get(async (req, res) => {
+    let isAdmin = false;
     if (xss(!req.session.userID)) {
       return res.redirect("/");
     }
+    if (req.session.userRole === "admin") {
+      isAdmin = true;
+    }
     try {
-
       let events = await eventsData.getAll();
       let departments = await departmentData.getDepartmentAll();
       let locations = await locationsData.getAll();
-      if (req.session.userRole == "admin") {
-        res.render("pages/feedback", {
-          admin: true,
-          logedin: true,
-          events: events,
-          departments: departments,
-          locations: locations,
-        });
-      } else {
-
-        res.render("pages/feedback", {
-          id: req.session.userID,
-          logedin: true,
-          events: events,
-          departments: departments,
-          locations: locations,
-        })
+      res.render("pages/feedback", {
+        id: req.session.userID,
+        isAdmin: isAdmin,
+        logedin: "userID" in req.session && req.session.userID.length > 5,
+        events: events,
+        departments: departments,
+        locations: locations,
+        username: req.session.username,
+      });
     } catch (e) {
       res.status(404).send(e);
     }
@@ -53,66 +49,72 @@ router
         data.reported_object,
         "event_id"
       );
+      data.username = validation.checkString(data.username, "user_name");
       data.feedback_description = validation.checkString(
         data.feedback_description,
         "Description"
       );
     } catch (e) {
-      return res.status(400).json({ error: e });
+      return res.status(400).json({ error: e.message });
     }
 
     try {
-      const { reported_by, reported_object, feedback_description } = data;
+      const { reported_by, reported_object, feedback_description, username } =
+        data;
       const newFeedback = await feedbackData.create(
         reported_by,
         reported_object,
-        feedback_description
+        feedback_description,
+        username
       );
-      res.render("pages/feedback", {success: true, logedin: true,});
+      res.render("pages/feedback", {
+        success: true,
+        logedin: "userID" in req.session && req.session.userID.length > 5,
+      });
     } catch (e) {
       res.status(404).json({ error: e });
     }
   });
 
-router
-  .route("/getAll").get(async (req, res) => {
-    if (xss(!req.session.userID)) {
-      return res.redirect("/");
-    }
-    try {
-      if (req.session.userRole == "admin") {
-        res.render("pages/allfeedbacks", {
-          admin: true,
-          logedin: true,
-        });
-      }
-      else{
-        res.status(404).send(e);
-      }
-    } catch (e) {
+router.route("/getAll").get(async (req, res) => {
+  if (xss(!req.session.userID)) {
+    return res.redirect("/");
+  }
+  try {
+    let feedbacks = await feedbackData.getAll();
+    if (req.session.userRole == "admin") {
+      res.render("pages/allfeedbacks", {
+        admin: true,
+        logedin: "userID" in req.session && req.session.userID.length > 5,
+        feedbacks: feedbacks,
+      });
+    } else {
       res.status(404).send(e);
     }
-  })
+  } catch (e) {
+    res.status(404).send(e);
+  }
+});
 
-  router
-  .route("/:id").get(async (req, res) => {
-    if (xss(!req.session.userID)) {
-      return res.redirect("/");
-    }
-    try {
-      if (req.session.userRole == "admin") {
-        res.render("pages/feedbackID", {
-          admin: true,
-          logedin: true,
-        });
-      }
-      else{
-        res.status(404).send(e);
-      }
-    } catch (e) {
-      res.status(404).send(e);
-    }
-  })
-
+router.route("/:id").get(async (req, res) => {
+  try {
+    req.params.id = validation.checkId(req.params.id, "user ID");
+  } catch (e) {
+    return res.status(400).json({ error: e });
+  }
+  if (xss(!req.session.userID)) {
+    return res.redirect("/");
+  }
+  try {
+    const feedbackbyID = await feedbackData.getById(req.params.id);
+    res.render("pages/feedbackID", {
+      title: "feedback",
+      data: feedbackbyID,
+      logedin: "userID" in req.session && req.session.userID.length > 5,
+    });
+  } catch (e) {
+    res.status(404).json({ error: e });
+  }
+});
 
 export default router;

@@ -19,3 +19,4 @@ export const users = getCollectionFn("users");
 export const feedback = getCollectionFn("feedback");
 export const events = getCollectionFn("events");
 export const departments = getCollectionFn("departments");
+export const notifications = getCollectionFn("notifications");

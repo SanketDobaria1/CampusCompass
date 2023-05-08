@@ -1,20 +1,4 @@
 $(document).ready(function () {
-  $.ajax({
-    url: "/events/getAll",
-    type: "GET",
-    success: function (data) {
-      $("#event-results").removeAttr("hidden");
-      for (let x of data) {
-        const div = `<div classname="event">
-                  <h3>${x.name}<h3>
-                  </div>`;
-        $("#event-results").append(div);
-      }
-    },
-  });
-});
-
-$(document).ready(function () {
   $(".delete").on("click", function () {
     const eventId = $(this).data("id");
     $.ajax({
@@ -46,5 +30,36 @@ $(document).ready(function () {
   // Edit event
   $(".edit").click(function () {
     window.location.href = "/events/edit/" + $(this).data("id");
+  });
+
+  // Register for event
+  $(".register-button").click(function (event) {
+    event.preventDefault();
+    const eventId = $(this).data("id");
+    $.ajax({
+      url: "/events/register/" + eventId,
+      type: "POST",
+      data: {
+        // Include any additional registration data as needed
+      },
+      success: function () {
+        // Show success notification to user
+        const notification = $("<div>")
+          .text("Registered for event successfully!")
+          .addClass("notification success");
+        $("body").append(notification);
+        // Remove notification after 3 seconds
+        setTimeout(() => notification.remove(), 3000);
+      },
+      error: function () {
+        // Something went wrong, show error notification
+        const notification = $("<div>")
+          .text("Failed to register for event.")
+          .addClass("notification error");
+        $("body").append(notification);
+        // Remove notification after 3 seconds
+        setTimeout(() => notification.remove(), 3000);
+      },
+    });
   });
 });
