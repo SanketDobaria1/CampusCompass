@@ -85,18 +85,23 @@ const exportedMethods = {
     return strVal;
   },
 
+  // Todo : Need To work On it 
   checkDayArray(arr, varName) {
-    if (!arr || !Array.isArray(arr))
-      throw new Error(`You must provide an array of ${varName}`);
+    // if (!arr || !Array.isArray(arr))
+    //   throw new Error(`You must provide an array of ${varName}`);
     if (arr.length === 0)
       throw new Error(
         `You must supply at least one element in an array of ${varName}`
       );
-    arr.forEach((elm) => {
-      if (typeof elm != "number" || isNaN(elm))
-        throw new Error(`Expected ${varName} to contain number`);
-      if (elm > 8 || elm < 0) throw new Error(`Days needs to between 0 and 8`);
-    });
+    arr = arr.split(',').join('');
+    // arr.forEach((elm) => {
+    //   if (typeof elm != "number" || isNaN(elm))
+    //     throw new Error(`Expected ${varName} to contain number`);
+    //   if (elm > 8 || elm < 0) throw new Error(`Days needs to between 0 and 8`);
+    // });
+    if (arr.length === 7) {
+      arr = "0";
+    }
     return arr;
   },
 

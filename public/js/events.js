@@ -45,6 +45,12 @@ $(document).ready(function () {
         closeDialog();
       });
 
+    // Add event listener to cancel button
+    dialog.find(".dialog-cancel").on("click", function () {
+      // Close dialog
+      closeDialog();
+    });
+
     // Show dialog
     showDialog(dialog);
   });
@@ -69,6 +75,11 @@ $(document).ready(function () {
         // Close dialog
         closeDialog();
       });
+    // Add event listener to cancel button
+    dialog.find(".dialog-cancel").on("click", function () {
+      // Close dialog
+      closeDialog();
+    });
 
     // Show dialog
     showDialog(dialog);
@@ -119,6 +130,11 @@ $(document).ready(function () {
         // Close dialog
         closeDialog();
       });
+    // Add event listener to cancel button
+    dialog.find(".dialog-cancel").on("click", function () {
+      // Close dialog
+      closeDialog();
+    });
 
     // Show dialog
     showDialog(dialog);

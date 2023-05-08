@@ -74,8 +74,13 @@ app.delete("/locations/:id", adminMiddleware);
 app.use("/events/create", adminMiddleware);
 app.use("/events/edit/:id", adminMiddleware);
 app.delete("/events/:id", adminMiddleware);
+app.get("/events/:id", rootMiddleware);
 app.get("/home", rootMiddleware);
 app.get("/departments", rootMiddleware);
+app.get("/events", rootMiddleware);
+app.get("/locations/entrance", rootMiddleware);
+app.get("/locations", rootMiddleware);
+app.get("/search", rootMiddleware);
 app.use(loggingMiddleware);
 
 ///helper function for <select> tag
@@ -92,6 +97,26 @@ exphbs
   .handlebars.registerHelper("selectarr", function (value, options) {
     if (!options) return "";
     return options.includes(Number(value)) ? "selected" : "";
+  });
+
+exphbs
+  .create({})
+  .handlebars.registerHelper("if_eq", function if_eq(a, b, opts) {
+    if (a === b) {
+      return opts.fn(this);
+    } else {
+      return opts.inverse(this);
+    }
+  });
+
+exphbs
+  .create({})
+  .handlebars.registerHelper("if_in", function if_in(value, array, options) {
+    if (array.indexOf(value) !== -1) {
+      return options.fn(this);
+    } else {
+      return options.inverse(this);
+    }
   });
 
 app.engine(

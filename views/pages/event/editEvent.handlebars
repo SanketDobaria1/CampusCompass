@@ -65,7 +65,7 @@
             <select id="location_id" name="location_id" required>
                 <option value="">Select location</option>
                 {{#each location}}
-                <option value="{{_id}}" {{#if_eq data.location_id _id}}selected{{/if_eq}}>{{name}}</option>
+                <option value="{{_id}}" {{#if_eq @root.data.location_id _id}}selected{{/if_eq}}>{{name}}</option>
                 {{/each}}
             </select>
             <div class="error-msg"></div>
@@ -73,6 +73,17 @@
     </fieldset>
     <input type="submit" class="submit-button" value="Save Changes"></input>
 </form>
+<div id="custom-dialog" class="dialog">
+  <div class="dialog-header">
+    <h2 class="dialog-title"></h2>
+    <button class="close-dialog">&times;</button>
+  </div>
+  <div class="dialog-content"></div>
+  <div class="dialog-footer">
+    <button class="dialog-confirm">Confirm</button>
+    <button class="dialog-cancel">Cancel</button>
+  </div>
+</div>
 <style>
   body {
     font-family: 'Helvetica Neue', sans-serif;
