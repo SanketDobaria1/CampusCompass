@@ -6,9 +6,18 @@ import xss from "xss";
 const router = Router();
 
 router.route("/getAllRecords").get(async (req, res) => {
+  if (!req.xhr)
+    if (
+      req.headers["user-agent"] &&
+      req.headers["user-agent"].includes("Mozilla")
+    )
+      return res.status(401).render("pages/error", {
+        statusCode: 401,
+        errorMessage: "Forbidden",
+      });
+    else return res.status(401).json({ error: "Forbidden" });
   let departmentResponse = await departmentData.getDepartmentAll();
   let uniqueTypes = [...new Set(departmentResponse.map((obj) => obj.type))];
-
   return res.json({
     total_records: departmentResponse.length,
     uniqueTypes,
@@ -18,9 +27,16 @@ router.route("/getAllRecords").get(async (req, res) => {
 
 router.route("/getAll").get(async (req, res) => {
   let departmentResponse;
-  if (xss(!req.session.userID)) {
-    return res.redirect("/");
-  }
+  if (!req.xhr)
+    if (
+      req.headers["user-agent"] &&
+      req.headers["user-agent"].includes("Mozilla")
+    )
+      return res.status(401).render("pages/error", {
+        statusCode: 401,
+        errorMessage: "Forbidden",
+      });
+    else return res.status(401).json({ error: "Forbidden" });
   let finalResponse = {};
   let pageSize = 20;
   let pageNumber;
@@ -71,7 +87,7 @@ router
       // console.log(department);
       const locationList = await locationsData.getLocationDropdown();
       // console.log(locationList);
-      return res.render("pages/createdepartment", {
+      return res.render("pages/departments/createdepartment", {
         logedin: "userID" in req.session && req.session.userID.length > 5,
         title: "Department Edit",
         form_type: "edit",
@@ -143,7 +159,7 @@ router
 router
   .route("/")
   .get(async (req, res) => {
-    res.render("pages/departments", {
+    res.render("pages/departments/departments", {
       title: "Departments",
       logedin: "userID" in req.session && req.session.userID.length > 5,
       admin: req.session.userRole === "admin",
@@ -201,7 +217,7 @@ router
 
 router.route("/create").get(async (req, res) => {
   const locationList = await locationsData.getLocationDropdown();
-  return res.render("pages/createdepartment", {
+  return res.render("pages/departments/createdepartment", {
     logedin: "userID" in req.session && req.session.userID.length > 5,
     title: "Department Create",
     form_type: "create",
@@ -242,7 +258,7 @@ router
             // console.log(department);
             const locationList = await locationsData.getLocationDropdown();
             // console.log(locationList);
-            return res.render("pages/createdepartment", {
+            return res.render("pages/departments/createdepartment", {
               logedin: "userID" in req.session && req.session.userID.length > 5,
               title: "Department Edit",
               form_type: "edit",

@@ -13,9 +13,6 @@ router
   .route("/")
   .get(async (req, res) => {
     let isAdmin = false;
-    if (xss(!req.session.userID)) {
-      return res.redirect("/");
-    }
     if (req.session.userRole === "admin") {
       isAdmin = true;
     }
@@ -37,21 +34,18 @@ router
     }
   })
   .post(async (req, res) => {
-    const data = req.body;
-    if (!data || Object.keys(data).length === 0) {
-      return res
-        .status(400)
-        .json({ error: "There are no fields in the request body" });
-    }
+    let objectType, reported_object_id, feedbackDesc;
+    let objectTypeList = ["departments", "events", "locations"];
     try {
-      data.reported_by = validation.checkId(data.reported_by, "user_id");
-      data.reported_object = validation.checkId(
-        data.reported_object,
-        "event_id"
+      objectType = xss(req.body.objectType);
+      if (!objectTypeList.includes(objectType.trim().toLowerCase()))
+        throw new Error(`Invalid Object Type`);
+      reported_object_id = validation.checkId(
+        xss(req.body.reportedObject),
+        "Reported Object ID"
       );
-      data.username = validation.checkString(data.username, "user_name");
-      data.feedback_description = validation.checkString(
-        data.feedback_description,
+      feedbackDesc = validation.checkString(
+        xss(req.body.feedbackDesc),
         "Description"
       );
     } catch (e) {
@@ -59,20 +53,17 @@ router
     }
 
     try {
-      const { reported_by, reported_object, feedback_description, username } =
-        data;
       const newFeedback = await feedbackData.create(
-        reported_by,
-        reported_object,
-        feedback_description,
-        username
+        req.session.userID,
+        reported_object_id,
+        objectType,
+        feedbackDesc
       );
-      res.render("pages/feedback", {
-        success: true,
-        logedin: "userID" in req.session && req.session.userID.length > 5,
-      });
+
+      if (newFeedback.feedbackCreated)
+        return res.json({ feedbackCreated: true });
     } catch (e) {
-      res.status(404).json({ error: e });
+      res.status(400).json({ error: e.message });
     }
   });
 

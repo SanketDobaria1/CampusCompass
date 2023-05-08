@@ -5,7 +5,6 @@
   let departmentEditAPI = "/departments/edit";
   let formAction = $("#department-form").attr("data-function");
   let departmentID = $("#department-form").attr("data-departmentID");
-  console.log(departmentID, formAction);
   if ($("#department-building-location").val().trim() !== "#")
     ajaxCall($("#department-building-location").val().trim());
   $("#department-building-location").on("change", function () {
@@ -73,11 +72,11 @@
         departmentWorkinDays: workinDays,
       };
       $.ajax({
-        type: "POST",
         url:
           formAction === "edit"
             ? departmentEditAPI + "/" + departmentID
             : departmentCreateAPI,
+        type: formAction === "edit" ? "PUT" : "POST",
         data: JSON.stringify(responseJSON),
         contentType: "application/json; charset=utf-8",
 
@@ -87,15 +86,13 @@
             $(".modal-title").text("Status");
             $("#myModal").modal("show");
             return;
-          } else {
-            location.reload();
-          }
-
-          if (response.departmentCreated && response.departmentCreated) {
+          } else if (response.departmentCreated && response.departmentCreated) {
             $("#msg").html("New Department Created!");
             $(".modal-title").text("Status");
             $("#myModal").modal("show");
             return;
+          } else {
+            location.reload();
           }
         },
         error: function (xhr, textStatus, error) {

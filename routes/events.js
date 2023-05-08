@@ -5,6 +5,16 @@ import validation from "../validate.js";
 const router = Router();
 
 router.route("/getAllRecords").get(async (req, res) => {
+  if (!req.xhr)
+    if (
+      req.headers["user-agent"] &&
+      req.headers["user-agent"].includes("Mozilla")
+    )
+      return res.status(401).render("pages/error", {
+        statusCode: 401,
+        errorMessage: "Forbidden",
+      });
+    else return res.status(401).json({ error: "Forbidden" });
   let eventResponse = await eventsData.getEventsAll();
 
   let uniqueTypes = [...new Set(eventResponse.map((obj) => obj.type))];
@@ -83,7 +93,10 @@ router
         xss(data.event_end_date),
         "Event End Date"
       );
-      data.event_days = validation.checkDayArray(xss(data.event_days), "Event days");
+      data.event_days = validation.checkDayArray(
+        xss(data.event_days),
+        "Event days"
+      );
 
       let event_date = [];
       event_date.push(data.event_start_date);

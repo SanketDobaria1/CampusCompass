@@ -66,7 +66,7 @@
  const buildingName = "{{ data.name }}"
   // Add OpenStreetMap tiles
   L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-    attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+    attribution: 'Powered by &copy; <a href="https://www.mapbox.com/" target="_blank">Mapbox</a> &copy; <a href="https://www.openstreetmap.org/copyright" target="_blank">OpenStreetMap</a> contributors'
   }).addTo(map);
 
   // Function to request user's location and provide directions to the building
@@ -80,10 +80,11 @@
       L.marker(userLatLng).addTo(map).bindPopup('Your current location').openPopup();
 
       // Initialize the OSRM router with pedestrian profile
-      const osrmRouter = L.Routing.osrmv1({
-        serviceUrl: 'https://router.project-osrm.org/route/v1',
-        profile: 'foot'
+
+      const osrmRouter = L.Routing.mapbox('{{ api_token }}',{
+        profile: 'mapbox/walking'
       });
+     
 
       // Add routing control to the map
       const control = L.Routing.control({

@@ -1,58 +1,60 @@
-<section>
+<section class="container">
   <h1>Feedback</h1>
-  <div id="error" class="error" hidden><div class="error-text"></div></div>
-  <form action="/feedback" method="POST" id="feedback-form">
-      {{#if id}}
-      <input type="text" id="reported_by" name="reported_by" readonly value="{{ id }}" hidden>
-       {{/if}}
+  <form action="#" method="POST" id="feedback-form">
+      
     <br>
-    <label for="username">Username</label>
-    <input id="username" name="username" type="text" placeholder="username" readonly value="{{username}}"> 
-    <br>
-      <label for="event_type">Event type: </label>
-      <select id="event_type" onclick="events()">
-        <option value="departments" >Departments</option>
-        <option value="locations" >Locations</option>
-        <option value="events" >Events</option>
-      </select>
-    <br>
-      <label for="event_list">Event: 
-        <select id ="event_list" name = "event_list">
-          <option value="#">Search Options</option>
-        </select>
-        <select id="events_list" name = "reported_object" onclick="events()" hidden>
-          <option value="#">Search Options</option>
-          {{#each events}}
-          <option value="{{ this._id }}">{{this.name}}</option>
-          {{/each}}
-        </select>
-        <select id="department_list" name = "reported_object" onclick="events()" hidden>
-          <option value="#">Search Options</option>
-          {{#each departments}}
-          <option value="{{ this._id }}">{{this.name}}</option>
-          {{/each}}
-        </select>
-        <select id="locations_list" name = "reported_object" onclick="events()" hidden>
-          <option value="#">Search Options</option>
-          {{#each locations}}
-          <option value="{{ this._id }}">{{this.name}}</option>
-          {{/each}}
-        </select>
-      </label>
+      <label for="object_type">Object type: </label>
+      <select id="object_type" class="form-input">
+        <option value="#">Select Value</option>
+        <option value="departments">Departments</option>
+        <option value="locations">Locations</option>
+        <option value="events">Events</option>
+      </select>  
       <br>
-    <label for="feedback_description">Your Feedback: </label>
-	<textarea id="feedback_description" name="feedback_description"></textarea>
+
+      <br>
+      <div id="reported-object-dropdown" hidden>
+        <label for="reported_object">Name: </label>
+        <select id="reported_object" class="form-input">
+          <option value="#">Select Value</option>
+        </select>
+      </div>
+      
+      <br>
+
+    <label for="feedback_description">Feedback: </label>
+	<textarea id="feedback_description" name="feedback_description" class="form-input"></textarea>
   <br>
-    <button class="submit-button" type="submit" onclick="submitfeedback()">Submit</button>
+    <button class="submit-button" type="submit">Submit</button>
+  <div class="errors" id="errors">
+  </div>
   {{#if success}}
     <div id="feedback-success"><p>Thank you for your feedback!</p></div>
   {{/if}}
   </form>
-  {{#if isAdmin}}
+  {{!-- {{#if isAdmin}}
     <br>
     <form id="get-all-feedback" method="GET" action="/feedback/getAll">
-      <button type="submit" >View all feedback</button>
+      <button type="submit">View all feedback</button>
     </form>
-  {{/if}}
+  {{/if}} --}}
 </section>
+
+<div class="modal fade" id="myModal" role="dialog">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2 class="modal-title"></h2>
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+      </div>
+      <div class="modal-body">
+        <p id="msg"></p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+
+  </div>
+</div>
 <script src = "/public/js/feedback.js"> </script>
