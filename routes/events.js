@@ -83,19 +83,17 @@ router
         xss(data.event_end_date),
         "Event End Date"
       );
-      data.event_days = validation.checkDayArray(data.event_days, "Event days");
+      data.event_days = validation.checkDayArray(xss(data.event_days), "Event days");
 
       let event_date = [];
       event_date.push(data.event_start_date);
       event_date.push(data.event_end_date);
-      // TODO : set event_days
       // let days_string = xss(data.event_days).split(',').join('');
-      // event_date.push(days_string);
-      event_date.push("1");
+      event_date.push(data.event_days);
       delete data.event_start_date;
       delete data.event_end_date;
       delete data.event_days;
-
+      data.event_date = event_date;
       let hours = [];
       hours.push(xss(data.opening_hours));
       hours.push(xss(data.closing_hours));
@@ -157,9 +155,11 @@ router
     }
     try {
       const event = await eventsData.getById(req.params.id);
+      const locationList = await locationsData.getLocationsAll();
       res.render("pages/event/editEvent", {
         title: "Edit Event",
         data: event,
+        location: locationList,
         logedin: true,
       });
     } catch (e) {
@@ -201,6 +201,14 @@ router
         xss(updatedData.event_days),
         "Event days"
       );
+      let event_date = [];
+      event_date.push(data.event_start_date);
+      event_date.push(data.event_end_date);
+      // let days_string = xss(data.event_days).split(',').join('');
+      event_date.push(data.event_days);
+      delete data.event_start_date;
+      delete data.event_end_date;
+      delete data.event_days;
 
       let hours = [];
       hours.push(xss(updatedData.opening_hours));
