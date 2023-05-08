@@ -347,7 +347,7 @@ router
       );
       departmentObject.operating_days_str = operating_days.join(", ");
       console.log(departmentObject);
-      return res.render("pages/departmentID", {
+      return res.render("pages/departments/departmentID", {
         title: departmentObject.name,
         logedin: "userID" in req.session && req.session.userID.length > 5,
         data: departmentObject,
