@@ -18,7 +18,7 @@ li {
 
 a {
   flex-grow: 1;
-  color:black;
+  color: black;
   text-decoration: underline;
 }
 
@@ -104,15 +104,15 @@ nav ul li a:hover {
   padding: 0.5em;
 }
 
-.cards .cards-inner a{
+.cards .cards-inner a {
   display: flex;
-  justify-content:center;
+  justify-content: center;
 }
 
-.cards .cards-inner a span{
-font-size: 20px;
+.cards .cards-inner a span {
+  font-size: 20px;
 }
-.cards .cards-inner a *+* {
+.cards .cards-inner a * + * {
   margin-left: 0.5em;
 }
 
@@ -345,6 +345,12 @@ dd {
 
 /* #################################################### */
 /* Flex container */
+
+.divError {
+  font-weight: bold;
+  color: red;
+}
+
 .flex-container {
   display: flex;
 }
@@ -423,7 +429,6 @@ p:nth-child(5) {
   padding: 15px;
 }
 
-
 /* Label */
 label {
   font-size: 25px;
@@ -443,11 +448,9 @@ label {
   text-align: center;
 }
 
-.form-input::placeholder{
+.form-input::placeholder {
   text-align: center;
 }
-
-
 
 .inline-forms form {
   display: inline-block;

@@ -45,7 +45,7 @@ router
           isAdmin = true;
         }
         const List = await locationsData.search(req.query.key);
-        res.render("pages/locations", {
+        return res.render("pages/location/locations", {
           data: List,
           key: req.query.key,
           title: "Locations",
@@ -66,7 +66,7 @@ router
           location.open = validation.formatTime(location.operating_hours[0]);
           location.close = validation.formatTime(location.operating_hours[1]);
         });
-        return res.render("pages/locations", {
+        return res.render("pages/location/locations", {
           data: List,
           title: "Locations",
           logedin: "userID" in req.session && req.session.userID.length > 5,
@@ -154,7 +154,7 @@ router
 
       data.location_entrances = entrance;
     } catch (e) {
-      return res.status(400).render("pages/createLocation", {
+      return res.status(400).render("pages/location/createLocation", {
         data: req.body,
         error: e,
       });
@@ -179,7 +179,7 @@ router
       );
       return res.redirect("/locations");
     } catch (e) {
-      return res.status(400).render("pages/createLocation", {
+      return res.status(400).render("pages/location/createLocation", {
         data: req.body,
         error: e,
       });
@@ -187,14 +187,14 @@ router
   });
 
 router.route("/create").get(async (req, res) => {
-  return res.render("pages/createLocation");
+  return res.render("pages/location/createLocation");
 });
 
 router
   .route("/edit/:id")
   .get(async (req, res) => {
     const location = await locationsData.getById(req.params.id);
-    return res.render("pages/editLocation", { data: location });
+    return res.render("pages/location/editLocation", { data: location });
   })
   .put(async (req, res) => {
     const data = req.body;
@@ -233,7 +233,7 @@ router
       // data.location = data.location;
       // data.location_entrances = data.location_entrances;
     } catch (e) {
-      return res.status(400).render("pages/editLocation", {
+      return res.status(400).render("pages/location/editLocation", {
         data: req.body,
         error: e,
       });
@@ -259,7 +259,7 @@ router
       );
       res.redirect("/locations");
     } catch (e) {
-      return res.status(400).render("pages/editLocation", {
+      return res.status(400).render("pages/location/editLocation", {
         data: req.body,
         error: e,
       });
@@ -311,7 +311,7 @@ router
         features: entrances_geo,
       };
       // console.dir(entrances_geo, { depth: null });
-      res.render("pages/location", {
+      return res.render("pages/location/location", {
         title: "Location",
         data: location,
         rooms: rooms,
