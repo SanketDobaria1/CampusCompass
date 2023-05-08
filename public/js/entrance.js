@@ -46,12 +46,18 @@ $(document).ready(function () {
     $(".form-input").on("input", function () {
       let serachString = $("#search-string").val().trim().toLowerCase();
       let searchType = $("#search-type").val();
+      let accessibleType = $("#search-type-accessible").val();
 
-      if (searchType !== "#" || serachString.length > 0) {
+      if (
+        searchType !== "#" ||
+        accessibleType !== "#" ||
+        serachString.length > 0
+      ) {
         filteredResponseList = filterResponse(
           response,
           searchType,
-          serachString
+          serachString,
+          accessibleType
         );
 
         filteredResponseList.length > 0
@@ -78,13 +84,23 @@ $(document).ready(function () {
       });
   }
 
-  function filterResponse(responseData, filterValue, searchValue) {
+  function filterResponse(
+    responseData,
+    filterValue,
+    searchValue,
+    accessibleType
+  ) {
+    if (accessibleType !== "#") {
+      responseData = responseData.filter(
+        (elm) => elm.accessible === accessibleType
+      );
+    }
     if (filterValue !== "#")
       responseData = responseData.filter((elm) => elm.type === filterValue);
     if (searchValue && searchValue.length > 0)
-      responseData = responseData.filter((elm) => {
-        elm["name"].toLowerCase().indexOf(searchValue) > -1;
-      });
+      responseData = responseData.filter(
+        (elm) => elm["name"].toLowerCase().indexOf(searchValue) > -1
+      );
     return responseData;
   }
 
@@ -101,6 +117,7 @@ $(document).ready(function () {
       if (geoJSONLayer) {
         map.removeLayer(geoJSONLayer);
       }
+
       response.map((data) => {
         data.location.properties = { popupContent: `${data.name}` };
         geoObject.features.push(data.location);
@@ -108,6 +125,7 @@ $(document).ready(function () {
           entrace.location.properties = {
             popupContent:
               entrace.accessible === "Y" ? "Accessible: Yes" : "Accessible: No",
+            accessible: entrace.accessible,
           };
           geoObject.features.push(entrace.location);
         }
@@ -128,13 +146,49 @@ $(document).ready(function () {
       });
 
       geoJSONLayer = L.geoJSON([geoObject], {
+        pointToLayer: function (feature, latlng) {
+          var accessible = L.icon({
+            iconUrl: "/public/img/accessible.svg",
+            iconSize: [32, 32],
+            iconAnchor: [16, 32],
+          });
+
+          var notaccessible = L.icon({
+            iconUrl: "/public/img/door-open.svg",
+            iconSize: [32, 32],
+            iconAnchor: [16, 32],
+          });
+
+          if (feature.properties.accessible) {
+            var icon =
+              feature.properties.accessible === "Y"
+                ? accessible
+                : notaccessible;
+          }
+          return L.marker(latlng, { icon: icon });
+        },
         onEachFeature: function (feature, layer) {
+          console.log(feature);
           layer.bindPopup("<p>" + feature.properties.popupContent + "</p>");
         },
       }).addTo(map);
+
+      if (geoJSONLayer) {
+        $("#clear").removeAttr("hidden");
+      } else {
+        $("#clear").attr("hidden", true);
+      }
+
       map.fitBounds(geoJSONLayer.getBounds());
     }
   }
+
+  $("#clear").on("click", () => {
+    if (geoJSONLayer) map.fitBounds(geoJSONLayer.getBounds());
+    $("#search-type").val("#").trigger("input");
+    $("#search-type-accessible").val("#").trigger("input");
+    $("#search-string").val("").trigger("input");
+  });
 
   $(".cards-container").on("click", "a", (e) => {
     e.preventDefault();

@@ -323,6 +323,7 @@ router
           coordinates: element.location.coordinates,
           properties: {
             popupContent: `Accessible Entrance : ${accessibleString}`,
+            accessible: element.accessible,
           },
         });
       });
