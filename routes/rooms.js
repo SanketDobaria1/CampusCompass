@@ -8,7 +8,7 @@ router
   .route("/:id")
   .get(async (req, res) => {
     const location = await locationsData.getById(req.params.id);
-    return res.render("pages/createRoom", { location: location });
+    return res.render("pages/location/createRoom", { location: location });
   })
   .post(async (req, res) => {
     const data = req.body;
