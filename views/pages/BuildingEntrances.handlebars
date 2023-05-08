@@ -1,5 +1,4 @@
 
-
     <h1>Building Entrances</h1>
     <p>Please Select options from below Drop down to filter out results</p>
     <p>For any Particular Location's Entrance. Click on Location</p>
@@ -13,7 +12,21 @@
     <select class="form-input" name="search-type" id="search-type">
         <option value="#">Search Options</option>
     </select>
+
+    
     </div>
+
+    <div>
+        <label for="search-type-accessible">Accessible</label>
+        <select class="form-input" name="search-type" id="search-type-accessible">
+            <option value="#">Search Options</option>
+            <option value="Y">Yes</option>
+            <option value="N">No</option>
+        </select>
+    </div>
+  
+        <button class="submit-button" id="clear" type="button">Clear Search</button>
+
     <br>
     
 </form>
@@ -23,8 +36,6 @@
     <div class="flex-child">
         <div id="map"></div>
     </div>
-
-
 </div>
 
 <script src="https://unpkg.com/leaflet@1.9.3/dist/leaflet.js"
