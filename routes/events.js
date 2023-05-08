@@ -26,7 +26,7 @@ router
           isAdmin = true;
         }
         const List = await eventsData.search(req.query.key);
-        res.render("pages/events", {
+        res.render("pages/event/events", {
           data: List,
           key: req.query.key,
           title: "Events",
@@ -43,7 +43,7 @@ router
           isAdmin = true;
         }
         const List = await eventsData.getAll();
-        res.render("pages/events", {
+        res.render("pages/event/events", {
           data: List,
           title: "Events",
           logedin: true,
@@ -140,7 +140,7 @@ router
 // GET the form for creating a new event
 router.get("/create", async (req, res) => {
   const locationList = await locationsData.getLocationsAll();
-  res.render("pages/createEvent", {
+  res.render("pages/event/createEvent", {
     location: locationList,
     title: "Create Events",
     logedin: true,
@@ -157,7 +157,7 @@ router
     }
     try {
       const event = await eventsData.getById(req.params.id);
-      res.render("pages/editEvent", {
+      res.render("pages/event/editEvent", {
         title: "Edit Event",
         data: event,
         logedin: true,
@@ -244,7 +244,7 @@ router
         created_by,
         location_id
       );
-      res.redirect("/events");
+      res.redirect(`/events/${req.params.id}`);
     } catch (e) {
       res.status(404).json({ error: e });
     }
@@ -280,7 +280,7 @@ router
       const event = await eventsData.getById(req.params.id);
       event["formated_time_start"] = validation.formatTime(event.hours[0]);
       event["formated_time_end"] = validation.formatTime(event.hours[1]);
-      res.render("pages/eventID", {
+      res.render("pages/event/eventID", {
         title: "Event",
         data: event,
         isAdmin: isAdmin,
