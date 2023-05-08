@@ -81,7 +81,7 @@ router.route("/getAll").get(async (req, res) => {
     return res.redirect("/");
   }
   try {
-    let feedbacks = await feedbacksdata.getAll();
+    let feedbacks = await feedbackData.getAll();
     if (req.session.userRole == "admin") {
       res.render("pages/allfeedbacks", {
         admin: true,
@@ -106,7 +106,7 @@ router.route("/:id").get(async (req, res) => {
     return res.redirect("/");
   }
   try {
-    const feedbackbyID = await feedbacksdata.getById(req.params.id);
+    const feedbackbyID = await feedbackData.getById(req.params.id);
     res.render("pages/feedbackID", {
       title: "feedback",
       data: feedbackbyID,
