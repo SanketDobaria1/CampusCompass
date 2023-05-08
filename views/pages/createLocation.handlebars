@@ -1,4 +1,7 @@
 <form action="/locations" id="location-create-form" method="POST">
+
+  <div id="error" class="divError" hidden></div>
+
   <label for="location_name">Name</label>
   <br />
   <input
@@ -84,10 +87,7 @@
   <a href="/locations" class="btn btn-info">Back to all locations</a>
 </form>
 
-{{#if error}}
-  <p class="error">{{{error}}}</p>
-{{/if}}
-
+<script src="/public/js/locationCreate.js"></script>
 <script>
   const entrancesContainer = document.querySelector('#entrances-container');
   const addEntranceButton = document.querySelector('#add-entrance'); let
