@@ -1,12 +1,26 @@
 <section>
-    <ol>
-        {{#each feedbacks}}
-        <li>
-        <a href="/feedback/{{this._id}}">{{this.username}}</a>
+    <h1>Feedbacks</h1>
+
+    {{#each feedbacks}}
+    <div class="cards">
+      <h2><a href="/feedback/{{this._id}}">{{this.username}}</a></h2>
+      <dl>
+        <dt>Event Type</dt>
+        <dd>{{this.reported_object_type}}</dd>
+        <dt>Feedback</dt>
+        <dd>{{this.desc}}</dd>
+      </dl>
+      <br>
+      <div class="container inline-forms">
+        <form method="POST" action="/feedback/{{this._id}}">
+          <button
+            type="submit"
+            class="submit-button"
+          >Resolve</button>
+        </form>
+        </div>
         <br>
-        feedback: {{this.desc}}
-        </li>
-       {{/each}}
-    </ol>
+    </div>
+    {{/each}}
     
 </section>

@@ -32,12 +32,11 @@
     <div id="feedback-success"><p>Thank you for your feedback!</p></div>
   {{/if}}
   </form>
-  {{!-- {{#if isAdmin}}
-    <br>
-    <form id="get-all-feedback" method="GET" action="/feedback/getAll">
-      <button type="submit">View all feedback</button>
-    </form>
-  {{/if}} --}}
+  {{#if isAdmin}}
+    
+    <a href="/feedback/getAll"> View all Feedbacks! </a>
+
+  {{/if}} 
 </section>
 
 <div class="modal fade" id="myModal" role="dialog">

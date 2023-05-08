@@ -4,6 +4,7 @@ import {
   locations,
   events,
   departments,
+  users,
 } from "../config/mongoCollections.js";
 import validation from "../validate.js";
 
@@ -11,6 +12,7 @@ const exportedMethods = {
   async getById(id) {
     id = validation.checkId(id, "FeedbackId");
     const feedbackCollection = await feedback();
+    const userCollection = await users();
     const departmentCollection = await departments();
     const locationCollection = await locations();
     const eventsCollection = await events();
@@ -43,7 +45,11 @@ const exportedMethods = {
         }
       );
 
+    const userinfo = await userCollection.findOne({
+        _id: new ObjectId(feedbackinfo.reportedby),
+      });
     feedbackinfo._id = feedbackinfo._id.toString();
+    feedbackinfo.username = userinfo.name
     return feedbackinfo;
   },
 
@@ -83,16 +89,39 @@ const exportedMethods = {
     return { feedbackCreated: true };
   },
 
+
   async getAll() {
     const feedbackCollection = await feedback();
+    const userCollection = await users();
     let feedbackList = await feedbackCollection.find({}).toArray();
     if (!feedbackList) throw "Could not get feedback";
+    let userList = await userCollection.find({}).toArray()
     feedbackList = feedbackList.map((element) => {
+      let user = userList.find(function(user, index) {
+        if(user._id == element.reportedby)
+          return true;
+      });
+
       element._id = element._id.toString();
+      element.username = user.name
       return element;
     });
     return feedbackList;
   },
+
+
+  async remove(id) {
+    id = validation.checkId(id, "Feedback ID");
+    const feedbackCollection = await feedback();
+    const deletionInfo = await feedbackCollection.findOneAndDelete({
+      _id: new ObjectId(id),
+    });
+    if (deletionInfo.lastErrorObject.n === 0) {
+      throw `Could not resolve Feedback with given id`;
+    }
+    return `'${deletionInfo.value.name}' has been successfully resolved!`;
+  },
+
 };
 
 export default exportedMethods;
