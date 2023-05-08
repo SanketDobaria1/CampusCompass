@@ -80,13 +80,12 @@
   }
 
   function appendDropdown(data) {
-    console.log(data);
+    $("#reported-object-dropdown").removeAttr("hidden");
+    let optionsToRemove = $("#reported_object").find(
+      "option:not(:first-child)"
+    );
+    optionsToRemove.remove();
     if (data.length > 0) {
-      $("#reported-object-dropdown").removeAttr("hidden");
-      let optionsToRemove = $("#reported_object").find(
-        "option:not(:first-child)"
-      );
-      optionsToRemove.remove();
       data.forEach((element) => {
         $("#reported_object").append(
           `<option value="${element._id}">${element.name}</option>`
