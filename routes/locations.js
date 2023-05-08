@@ -6,6 +6,16 @@ const router = Router();
 import xss from "xss";
 
 router.route("/getAllRecords").get(async (req, res) => {
+  if (!req.xhr)
+    if (
+      req.headers["user-agent"] &&
+      req.headers["user-agent"].includes("Mozilla")
+    )
+      return res.status(401).render("pages/error", {
+        statusCode: 401,
+        errorMessage: "Forbidden",
+      });
+    else return res.status(401).json({ error: "Forbidden" });
   let locationResponse = await locationsData.getLocationsAll();
 
   let uniqueTypes = [...new Set(locationResponse.map((obj) => obj.type))];
@@ -18,6 +28,16 @@ router.route("/getAllRecords").get(async (req, res) => {
 });
 
 router.route("/getAllEntrances").get(async (req, res) => {
+  if (!req.xhr)
+    if (
+      req.headers["user-agent"] &&
+      req.headers["user-agent"].includes("Mozilla")
+    )
+      return res.status(401).render("pages/error", {
+        statusCode: 401,
+        errorMessage: "Forbidden",
+      });
+    else return res.status(401).json({ error: "Forbidden" });
   let locationResponse = await locationsData.getLocationEntrance();
   let uniqueTypes = [...new Set(locationResponse.map((obj) => obj.type))];
 
@@ -316,6 +336,7 @@ router
         data: location,
         rooms: rooms,
         accessibleEntrances: accessibleString,
+        api_token: process.env.MAPBOX_TOKEN,
         geoObject: JSON.stringify(entrances_geo),
         centerPoint: reversedArray,
         isAdmin: isAdmin,

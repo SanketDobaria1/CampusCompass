@@ -372,15 +372,7 @@ p {
   margin-bottom: 8px;
 }
 
-/* Operating hours */
-p:nth-child(4) {
-  font-style: italic;
-}
 
-/* Accessible Entrances */
-p:nth-child(5) {
-  font-weight: bold;
-}
 
 /* Card */
 .card {
