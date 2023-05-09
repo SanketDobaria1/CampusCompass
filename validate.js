@@ -1,6 +1,6 @@
-import { ObjectId } from "mongodb";
 import booleanPointInPolygon from "@turf/boolean-point-in-polygon";
 import * as turf from "@turf/turf";
+import { ObjectId } from "mongodb";
 
 const exportedMethods = {
   checkId(id, varName) {
@@ -85,7 +85,7 @@ const exportedMethods = {
     return strVal;
   },
 
-  // Todo : Need To work On it 
+  // Todo : Need To work On it
   checkDayArray(arr, varName) {
     // if (!arr || !Array.isArray(arr))
     //   throw new Error(`You must provide an array of ${varName}`);
@@ -93,7 +93,7 @@ const exportedMethods = {
       throw new Error(
         `You must supply at least one element in an array of ${varName}`
       );
-    arr = arr.split(',').join('');
+    arr = arr.split(",").join("");
     // arr.forEach((elm) => {
     //   if (typeof elm != "number" || isNaN(elm))
     //     throw new Error(`Expected ${varName} to contain number`);
