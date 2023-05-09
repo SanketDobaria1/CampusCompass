@@ -245,6 +245,7 @@ router
         updatedData.location_id,
         "Location ID"
       );
+      updatedData.locations_arr = [updatedData.location_id];
     } catch (e) {
       return res.status(400).json({ error: e.message });
     }
@@ -257,7 +258,7 @@ router
         event_date,
         hours,
         created_by,
-        location_id,
+        locations_arr,
       } = updatedData;
       const updatedevent = await eventsData.update(
         req.params.id,
@@ -267,7 +268,7 @@ router
         event_date,
         hours,
         created_by,
-        location_id
+        locations_arr
       );
       res.redirect(`/events/${req.params.id}`);
     } catch (e) {
@@ -284,6 +285,7 @@ router
     try {
       await eventsData.remove(req.params.id);
       res.json({ eventId: req.params.id, deteled: true });
+      return res.redirect("/events");
     } catch (e) {
       res.status(404).json({ error: e.message });
     }

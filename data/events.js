@@ -44,6 +44,8 @@ const exportedMethods = {
       event_date[2] = event_start.getDay();
     console.log(event_end === event_start, event_end.getDay());
 
+    event_date[2]=Number(event_date[2])
+
     const lastupdatedDate = new Date();
     lastupdatedDate.setTime(lastupdatedDate.getTime() + -240 * 60 * 1000);
 
