@@ -1,9 +1,9 @@
+import * as dotenv from "dotenv"; // see https://github.com/motdotla/dotenv#how-do-i-use-dotenv-with-import
 import express from "express";
 import exphbs from "express-handlebars";
 import session from "express-session";
 import path, { dirname } from "path";
 import { fileURLToPath } from "url";
-import * as dotenv from "dotenv"; // see https://github.com/motdotla/dotenv#how-do-i-use-dotenv-with-import
 dotenv.config();
 
 import {

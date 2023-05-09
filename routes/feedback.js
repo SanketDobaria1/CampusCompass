@@ -1,10 +1,10 @@
 import { Router } from "express";
 import xss from "xss";
 import {
-  feedbackData,
-  eventsData,
-  locationsData,
   departmentData,
+  eventsData,
+  feedbackData,
+  locationsData,
 } from "../data/index.js";
 import validation from "../validate.js";
 const router = Router();
@@ -16,7 +16,7 @@ router
       let events = await eventsData.getAll();
       let departments = await departmentData.getDepartmentAll();
       let locations = await locationsData.getAll();
-      res.render("pages/feedback", {
+      res.render("pages/feedback/feedback", {
         id: req.session.userID,
         logedin: "userID" in req.session && req.session.userID.length > 5,
         isAdmin: req.session.userRole === "admin",
@@ -77,7 +77,7 @@ router.route("/getAll").get(async (req, res) => {
   try {
     let feedbacks = await feedbackData.getAll();
     if (req.session.userRole == "admin") {
-      res.render("pages/allfeedbacks", {
+      res.render("pages/feedback/allfeedbacks", {
         logedin: "userID" in req.session && req.session.userID.length > 5,
         admin: req.session.userRole === "admin",
         feedbacks: feedbacks,
@@ -108,7 +108,7 @@ router
     }
     try {
       const feedbackbyID = await feedbackData.getById(req.params.id);
-      res.render("pages/feedbackID", {
+      res.render("pages/feedback/feedbackID", {
         title: "feedback",
         data: feedbackbyID,
         logedin: "userID" in req.session && req.session.userID.length > 5,
