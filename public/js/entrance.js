@@ -58,7 +58,7 @@ $(document).ready(function () {
           serachString,
           accessibleType
         );
-
+        renderData(filteredResponseList, map);
         filteredResponseList.length > 0
           ? renderData(filteredResponseList, map)
           : renderData(response, map);

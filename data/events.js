@@ -44,7 +44,7 @@ const exportedMethods = {
       event_date[2] = event_start.getDay();
     console.log(event_end === event_start, event_end.getDay());
 
-    event_date[2]=Number(event_date[2])
+    event_date[2] = Number(event_date[2]);
 
     const lastupdatedDate = new Date();
     lastupdatedDate.setTime(lastupdatedDate.getTime() + -240 * 60 * 1000);
@@ -68,10 +68,14 @@ const exportedMethods = {
 
     let notificationTitle = "New Event Alert!";
     let notificationDesc = `New event ${newevent.name} has been created.`;
-    let notificationDetails  = `The new event ${newevent.name} - ${newevent.desc} will be scheduled on ${newevent.event_date[0]} with timings from ${newevent.hours[0]} to ${newevent.hours[1]}.`;
+    let notificationDetails = `The new event ${newevent.name} - ${newevent.desc} will be scheduled on ${newevent.event_date[0]} with timings from ${newevent.element.hours[0]} to ${newevent.element.hours[1]}.`;
 
-    let newNotification = await notifications.create(notificationTitle, notificationDesc, notificationDetails);
-    
+    let newNotification = await notifications.create(
+      notificationTitle,
+      notificationDesc,
+      notificationDetails
+    );
+
     const newId = insertInfo.insertedId.toString();
     const event = await this.getById(newId);
     return event;
@@ -83,6 +87,8 @@ const exportedMethods = {
     if (!eventsList) throw "Could not get all events";
     eventsList = eventsList.map((element) => {
       element._id = element._id.toString();
+      element.start_hour = validation.formatTime(element.hours[0]);
+      element.end_hour = validation.formatTime(element.hours[1]);
       return element;
     });
     return eventsList;
@@ -134,24 +140,35 @@ const exportedMethods = {
     );
     if (updatedInfo.lastErrorObject.n === 0)
       throw "Could not update event successfully !";
-    if(event.hours[0] !== updatedInfo.value.hours[0] || event.hours[1] !== updatedInfo.value.hours[1] || event.location_id !== updatedInfo.value.location_id){
+    if (
+      event.element.hours[0] !== updatedInfo.value.element.hours[0] ||
+      event.element.hours[1] !== updatedInfo.value.element.hours[1] ||
+      event.location_id !== updatedInfo.value.location_id
+    ) {
       let notificationTitle = "Event update";
       let notificationDesc = `Updated the event ${event.name}`;
-      let  notificationDetails = "";
+      let notificationDetails = "";
 
-      if(event.event_date !== updatedInfo.value.event_date){
-        notificationDetails = notificationDetails+`The event has been moved from "${event.event_date[0]}-${event.event_date[1]}" to "${updatedInfo.value.event_date[0]}-${updatedInfo.value.event_date[0]}"`;
+      if (event.event_date !== updatedInfo.value.event_date) {
+        notificationDetails =
+          notificationDetails +
+          `The event has been moved from "${event.event_date[0]}-${event.event_date[1]}" to "${updatedInfo.value.event_date[0]}-${updatedInfo.value.event_date[0]}"`;
       }
-      if(event.hours !== updatedInfo.value.hours){
-        notificationDetails = notificationDetails+`The event timings have been modified from "${event.hours[0]}-${event.hours[1]}" to "${updatedInfo.value.hours[0]}-${updatedInfo.value.hours[0]}"`;
+      if (event.hours !== updatedInfo.value.hours) {
+        notificationDetails =
+          notificationDetails +
+          `The event timings have been modified from "${event.element.hours[0]}-${event.element.hours[1]}" to "${updatedInfo.value.element.hours[0]}-${updatedInfo.value.element.hours[0]}"`;
+      } else if (event.location_id !== updatedInfo.value.location_id) {
+        notificationDetails =
+          notificationDetails +
+          ` The location of has been updated from "${event.location_id}" to "${updatedInfo.value.location_id}".`;
       }
-      else if(event.location_id !== updatedInfo.value.location_id){
-        notificationDetails = notificationDetails+` The location of has been updated from "${event.location_id}" to "${updatedInfo.value.location_id}".`;
-      }
-      let newNotification = notifications.create(notificationTitle, notificationDesc, notificationDetails);
-    
+      let newNotification = notifications.create(
+        notificationTitle,
+        notificationDesc,
+        notificationDetails
+      );
     }
-    
 
     updatedInfo.value._id = updatedInfo.value._id.toString();
     return updatedInfo.value;
@@ -201,6 +218,8 @@ const exportedMethods = {
     if (!eventsList) throw "Not Found";
     eventsList = eventsList.map((element) => {
       element._id = element._id.toString();
+      element.start_hour = validation.formatTime(element.hours[0]);
+      element.end_hour = validation.formatTime(element.hours[1]);
       return element;
     });
     return eventsList;

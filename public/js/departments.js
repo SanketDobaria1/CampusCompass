@@ -28,7 +28,7 @@
   }
 
   function renderData(data) {
-    if (data || data.length === 0) {
+    if (!data || data.length === 0) {
       $("#department-container").append("<h4>No Results</h4>");
       $("#pagination").attr("hidden", true);
       return;
