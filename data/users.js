@@ -143,10 +143,6 @@ const exportedMethods = {
         userEvents[i]["Location_details"]._id =
           userEvents[i]["Location_details"]._id.toString();
       let tempDate;
-
-      /**
-       * !todo: Below date logic maybe incorrect check and fix this
-       */
       if (userEvents[i]["event_date"][2] === 0)
         tempDate = new Date(currentDateEst.getTime() + 1 * 24 * 60 * 60 * 1000);
       else
