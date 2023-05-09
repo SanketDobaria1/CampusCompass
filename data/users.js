@@ -92,6 +92,11 @@ const exportedMethods = {
     let locationCollection = await locations();
     const currentDate = new Date();
     const currentDateEst = new Date(currentDate.getTime() + -5 * 60 * 1000);
+    console.log(
+      currentDateEst.getDay(),
+      currentDateEst.getDay() === 0,
+      currentDateEst.getDay()
+    );
     let currentDay =
       currentDateEst.getDay() === 0 ? 7 : currentDateEst.getDay();
     let locationRender = [];

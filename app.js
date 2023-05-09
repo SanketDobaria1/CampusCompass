@@ -84,6 +84,7 @@ app.get("/events", rootMiddleware);
 app.get("/locations/entrance", rootMiddleware);
 app.get("/locations", rootMiddleware);
 app.get("/search", rootMiddleware);
+app.get("/feedback", rootMiddleware);
 app.use(loggingMiddleware);
 
 ///helper function for <select> tag

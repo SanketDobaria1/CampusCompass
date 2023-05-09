@@ -36,10 +36,7 @@ router.get("/home", async (req, res) => {
     username: req.session.username,
     displayString,
     events: userRegisteredEvents.eventsData,
-    renderMap:
-      userRegisteredEvents.length > 0
-        ? userRegisteredEvents.locationData.length > 0
-        : false,
+    renderMap: tempGeo.features.length > 0,
     geoObject: JSON.stringify(tempGeo),
   });
 });
