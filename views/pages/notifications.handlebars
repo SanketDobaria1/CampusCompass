@@ -1,11 +1,15 @@
 <section>
-    <ol>
-        {{#each notifications}}
-        <li>
-        <a href="/notifications/{{this._id}}">{{this.title}}</a>
-        <br>
-        Description: {{this.event_type}}
-        </li>
-       {{/each}}
-    </ol>
+    <h1>Notifications</h1>
+
+    {{#each notifications}}
+    <div class="cards">
+      <h2><a href="/notifications/{{this._id}}">{{this.title}}</a></h2>
+      <dl>
+        <dt>Description</dt>
+        <dd>{{this.event_type}}</dd>
+      </dl>
+      <br>
+    </div>
+    {{/each}}
+    
 </section>
