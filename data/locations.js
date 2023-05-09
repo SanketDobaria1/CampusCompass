@@ -70,6 +70,7 @@ const exportedMethods = {
         $or: [
           { name: name }, // Check for existing ID
           { location: { $geoIntersects: { $geometry: location } } }, // Check for existing location
+          { location: { $geoWithin: { $geometry: location } } },
         ],
       },
       { projection: { _id: 1, name: 1 } }
