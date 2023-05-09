@@ -28,7 +28,7 @@
   }
 
   function renderData(data) {
-    if (data || data.length === 0) {
+    if (!data || data.length === 0) {
       $("#department-container").append("<h4>No Results</h4>");
       $("#pagination").attr("hidden", true);
       return;
@@ -126,6 +126,7 @@
       $.ajax({
         url: `/departments/getAll?page=${current_page}`,
         success: function (response) {
+          console.log(response)
           $("#container").empty();
           if (!response.data) window.reload();
           if (response.admin) isAdmin = response.admin;
