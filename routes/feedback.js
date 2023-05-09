@@ -87,7 +87,8 @@ router.route("/getAll").get(async (req, res) => {
   }
 });
 
-router.route("/:id").get(async (req, res) => {
+router.route("/:id")
+.get(async (req, res) => {
   try {
     req.params.id = validation.checkId(req.params.id, "user ID");
   } catch (e) {
@@ -106,6 +107,20 @@ router.route("/:id").get(async (req, res) => {
   } catch (e) {
     res.status(404).json({ error: e });
   }
-});
+})
+
+.post(async (req, res) => {
+  try {
+    req.params.id = validation.checkId(req.params.id, "Id URL Parameter");
+  } catch (e) {
+    return res.status(400).json({ error: e.message });
+  }
+  try {
+    await feedbackData.remove(req.params.id);
+    res.redirect("/feedback/getAll");
+  } catch (e) {
+    res.status(404).json({ error: e });
+  }
+})
 
 export default router;

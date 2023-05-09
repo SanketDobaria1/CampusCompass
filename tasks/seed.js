@@ -552,6 +552,7 @@ async function main() {
       },
     ]
   );
+
   const ucc = await locationsData.create(
     "University Campus Center",
     "The University Center Complex will revitalize Castle Point for the entire Stevens community. With a design that accentuates stunning views of the Manhattan skyline, the university center will become the heart of campus life, while the residential towers will signal the rise of Stevens to millions in the metropolitan region. Throughout 70,000 square feet, the university center will benefit students, faculty and alumni in numerous ways. By creating spaces for student clubs and activities, such as fitness, gaming, dining and more, the university center will provide an enriched collegiate experience.With versatile event venues, Stevens will be able to showcase its innovation and entrepreneurship to visitors from academia, industry and government, furthering the university’s impact and prestige.",
@@ -787,6 +788,186 @@ async function main() {
       },
     ]
   );
+
+  const ISSS = await departmentData.create(
+    "International Student and Scholar Services (ISSS)",
+    // "64236f804eebf566c9d8d8df",
+    "The International Student and Scholar Services (ISSS) office is committed to assisting international students, faculty and scholars in accomplishing their academic, personal and professional objectives through advising, providing immigration services, promoting cross-cultural opportunities and offering specific programs and services to our international population.",
+    "Administrative",
+    [
+      "08:00:00",
+      "16:00:00"
+    ],
+    [
+      1,
+      5,
+      7
+    ]
+  )
+
+  const BioEngineering = await departmentData.create(
+    "Department of Biomedical Engineering",
+    // "64236f804eebf566c9d8d8df",
+    "The Department of Biomedical Engineering amplifies broad-based education and hands-on research initiatives at the boundary between science and engineering.",
+    "Academic",
+    [
+      "08:00:00",
+      "16:00:00"
+    ],
+    [
+      1,
+      2,
+      3,
+      4,
+      5
+    ]
+  )
+
+  const ChemAndBio = await departmentData.create(
+    "Department of Chemistry and Chemical Biology",
+    // "64236f804eebf566c9d8d8df",
+    "The Department of Chemistry and Chemical Biology at Stevens is known for its legacy of fostering and nurturing groundbreaking, world-class innovation.",
+    "Academic",
+    [
+      "08:00:00",
+      "16:00:00"
+    ],
+    [
+      1,
+      2,
+      3,
+      4,
+      5
+    ]
+  )
+
+  const ChemEngineering = await departmentData.create(
+    "Department of Chemical Engineering and Materials Science",
+    // "64236f804eebf566c9d8d8df",
+    "The Department of Chemical Engineering and Materials Science at Stevens harnesses the synergy between two impactful disciplines to drive discoveries and innovation that change industry – and society.",
+    "Academic",
+    [
+      "08:00:00",
+      "16:00:00"
+    ],
+    [
+      1,
+      2,
+      3,
+      4,
+      5
+    ]
+  )
+
+  const CivilEngineering = await departmentData.create(
+    "Department of Civil, Environmental and Ocean Engineering",
+    // "64236f804eebf566c9d8d8df",
+    "The Department of Civil, Environmental and Ocean Engineering at Stevens was founded on the core principles of engineering that underpin the infrastructure which supports our economy and our society.",
+    "Academic",
+    [
+      "08:00:00",
+      "16:00:00"
+    ],
+    [
+      1,
+      2,
+      3,
+      4,
+      5
+    ]
+  )
+
+  const ComputerScience = await departmentData.create(
+    "Department of Computer Science",
+    // "64236f804eebf566c9d8d8df",
+    "The Department of Computer Science at Stevens is one of the leading computer science departments in the country, with globally-recognized experts in cybersecurity, artificial intelligence, machine learning, and computer vision.",
+    "Academic",
+    [
+      "08:00:00",
+      "16:00:00"
+    ],
+    [
+      1,
+      2,
+      3,
+      4,
+      5
+    ]
+  )
+
+
+  const ElectricalEngineering = await departmentData.create(
+    "Department of Electrical and Computer Engineering",
+    // "64236f804eebf566c9d8d8df",
+    "As one of the first in the nation, the Department of Electrical and Computer Engineering at Stevens has a long legacy of innovation and discovery.",
+    "Academic",
+    [
+      "08:00:00",
+      "16:00:00"
+    ],
+    [
+      1,
+      2,
+      3,
+      4,
+      5
+    ]
+  )
+
+  const MathematicalSciences = await departmentData.create(
+    "Department of Mathematical Sciences",
+    // "64236f804eebf566c9d8d8df",
+    "The Department of Mathematical Sciences at Stevens is a leader in the field of algebraic cryptography.",
+    "Academic",
+    [
+      "08:00:00",
+      "16:00:00"
+    ],
+    [
+      1,
+      2,
+      3,
+      4,
+      5
+    ]
+  )
+
+
+  const MechanicalEngineering = await departmentData.create(
+    "Department of Mechanical Engineering",
+    // "64236f804eebf566c9d8d8df",
+    "As the founding department at Stevens and the home of its very first degree, the Department of Mechanical Engineering is the legacy of our university.",
+    "Academic",
+    [
+      "08:00:00",
+      "16:00:00"
+    ],
+    [
+      1,
+      2,
+      3,
+      4,
+      5
+    ]
+  )
+
+  const Physics = await departmentData.create(
+    "Department of Physics",
+    // "64236f804eebf566c9d8d8df",
+    "As one of the first departments established at Stevens Institute of Technology, the Department of Physics has been an active participant in the revolution of physics science and education for 150 years.",
+    "Academic",
+    [
+      "08:00:00",
+      "16:00:00"
+    ],
+    [
+      1,
+      2,
+      3,
+      4,
+      5
+    ]
+  )
 
   // await roomsData.create(library._id.toString(), 101, 60, 1, "classroom");
   // await roomsData.create(library._id.toString(), 102, 60, 1, "laboratory");
