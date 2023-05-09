@@ -442,7 +442,7 @@ async function main() {
   const southTower = await locationsData.create(
     "South Residential Tower",
     "Between the two Residential Towers, there are 937 beds, 644 rooms, and 374 suites. The Residential Towers house returning students; first-year students reside in our traditional on-campus residence halls. Second-year students have priority for selecting the Residential Towers, followed by third-, fourth- and fifth-year students. It is an institutional priority for our newer students to be housed on-campus as they transition into the University and make connections. Our older students are encouraged to live more independently in private apartments throughout Hoboken and other local communities. Richard Harries from the Class of 1958 and his wife Carol made the largest gift ever received by Stevens in support of the University Complex Center project. The North Residential Tower now bears the Harries name.",
-    "Residential",
+    "Residence",
     ["06:00:00", "23:00:00"],
     {
       type: "Polygon",
@@ -1449,8 +1449,8 @@ async function main() {
     "This course will provide students with a first strong approach of internet programming. It will give the basic knowledge on how the Internet works and how to create advanced web sites by the use of script languages, after learning the basics of HTML. The course will teach the students how to create a complex global site through the creation of individual working modules, giving them the skills required in any business such as proper team work and coordination between groups.",
     "Class",
     [
-      "start_date",
-      "end_date"
+      "2021-12-18",
+      "2023-05-11"
     ],
     [
       "18:30:00",
@@ -1466,8 +1466,8 @@ async function main() {
     "This course focuses on teaching students the newest technologies available in Web Programming. Topics include advanced client side programming, responsive design, NoSQL databases, JQuery, AJAX, Web Site security, and the latest Frameworks. Students will be given the opportunity to suggest topics they would like to discover at the end of the semester. The course is a very hands-on course where everything taught will be practiced through in-class exercises.",
     "Class",
     [
-      "start_date",
-      "end_date"
+      "2021-12-18",
+      "2023-05-11"
     ],
     [
       "15:30:00",
@@ -1483,8 +1483,8 @@ async function main() {
     "Introduction to the design and querying of relational databases. Topics include: relational schemas; keys and foreign key references; relational algebra (as an introduction to SQL); SQL in depth; Entity-Relationship (ER) database design; translating from ER models to relational schemas and from relational schemas to ER models; functional dependencies; and normalization.",
     "Class",
     [
-      "start_date",
-      "end_date"
+      "2021-12-18",
+      "2023-05-11"
     ],
     [
       "15:30:00",
@@ -1500,8 +1500,8 @@ async function main() {
     "This is an introduction to computer science with an emphasis on programming, in Python. The topics include: design; algorithmic thinking; recursion; object-oriented programming; and some basics about computer systems: machine language, interpreters, compilers, and data representation. Undergraduates are not allowed to enroll.",
     "Class",
     [
-      "start_date",
-      "end_date"
+      "2021-12-18",
+      "2023-05-11"
     ],
     [
       "18:30:00",
@@ -1517,8 +1517,8 @@ async function main() {
     "Composite  material  characterization;  composite  mechanics  of  plates,  panels,  beams,  columns,  and  rods  integrated with design procedures; analysis and design of composite structures; joining methods and procedures; introduction to manufacturing processes of filament winding, braiding, injection, compression and resin transfer molding, machining and drilling; and industrial applications.",
     "Class",
     [
-      "start_date",
-      "end_date"
+      "2021-12-18",
+      "2023-05-11"
     ],
     [
       "15:00:00",
@@ -1534,8 +1534,8 @@ async function main() {
     "This course presents tool, techniques, algorithms, and programming techniques using the Python programming language for data intensive applications and decision making. The course formally introduces techniques to: (i) gather,(ii) store, and (iii) process large volumes of data to make informed decisions. Such techniques find applicability in many engineering application areas, including communications systems, embedded systems, smart grids, robotics, Internet, and enterprise networks, or any network where information flows and alters decision making.",
     "Class",
     [
-      "start_date",
-      "end_date"
+      "2021-12-18",
+      "2023-05-11"
     ],
     [
       "15:00:00",
@@ -1551,8 +1551,8 @@ async function main() {
     "This course covers basic concepts in optimization and heuristic search with an emphasis on process improvement and optimization. This course emphasizes the application of mathematical optimization models over the underlying mathematics of their algorithms. While the skills developed in this course can be applied to a very broad range of business problems, the practice examples and student exercises will focus on the following areas: healthcare, logistics and supply chain optimization, capital budgeting, asset management, portfolio analysis. Most of the student exercises will involve the use of Microsoft Excel “Solver” add-on package for mathematical optimization.",
     "Class",
     [
-      "start_date",
-      "end_date"
+      "2021-12-18",
+      "2023-05-11"
     ],
     [
       "15:00:00",
@@ -1568,8 +1568,8 @@ async function main() {
     "This course is designed to enhance ECE’s students knowledge in core subjects with the ability of analyzing big data applications.  It will cover both the computational techniques, and the mathematical intuitions in the skill sets for the big data analytics. This class will provide students with the necessary data engineering processing skills, refined data optimizations for feature engineering, and sophisticated linear analysis for data transform and model ensembling. ",
     "Class",
     [
-      "start_date",
-      "end_date"
+      "2021-12-18",
+      "2023-05-11"
     ],
     [
       "18:30:00",
@@ -1585,8 +1585,8 @@ async function main() {
     "Kick back, relax and take a study break with the Office of DEI at our end of the year party! Games, crafts, music and more.",
     "Event",
     [
-      "start_date",
-      "end_date"
+      "2023-05-18",
+      "2023-05-18"
     ],
     [
       "16:00:00",
@@ -1602,8 +1602,8 @@ async function main() {
     "Take a breather in between studying with Lore-El! Join us for a guided meditation and journaling session designed to de-stress and calm your mind during the busiest time of the semester.",
     "Event",
     [
-      "start_date",
-      "end_date"
+      "2023-05-16",
+      "2023-05-16"
     ],
     [
       "13:00:00",
@@ -1614,13 +1614,13 @@ async function main() {
   )
 
 
-  const StressLesswiththeLibraryPets! = await eventsData.create(
+  const StressLesswiththeLibraryPets = await eventsData.create(
     "Stress Less with the Library Pets!",
     "Visit our Stress Less guide to find a variety of stress-relieving activities, or stop by the Library Great Hall starting Friday, May 5 for grab-and-go sudokus and coloring sheets, as well as games and jigsaw puzzles. Stay tuned for some pop-up relaxation and making/crafting events! Stop by the Library Great Hall May 5-16 for grab-and-go sudokus, coloring, and activity sheets, or stay for a while to play a game or work on a jigsaw puzzle.",
     "Event",
     [
-      "start_date",
-      "end_date"
+      "2023-05-10",
+      "2023-05-10"
     ],
     [
       "12:00:00",
@@ -1631,13 +1631,13 @@ async function main() {
   )
 
 
-  const UnwindGameNight! = await eventsData.create(
+  const UnwindGameNight = await eventsData.create(
     "Unwind Game Night",
     "Game night is a fun social activity where friends or family gather to play board games, card games, or other types of games. It's a great way to unwind, relax, and have some laughs while engaging in friendly competition. Game night can be a regular occurrence or a special event, and can take place in someone's home or at a venue. It's a wonderful way to spend quality time with loved ones and build lasting memories. Whether it's a classic game like Monopoly or a newer game like Settlers of Catan, game night is a surefire way to have a good time.",
     "Event",
     [
-      "start_date",
-      "end_date"
+      "2023-05-05",
+      "2023-05-05"
     ],
     [
       "18:00:00",
