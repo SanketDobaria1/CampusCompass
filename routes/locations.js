@@ -340,6 +340,7 @@ router
         api_token: process.env.MAPBOX_TOKEN,
         geoObject: JSON.stringify(entrances_geo),
         centerPoint: reversedArray,
+        locationName : location.name,
         isAdmin: isAdmin,
         logedin: "userID" in req.session && req.session.userID.length > 5,
       });
