@@ -77,9 +77,11 @@ const exportedMethods = {
 
     if (!department) throw new Error(`No Department exists for ${id}`);
     department._id = department._id.toString();
-    department.location_id = roomLocation._id.toString();
-    department.location_name = roomLocation.name;
-    department.location = roomLocation.location;
+    if (roomLocation) {
+      department.location_id = roomLocation._id.toString();
+      department.location_name = roomLocation.name;
+      department.location = roomLocation.location;
+    }
     return department;
   },
 

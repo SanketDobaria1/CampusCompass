@@ -176,6 +176,7 @@ router
     } catch (e) {
       return res.status(400).render("pages/location/createLocation", {
         data: req.body,
+        logedin: "userID" in req.session && req.session.userID.length > 5,
         error: e,
       });
     }
@@ -200,6 +201,7 @@ router
       return res.redirect("/locations");
     } catch (e) {
       return res.status(400).render("pages/location/createLocation", {
+        logedin: "userID" in req.session && req.session.userID.length > 5,
         data: req.body,
         error: e,
       });
@@ -207,14 +209,21 @@ router
   });
 
 router.route("/create").get(async (req, res) => {
-  return res.render("pages/location/createLocation");
+  return res.render("pages/location/createLocation", {
+    title: "Create Location",
+    logedin: "userID" in req.session && req.session.userID.length > 5,
+  });
 });
 
 router
   .route("/edit/:id")
   .get(async (req, res) => {
     const location = await locationsData.getById(req.params.id);
-    return res.render("pages/location/editLocation", { data: location });
+    return res.render("pages/location/editLocation", {
+      data: location,
+      title: "Edit Location",
+      logedin: "userID" in req.session && req.session.userID.length > 5,
+    });
   })
   .put(async (req, res) => {
     const data = req.body;
@@ -289,11 +298,8 @@ router
 router
   .route("/:id")
   .get(async (req, res) => {
-    let isAdmin = false;
     let accessibleString = "No";
-    if (req.session.userRole === "admin") {
-      isAdmin = true;
-    }
+
     try {
       req.params.id = validation.checkId(req.params.id, "Id URL Parameter");
     } catch (e) {
@@ -340,11 +346,11 @@ router
         api_token: process.env.MAPBOX_TOKEN,
         geoObject: JSON.stringify(entrances_geo),
         centerPoint: reversedArray,
-        isAdmin: isAdmin,
+        isAdmin: req.session.userRole === "admin",
         logedin: "userID" in req.session && req.session.userID.length > 5,
       });
     } catch (e) {
-      res.status(404).json({ error: e.message });
+      return res.status(404).json({ error: e.message });
     }
   })
   .post(async (req, res) => {
@@ -354,10 +360,10 @@ router
       return res.status(400).json({ error: e.message });
     }
     try {
-      await locationsData.remove(req.params.id);
-      res.redirect("/locations");
+      let confirmation = await locationsData.remove(req.params.id);
+      if (confirmation) return res.redirect("/locations");
     } catch (e) {
-      res.status(404).json({ error: e });
+      return res.status(404).json({ error: e });
     }
   })
 
@@ -369,7 +375,7 @@ router
     }
     try {
       await locationsData.remove(req.params.id);
-      res.json({ LocationId: req.params.id, deteled: true });
+      return res.json({ LocationId: req.params.id, deteled: true });
     } catch (e) {
       res.status(404).json({ error: e });
     }
