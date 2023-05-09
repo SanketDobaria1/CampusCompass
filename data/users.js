@@ -100,7 +100,7 @@ const exportedMethods = {
         {
           _id: { $in: eventList },
           "event_date.1": { $gte: currentDateEst.toISOString().slice(0, 10) },
-          "event_date.2": { $in: [0, currentDay, ((currentDay - 1) % 7) + 1] },
+          "event_date.2": { $in: [0, currentDay] },
         },
         { projection: { desc: 0, lastupdatedDate: 0, created_by: 0 } }
       )
