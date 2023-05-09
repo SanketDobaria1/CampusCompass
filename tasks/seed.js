@@ -70,7 +70,7 @@ async function main() {
   const library = await locationsData.create(
     "Samuel C Williams Library",
     "The Samuel C. Williams Library is the center for information discovery and preservation at Stevens Institute of Technology. The Library is dedicated to fostering an innovative environment with technology, education, and culture. It is our goal to create a distinctive library experience through services and resources that promote information and media literacy, knowledge creation, global scholarly communication, and critical and creative thinking for our students, faculty, and researchers around the world.",
-    "Library",
+    "Academic",
     ["08:00:00", "23:00:00"],
     {
       type: "Polygon",
@@ -150,7 +150,7 @@ async function main() {
   const babioCenter = await locationsData.create(
     "Lawrence T. Babbio Jr. Center",
     "The Babbio Center is the home of the School of Business, and is where most business classes are held. The Babbio Center also is where Stevens’ high-tech financial analytics labs are located. The building commands an incredible view of the Manhattan skyline and has a variety of collaborative workspaces for students throughout. Faculty and leadership have offices on the upper floors of the Babbio Center, while parking is available in the attached garage.",
-    "Multi-Purpose Building",
+    "Academic",
     ["08:00:00", "23:00:00"],
     {
       type: "Polygon",
