@@ -44,10 +44,20 @@ nav ul {
 nav ul li {
   display: inline;
 }
+ nav ul li .btn {
+  display: inline-block;
+  padding: 8px 16px;
+  border-radius: 0px;
+  text-decoration: none;
+  font-size: 18px;
+  color: white;
+}
 
 nav ul li a:hover {
   background: #bdbdbd;
 }
+
+
 
 .form-inner {
   width: 60%;
@@ -141,6 +151,48 @@ nav ul li a:hover {
 p {
   margin-bottom: 0rem;
 }
+
+section table {
+  border-collapse: collapse;
+  width: 100%;
+  border: 1px solid #ddd;
+  padding: 8px;
+  ;
+}
+
+section table th {
+  padding-top: 12px;
+  padding-bottom: 12px;
+  text-align: left;
+  background-color: #2b2929;
+  color: white;
+  border: 1px solid #777676;
+  padding: 8px;
+  font-size: 20px;
+}
+
+section table td {
+  padding: 8px;
+  background-color: rgb(211, 208, 208);
+  border: 1px solid #777676;
+  font-size: 18px;
+}
+
+section table tr span {
+  display: block;
+}
+section table tr span:first-letter {
+  text-transform: uppercase;
+  font-size: 15px;
+}
+
+
+
+section table tr:nth-child(even) {
+  background-color: #f2f2f2;
+}
+
+
 #form-search {
   display: flex;
   align-items: center;
@@ -393,7 +445,6 @@ p {
   border-radius: 4px;
   text-decoration: none;
   font-size: 18px;
-  color: #fff;
 }
 
 .btn-primary {

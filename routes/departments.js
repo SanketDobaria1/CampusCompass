@@ -72,91 +72,6 @@ router.route("/getAll").get(async (req, res) => {
 });
 
 router
-  .route("/edit/:id")
-  .get(async (req, res) => {
-    let departmentID = req.params.id;
-    try {
-      departmentID = validations.checkId(departmentID);
-    } catch (e) {
-      return res.status(400).json({ error: e });
-    }
-    try {
-      let department = await departmentData.getById(departmentID);
-      department.departmentStart = department.operating_hours[0];
-      department.departmentEnd = department.operating_hours[1];
-      // console.log(department);
-      const locationList = await locationsData.getLocationDropdown();
-      // console.log(locationList);
-      return res.render("pages/departments/createdepartment", {
-        logedin: "userID" in req.session && req.session.userID.length > 5,
-        title: "Department Edit",
-        form_type: "edit",
-        location: locationList,
-        department: department,
-      });
-    } catch (e) {
-      return res.status(404).json({ error: `No Department for ID ${id}` });
-    }
-  })
-  .put(async (req, res) => {
-    let departmentID = req.params.id;
-    try {
-      departmentID = validations.checkId(departmentID);
-    } catch (e) {
-      return res.status(400).json({ error: e });
-    }
-    let departmentName, room_id, desc, type, operating_hours, operating_days;
-    try {
-      departmentName = validations.checkString(
-        xss(req.body.departmentName),
-        "Department Name"
-      );
-      room_id = validations.checkId(xss(req.body.departmentRoomID), "Room Id");
-      desc = validations.checkString(
-        xss(req.body.departmentDesc),
-        "Department Description"
-      );
-      type = validations.checkDepartmentType(xss(req.body.departmentType));
-
-      operating_hours = [
-        xss(req.body.departmentOpen),
-        xss(req.body.departmentClose),
-      ];
-      validations.checkOperatingTimes(operating_hours[0], operating_hours[1]);
-      operating_days = req.body.departmentWorkinDays;
-      for (let i = 0; i < operating_days.length; i++) {
-        operating_days[i] = Number(operating_days[i]);
-      }
-
-      operating_days = validations.checkDayArray(
-        operating_days,
-        "Operating Days"
-      );
-    } catch (error) {
-      return res.status(400).json({ error: error.message });
-    }
-
-    try {
-      let departmentCreateInfo = await departmentData.updateDepartment(
-        departmentID,
-        departmentName,
-        room_id,
-        desc,
-        type,
-        operating_hours,
-        operating_days
-      );
-      if (!departmentCreateInfo)
-        return res.status(500).json({ error: "Error Creating object" });
-      else return res.json({ departmentEdited: true });
-    } catch (error) {
-      if (error.message === "Department Already exists!")
-        return res.status(400).json({ error: error.message });
-      else return res.status(400).json({ error: error.message });
-    }
-  });
-
-router
   .route("/")
   .get(async (req, res) => {
     res.render("pages/departments/departments", {
@@ -219,11 +134,98 @@ router.route("/create").get(async (req, res) => {
   const locationList = await locationsData.getLocationDropdown();
   return res.render("pages/departments/createdepartment", {
     logedin: "userID" in req.session && req.session.userID.length > 5,
+    admin: req.session.userRole === "admin",
     title: "Department Create",
     form_type: "create",
     location: locationList,
   });
 });
+
+router
+  .route("/edit/:id")
+  .get(async (req, res) => {
+    let departmentID = req.params.id;
+    try {
+      departmentID = validations.checkId(departmentID);
+    } catch (e) {
+      return res.status(400).json({ error: e.message });
+    }
+    try {
+      let department = await departmentData.getById(departmentID);
+      department.departmentStart = department.operating_hours[0];
+      department.departmentEnd = department.operating_hours[1];
+      const locationList = await locationsData.getLocationDropdown();
+      return res.render("pages/departments/createdepartment", {
+        logedin: "userID" in req.session && req.session.userID.length > 5,
+        admin: req.session.userRole === "admin",
+        title: "Department Edit",
+        form_type: "edit",
+        location: locationList,
+        department: department,
+      });
+    } catch (e) {
+      return res
+        .status(404)
+        .json({ error: `No Department for ID ${departmentID}` });
+    }
+  })
+  .put(async (req, res) => {
+    let departmentID = req.params.id;
+    try {
+      departmentID = validations.checkId(departmentID);
+    } catch (e) {
+      return res.status(400).json({ error: e });
+    }
+    let departmentName, room_id, desc, type, operating_hours, operating_days;
+    try {
+      departmentName = validations.checkString(
+        xss(req.body.departmentName),
+        "Department Name"
+      );
+      room_id = validations.checkId(xss(req.body.departmentRoomID), "Room Id");
+      desc = validations.checkString(
+        xss(req.body.departmentDesc),
+        "Department Description"
+      );
+      type = validations.checkDepartmentType(xss(req.body.departmentType));
+
+      operating_hours = [
+        xss(req.body.departmentOpen),
+        xss(req.body.departmentClose),
+      ];
+      validations.checkOperatingTimes(operating_hours[0], operating_hours[1]);
+      operating_days = req.body.departmentWorkinDays;
+      for (let i = 0; i < operating_days.length; i++) {
+        operating_days[i] = Number(operating_days[i]);
+      }
+
+      operating_days = validations.checkDayArray(
+        operating_days,
+        "Operating Days"
+      );
+    } catch (error) {
+      return res.status(400).json({ error: error.message });
+    }
+
+    try {
+      let departmentCreateInfo = await departmentData.updateDepartment(
+        departmentID,
+        departmentName,
+        room_id,
+        desc,
+        type,
+        operating_hours,
+        operating_days
+      );
+      if (!departmentCreateInfo)
+        return res.status(500).json({ error: "Error Creating object" });
+      else return res.json({ departmentEdited: true });
+    } catch (error) {
+      if (error.message === "Department Already exists!")
+        return res.status(400).json({ error: error.message });
+      else return res.status(400).json({ error: error.message });
+    }
+  });
 
 router
   .route("/:id")
@@ -242,105 +244,6 @@ router
       departmentObject["formated_time_end"] = validations.formatTime(
         departmentObject.operating_hours[1]
       );
-      router
-        .route("/edit/:id")
-        .get(async (req, res) => {
-          let departmentID = req.params.id;
-          try {
-            departmentID = validations.checkId(departmentID);
-          } catch (e) {
-            return res.status(400).json({ error: e });
-          }
-          try {
-            let department = await departmentData.getById(departmentID);
-            department.departmentStart = department.operating_hours[0];
-            department.departmentEnd = department.operating_hours[1];
-            // console.log(department);
-            const locationList = await locationsData.getLocationDropdown();
-            // console.log(locationList);
-            return res.render("pages/departments/createdepartment", {
-              logedin: "userID" in req.session && req.session.userID.length > 5,
-              title: "Department Edit",
-              form_type: "edit",
-              location: locationList,
-              department: department,
-            });
-          } catch (e) {
-            return res
-              .status(404)
-              .json({ error: `No Department for ID ${departmentID}` });
-          }
-        })
-        .put(async (req, res) => {
-          let departmentID = req.params.id;
-          try {
-            departmentID = validations.checkId(departmentID);
-          } catch (e) {
-            return res.status(400).json({ error: e });
-          }
-          let departmentName,
-            room_id,
-            desc,
-            type,
-            operating_hours,
-            operating_days;
-          try {
-            departmentName = validations.checkString(
-              xss(req.body.departmentName),
-              "Department Name"
-            );
-            room_id = validations.checkId(
-              xss(req.body.departmentRoomID),
-              "Room Id"
-            );
-            desc = validations.checkString(
-              xss(req.body.departmentDesc),
-              "Department Description"
-            );
-            type = validations.checkDepartmentType(
-              xss(req.body.departmentType)
-            );
-
-            operating_hours = [
-              xss(req.body.departmentOpen),
-              xss(req.body.departmentClose),
-            ];
-            validations.checkOperatingTimes(
-              operating_hours[0],
-              operating_hours[1]
-            );
-            operating_days = req.body.departmentWorkinDays;
-            for (let i = 0; i < operating_days.length; i++) {
-              operating_days[i] = Number(operating_days[i]);
-            }
-
-            operating_days = validations.checkDayArray(
-              operating_days,
-              "Operating Days"
-            );
-          } catch (error) {
-            return res.status(400).json({ error: error.message });
-          }
-
-          try {
-            let departmentCreateInfo = await departmentData.updateDepartment(
-              departmentID,
-              departmentName,
-              room_id,
-              desc,
-              type,
-              operating_hours,
-              operating_days
-            );
-            if (!departmentCreateInfo)
-              return res.status(500).json({ error: "Error Creating object" });
-            else return res.json({ departmentEdited: true });
-          } catch (error) {
-            if (error.message === "Department Already exists!")
-              return res.status(400).json({ error: error.message });
-            else return res.status(400).json({ error: error.message });
-          }
-        });
 
       let operating_days = departmentObject.operating_days.map((day) =>
         validations.returnDay(day)
