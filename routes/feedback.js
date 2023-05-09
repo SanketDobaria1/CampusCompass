@@ -34,6 +34,16 @@ router
     }
   })
   .post(async (req, res) => {
+    if (!req.xhr)
+      if (
+        req.headers["user-agent"] &&
+        req.headers["user-agent"].includes("Mozilla")
+      )
+        return res.status(403).render("pages/error", {
+          statusCode: 403,
+          errorMessage: "Forbidden",
+        });
+      else return res.status(401).json({ error: "Forbidden" });
     let objectType, reported_object_id, feedbackDesc;
     let objectTypeList = ["departments", "events", "locations"];
     try {
@@ -87,40 +97,41 @@ router.route("/getAll").get(async (req, res) => {
   }
 });
 
-router.route("/:id")
-.get(async (req, res) => {
-  try {
-    req.params.id = validation.checkId(req.params.id, "user ID");
-  } catch (e) {
-    return res.status(400).json({ error: e });
-  }
-  if (xss(!req.session.userID)) {
-    return res.redirect("/");
-  }
-  try {
-    const feedbackbyID = await feedbackData.getById(req.params.id);
-    res.render("pages/feedbackID", {
-      title: "feedback",
-      data: feedbackbyID,
-      logedin: "userID" in req.session && req.session.userID.length > 5,
-    });
-  } catch (e) {
-    res.status(404).json({ error: e });
-  }
-})
+router
+  .route("/:id")
+  .get(async (req, res) => {
+    try {
+      req.params.id = validation.checkId(req.params.id, "user ID");
+    } catch (e) {
+      return res.status(400).json({ error: e });
+    }
+    if (xss(!req.session.userID)) {
+      return res.redirect("/");
+    }
+    try {
+      const feedbackbyID = await feedbackData.getById(req.params.id);
+      res.render("pages/feedbackID", {
+        title: "feedback",
+        data: feedbackbyID,
+        logedin: "userID" in req.session && req.session.userID.length > 5,
+      });
+    } catch (e) {
+      res.status(404).json({ error: e });
+    }
+  })
 
-.post(async (req, res) => {
-  try {
-    req.params.id = validation.checkId(req.params.id, "Id URL Parameter");
-  } catch (e) {
-    return res.status(400).json({ error: e.message });
-  }
-  try {
-    await feedbackData.remove(req.params.id);
-    res.redirect("/feedback/getAll");
-  } catch (e) {
-    res.status(404).json({ error: e });
-  }
-})
+  .post(async (req, res) => {
+    try {
+      req.params.id = validation.checkId(req.params.id, "Id URL Parameter");
+    } catch (e) {
+      return res.status(400).json({ error: e.message });
+    }
+    try {
+      await feedbackData.remove(req.params.id);
+      res.redirect("/feedback/getAll");
+    } catch (e) {
+      res.status(404).json({ error: e });
+    }
+  });
 
 export default router;
