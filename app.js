@@ -78,18 +78,24 @@ app.use("/feedback", rootMiddleware);
 
 app.use("/locations/create", adminMiddleware);
 app.use("/locations/edit/:id", adminMiddleware);
+app.post("/location", adminMiddleware);
+app.delete("/locations/:id", adminMiddleware);
+app.put("/locations/:id", adminMiddleware);
 
-app.delete("/locations", adminMiddleware);
 app.delete("/departments/:id", adminMiddleware);
-
 app.use("/departments/create", adminMiddleware);
 app.use("/departments/edit/:id", adminMiddleware);
+app.put("/departments/:id", adminMiddleware);
+app.post("/departments", adminMiddleware);
 
 app.use("/events/create", adminMiddleware);
 app.use("/events/edit/:id", adminMiddleware);
+app.put("/events/:id", adminMiddleware);
 app.delete("/events/:id", adminMiddleware);
-app.get("/events/:id", rootMiddleware);
-app.get("/feedback/getAll", adminMiddleware);
+app.post("/events", adminMiddleware);
+
+app.use("/feedback/getAll", adminMiddleware);
+app.use("/feedback/:id", adminMiddleware);
 
 ///helper function for <select> tag
 exphbs
