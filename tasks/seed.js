@@ -25,144 +25,144 @@ async function main() {
   //   [1, 2, 3, 4, 5]
   // );
 
-  // const library = await locationsData.create(
-  //   "Samuel C Williams Library",
-  //   "The Samuel C. Williams Library is the center for information discovery and preservation at Stevens Institute of Technology. The Library is dedicated to fostering an innovative environment with technology, education, and culture. It is our goal to create a distinctive library experience through services and resources that promote information and media literacy, knowledge creation, global scholarly communication, and critical and creative thinking for our students, faculty, and researchers around the world.",
-  //   "Library",
-  //   ["08:00:00", "23:00:00"],
-  //   {
-  //     type: "Polygon",
-  //     coordinates: [
-  //       [
-  //         [-74.02546182494333, 40.74506705869908],
-  //         [-74.02560283482114, 40.744579791007254],
-  //         [-74.02521485991508, 40.744510582978734],
-  //         [-74.0250598089466, 40.74499829604784],
-  //         [-74.02546182494333, 40.74506705869908],
-  //       ],
-  //     ],
-  //   },
-  //   [
-  //     {
-  //       location: {
-  //         coordinates: [-74.02517768966909, 40.74462860838662],
-  //         type: "Point",
-  //       },
-  //       accessible: "N",
-  //     },
-  //     {
-  //       location: {
-  //         coordinates: [-74.02529033008382, 40.74452404375421],
-  //         type: "Point",
-  //       },
-  //       accessible: "Y",
-  //     },
-  //   ]
-  // );
+  const library = await locationsData.create(
+    "Samuel C Williams Library",
+    "The Samuel C. Williams Library is the center for information discovery and preservation at Stevens Institute of Technology. The Library is dedicated to fostering an innovative environment with technology, education, and culture. It is our goal to create a distinctive library experience through services and resources that promote information and media literacy, knowledge creation, global scholarly communication, and critical and creative thinking for our students, faculty, and researchers around the world.",
+    "Academic",
+    ["08:00:00", "23:00:00"],
+    {
+      type: "Polygon",
+      coordinates: [
+        [
+          [-74.02546182494333, 40.74506705869908],
+          [-74.02560283482114, 40.744579791007254],
+          [-74.02521485991508, 40.744510582978734],
+          [-74.0250598089466, 40.74499829604784],
+          [-74.02546182494333, 40.74506705869908],
+        ],
+      ],
+    },
+    [
+      {
+        location: {
+          coordinates: [-74.02517768966909, 40.74462860838662],
+          type: "Point",
+        },
+        accessible: "N",
+      },
+      {
+        location: {
+          coordinates: [-74.02529033008382, 40.74452404375421],
+          type: "Point",
+        },
+        accessible: "Y",
+      },
+    ]
+  );
 
-  // const howeCenter = await locationsData.create(
-  //   "Howe Center",
-  //   "The Howe Center is situated at the top of the hill on Castle Point where the ancestral home of the Stevens family – Castle Stevens – once stood. Built in 1784 by Colonel John Stevens the Georgian-style mansion served, at times, as a dormitory, a cafeteria and office space.",
-  //   "Administrative",
-  //   ["08:00:00", "23:00:00"],
-  //   {
-  //     type: "Polygon",
-  //     coordinates: [
-  //       [
-  //         [-74.02406347350265, 40.74507529485015],
-  //         [-74.02410420475356, 40.74494456827472],
-  //         [-74.02401346813976, 40.7449278345095],
-  //         [-74.02411364675287, 40.744645743728256],
-  //         [-74.02372204662885, 40.744579260608276],
-  //         [-74.02364398707213, 40.7448639079806],
-  //         [-74.02372401080272, 40.74487927842213],
-  //         [-74.02367780014342, 40.74500480329371],
-  //         [-74.02378577842126, 40.74502736098907],
-  //         [-74.02377563456794, 40.745052124415196],
-  //         [-74.0239502139303, 40.74508353526852],
-  //         [-74.02396534673319, 40.745058097451846],
-  //         [-74.02406347350265, 40.74507529485015],
-  //       ],
-  //     ],
-  //   },
-  //   [
-  //     {
-  //       location: {
-  //         coordinates: [-74.02407940709723, 40.745025667321755],
-  //         type: "Point",
-  //       },
-  //       accessible: "Y",
-  //     },
-  //     {
-  //       location: {
-  //         coordinates: [-74.0239075398253, 40.74459849354045],
-  //         type: "Point",
-  //       },
-  //       accessible: "N",
-  //     },
-  //   ]
-  // );
+  const howeCenter = await locationsData.create(
+    "Howe Center",
+    "The Howe Center is situated at the top of the hill on Castle Point where the ancestral home of the Stevens family – Castle Stevens – once stood. Built in 1784 by Colonel John Stevens the Georgian-style mansion served, at times, as a dormitory, a cafeteria and office space.",
+    "Administrative",
+    ["08:00:00", "23:00:00"],
+    {
+      type: "Polygon",
+      coordinates: [
+        [
+          [-74.02406347350265, 40.74507529485015],
+          [-74.02410420475356, 40.74494456827472],
+          [-74.02401346813976, 40.7449278345095],
+          [-74.02411364675287, 40.744645743728256],
+          [-74.02372204662885, 40.744579260608276],
+          [-74.02364398707213, 40.7448639079806],
+          [-74.02372401080272, 40.74487927842213],
+          [-74.02367780014342, 40.74500480329371],
+          [-74.02378577842126, 40.74502736098907],
+          [-74.02377563456794, 40.745052124415196],
+          [-74.0239502139303, 40.74508353526852],
+          [-74.02396534673319, 40.745058097451846],
+          [-74.02406347350265, 40.74507529485015],
+        ],
+      ],
+    },
+    [
+      {
+        location: {
+          coordinates: [-74.02407940709723, 40.745025667321755],
+          type: "Point",
+        },
+        accessible: "Y",
+      },
+      {
+        location: {
+          coordinates: [-74.0239075398253, 40.74459849354045],
+          type: "Point",
+        },
+        accessible: "N",
+      },
+    ]
+  );
 
-  // const babioCenter = await locationsData.create(
-  //   "Lawrence T. Babbio Jr. Center",
-  //   "The Babbio Center is the home of the School of Business, and is where most business classes are held. The Babbio Center also is where Stevens’ high-tech financial analytics labs are located. The building commands an incredible view of the Manhattan skyline and has a variety of collaborative workspaces for students throughout. Faculty and leadership have offices on the upper floors of the Babbio Center, while parking is available in the attached garage.",
-  //   "Multi-Purpose Building",
-  //   ["08:00:00", "23:00:00"],
-  //   {
-  //     type: "Polygon",
-  //     coordinates: [
-  //       [
-  //         [-74.02648926959405, 40.742954177668025],
-  //         [-74.02650256701602, 40.742959213502786],
-  //         [-74.0265347712054, 40.74296618961469],
-  //         [-74.02658520953776, 40.74297226676512],
-  //         [-74.02663219332761, 40.74297931223995],
-  //         [-74.02669719174129, 40.74297826786636],
-  //         [-74.02675543031066, 40.74296693214322],
-  //         [-74.02676849232546, 40.74296006326176],
-  //         [-74.02677554329222, 40.742954894866045],
-  //         [-74.02691722336041, 40.742493886029195],
-  //         [-74.02659249822541, 40.74243785952905],
-  //         [-74.02653078033018, 40.74263221118608],
-  //         [-74.02643543206403, 40.74261707264225],
-  //         [-74.02634170100734, 40.742770273541936],
-  //         [-74.02643458439883, 40.74280180411807],
-  //         [-74.02643554582062, 40.74282490821162],
-  //         [-74.02646804639065, 40.74282372978362],
-  //         [-74.02646253782572, 40.742844392853584],
-  //         [-74.02642456895816, 40.74285062137284],
-  //         [-74.02643006961499, 40.74287240775104],
-  //         [-74.02644522356508, 40.74290213230927],
-  //         [-74.02643668136152, 40.74292259278815],
-  //         [-74.02649579131463, 40.74293185582411],
-  //         [-74.02648926959405, 40.742954177668025],
-  //       ],
-  //     ],
-  //   },
-  //   [
-  //     {
-  //       location: {
-  //         coordinates: [-74.02683832758008, 40.742750976202075],
-  //         type: "Point",
-  //       },
-  //       accessible: "Y",
-  //     },
-  //     {
-  //       location: {
-  //         coordinates: [-74.02677751022433, 40.74294918891226],
-  //         type: "Point",
-  //       },
-  //       accessible: "N",
-  //     },
-  //     {
-  //       location: {
-  //         coordinates: [-74.02641172671008, 40.7427941356587],
-  //         type: "Point",
-  //       },
-  //       accessible: "N",
-  //     },
-  //   ]
-  // );
+  const babioCenter = await locationsData.create(
+    "Lawrence T. Babbio Jr. Center",
+    "The Babbio Center is the home of the School of Business, and is where most business classes are held. The Babbio Center also is where Stevens’ high-tech financial analytics labs are located. The building commands an incredible view of the Manhattan skyline and has a variety of collaborative workspaces for students throughout. Faculty and leadership have offices on the upper floors of the Babbio Center, while parking is available in the attached garage.",
+    "Academic",
+    ["08:00:00", "23:00:00"],
+    {
+      type: "Polygon",
+      coordinates: [
+        [
+          [-74.02648926959405, 40.742954177668025],
+          [-74.02650256701602, 40.742959213502786],
+          [-74.0265347712054, 40.74296618961469],
+          [-74.02658520953776, 40.74297226676512],
+          [-74.02663219332761, 40.74297931223995],
+          [-74.02669719174129, 40.74297826786636],
+          [-74.02675543031066, 40.74296693214322],
+          [-74.02676849232546, 40.74296006326176],
+          [-74.02677554329222, 40.742954894866045],
+          [-74.02691722336041, 40.742493886029195],
+          [-74.02659249822541, 40.74243785952905],
+          [-74.02653078033018, 40.74263221118608],
+          [-74.02643543206403, 40.74261707264225],
+          [-74.02634170100734, 40.742770273541936],
+          [-74.02643458439883, 40.74280180411807],
+          [-74.02643554582062, 40.74282490821162],
+          [-74.02646804639065, 40.74282372978362],
+          [-74.02646253782572, 40.742844392853584],
+          [-74.02642456895816, 40.74285062137284],
+          [-74.02643006961499, 40.74287240775104],
+          [-74.02644522356508, 40.74290213230927],
+          [-74.02643668136152, 40.74292259278815],
+          [-74.02649579131463, 40.74293185582411],
+          [-74.02648926959405, 40.742954177668025],
+        ],
+      ],
+    },
+    [
+      {
+        location: {
+          coordinates: [-74.02683832758008, 40.742750976202075],
+          type: "Point",
+        },
+        accessible: "Y",
+      },
+      {
+        location: {
+          coordinates: [-74.02677751022433, 40.74294918891226],
+          type: "Point",
+        },
+        accessible: "N",
+      },
+      {
+        location: {
+          coordinates: [-74.02641172671008, 40.7427941356587],
+          type: "Point",
+        },
+        accessible: "N",
+      },
+    ]
+  );
 
   const athleticCenter = await locationsData.create(
     "Schaefer Athletic and Recreation Center",
@@ -302,7 +302,7 @@ async function main() {
   const davisHall = await locationsData.create(
     "Davis Hall",
     "Davis Hall offers traditional double rooms for first-year men and women. Some rooms have a view of the Hudson River and New York City, while others overlook Stevens’ scenic campus lawn. Davis Hall is located on lower campus, just steps away from academic buildings, athletic facilities and local shops and restaurants.",
-    "Social",
+    "Residence",
     ["08:00:00", "22:00:00"],
     {
       type: "Polygon",
@@ -782,180 +782,90 @@ async function main() {
     // "64236f804eebf566c9d8d8df",
     "The International Student and Scholar Services (ISSS) office is committed to assisting international students, faculty and scholars in accomplishing their academic, personal and professional objectives through advising, providing immigration services, promoting cross-cultural opportunities and offering specific programs and services to our international population.",
     "Administrative",
-    [
-      "08:00:00",
-      "16:00:00"
-    ],
-    [
-      1,
-      5,
-      7
-    ]
-  )
+    ["08:00:00", "16:00:00"],
+    [1, 5, 7]
+  );
 
   const BioEngineering = await departmentData.create(
     "Department of Biomedical Engineering",
     // "64236f804eebf566c9d8d8df",
     "The Department of Biomedical Engineering amplifies broad-based education and hands-on research initiatives at the boundary between science and engineering.",
     "Academic",
-    [
-      "08:00:00",
-      "16:00:00"
-    ],
-    [
-      1,
-      2,
-      3,
-      4,
-      5
-    ]
-  )
+    ["08:00:00", "16:00:00"],
+    [1, 2, 3, 4, 5]
+  );
 
   const ChemAndBio = await departmentData.create(
     "Department of Chemistry and Chemical Biology",
     // "64236f804eebf566c9d8d8df",
     "The Department of Chemistry and Chemical Biology at Stevens is known for its legacy of fostering and nurturing groundbreaking, world-class innovation.",
     "Academic",
-    [
-      "08:00:00",
-      "16:00:00"
-    ],
-    [
-      1,
-      2,
-      3,
-      4,
-      5
-    ]
-  )
+    ["08:00:00", "16:00:00"],
+    [1, 2, 3, 4, 5]
+  );
 
   const ChemEngineering = await departmentData.create(
     "Department of Chemical Engineering and Materials Science",
     // "64236f804eebf566c9d8d8df",
     "The Department of Chemical Engineering and Materials Science at Stevens harnesses the synergy between two impactful disciplines to drive discoveries and innovation that change industry – and society.",
     "Academic",
-    [
-      "08:00:00",
-      "16:00:00"
-    ],
-    [
-      1,
-      2,
-      3,
-      4,
-      5
-    ]
-  )
+    ["08:00:00", "16:00:00"],
+    [1, 2, 3, 4, 5]
+  );
 
   const CivilEngineering = await departmentData.create(
     "Department of Civil, Environmental and Ocean Engineering",
     // "64236f804eebf566c9d8d8df",
     "The Department of Civil, Environmental and Ocean Engineering at Stevens was founded on the core principles of engineering that underpin the infrastructure which supports our economy and our society.",
     "Academic",
-    [
-      "08:00:00",
-      "16:00:00"
-    ],
-    [
-      1,
-      2,
-      3,
-      4,
-      5
-    ]
-  )
+    ["08:00:00", "16:00:00"],
+    [1, 2, 3, 4, 5]
+  );
 
   const ComputerScience = await departmentData.create(
     "Department of Computer Science",
     // "64236f804eebf566c9d8d8df",
     "The Department of Computer Science at Stevens is one of the leading computer science departments in the country, with globally-recognized experts in cybersecurity, artificial intelligence, machine learning, and computer vision.",
     "Academic",
-    [
-      "08:00:00",
-      "16:00:00"
-    ],
-    [
-      1,
-      2,
-      3,
-      4,
-      5
-    ]
-  )
-
+    ["08:00:00", "16:00:00"],
+    [1, 2, 3, 4, 5]
+  );
 
   const ElectricalEngineering = await departmentData.create(
     "Department of Electrical and Computer Engineering",
     // "64236f804eebf566c9d8d8df",
     "As one of the first in the nation, the Department of Electrical and Computer Engineering at Stevens has a long legacy of innovation and discovery.",
     "Academic",
-    [
-      "08:00:00",
-      "16:00:00"
-    ],
-    [
-      1,
-      2,
-      3,
-      4,
-      5
-    ]
-  )
+    ["08:00:00", "16:00:00"],
+    [1, 2, 3, 4, 5]
+  );
 
   const MathematicalSciences = await departmentData.create(
     "Department of Mathematical Sciences",
     // "64236f804eebf566c9d8d8df",
     "The Department of Mathematical Sciences at Stevens is a leader in the field of algebraic cryptography.",
     "Academic",
-    [
-      "08:00:00",
-      "16:00:00"
-    ],
-    [
-      1,
-      2,
-      3,
-      4,
-      5
-    ]
-  )
-
+    ["08:00:00", "16:00:00"],
+    [1, 2, 3, 4, 5]
+  );
 
   const MechanicalEngineering = await departmentData.create(
     "Department of Mechanical Engineering",
     // "64236f804eebf566c9d8d8df",
     "As the founding department at Stevens and the home of its very first degree, the Department of Mechanical Engineering is the legacy of our university.",
     "Academic",
-    [
-      "08:00:00",
-      "16:00:00"
-    ],
-    [
-      1,
-      2,
-      3,
-      4,
-      5
-    ]
-  )
+    ["08:00:00", "16:00:00"],
+    [1, 2, 3, 4, 5]
+  );
 
   const Physics = await departmentData.create(
     "Department of Physics",
     // "64236f804eebf566c9d8d8df",
     "As one of the first departments established at Stevens Institute of Technology, the Department of Physics has been an active participant in the revolution of physics science and education for 150 years.",
     "Academic",
-    [
-      "08:00:00",
-      "16:00:00"
-    ],
-    [
-      1,
-      2,
-      3,
-      4,
-      5
-    ]
-  )
+    ["08:00:00", "16:00:00"],
+    [1, 2, 3, 4, 5]
+  );
 
   // await roomsData.create(library._id.toString(), 101, 60, 1, "classroom");
   // await roomsData.create(library._id.toString(), 102, 60, 1, "laboratory");
