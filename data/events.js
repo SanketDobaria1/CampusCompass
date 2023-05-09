@@ -1,8 +1,7 @@
 import { ObjectId } from "mongodb";
 import { events } from "../config/mongoCollections.js";
+import notifications from "../data/notification.js";
 import validation from "../validate.js";
-import notifications from "../data/notification.js"
-
 
 const exportedMethods = {
   async getById(id) {
@@ -16,7 +15,7 @@ const exportedMethods = {
     return event;
   },
 
-  async create(name, desc, type, event_date, hours, created_by, location_id) {
+  async create(name, desc, type, event_date, hours, created_by, locations_arr) {
     // ERROR HANDLING & INPUT VALIDATIONS //
     name = validation.checkString(name, "event Name");
     desc = validation.checkString(desc, "Description");
@@ -24,7 +23,28 @@ const exportedMethods = {
     event_date = validation.checkStringArray(event_date, "event Date", 3);
     hours = validation.checkStringArray(hours, "Hours", 2);
     created_by = validation.checkId(created_by, "Created By");
-    location_id = validation.checkId(location_id, "Location ID");
+
+    if (
+      typeof locations_arr !== "object" ||
+      !Array.isArray(locations_arr) ||
+      locations_arr.length < 1
+    )
+      throw new Error(`Expected Locations Array to contain atleast 1 element`);
+
+    locations_arr[0] = validation.checkId(locations_arr[0], "Location ID");
+    if (locations_arr.length === 2)
+      locations_arr[1] = validation.checkId(locations_arr[1], "Building ID");
+
+    let event_start = new Date(`${event_date[0]} 00:00:00`);
+    let event_end = new Date(`${event_date[0]} 00:00:00`);
+
+    if (!event_end >= event_start)
+      throw new Error(`End Data cannot be less than start date`);
+    else if (event_date[0] === event_date[1])
+      event_date[2] = event_start.getDay();
+    console.log(event_end === event_start, event_end.getDay());
+
+    event_date[2]=Number(event_date[2])
 
     const lastupdatedDate = new Date();
     lastupdatedDate.setTime(lastupdatedDate.getTime() + -240 * 60 * 1000);
@@ -36,7 +56,7 @@ const exportedMethods = {
       event_date: event_date,
       hours: hours,
       created_by: created_by,
-      location_id: location_id,
+      location_id: locations_arr,
       lastupdatedDate: lastupdatedDate,
     };
 
@@ -68,7 +88,16 @@ const exportedMethods = {
     return eventsList;
   },
 
-  async update(id, name, desc, type, event_date, hours, created_by, location_id) {
+  async update(
+    id,
+    name,
+    desc,
+    type,
+    event_date,
+    hours,
+    created_by,
+    location_id
+  ) {
     // ERROR HANDLING & INPUT VALIDATIONS //
     id = validation.checkId(id, "eventID");
     name = validation.checkString(name, "event Name");
@@ -123,6 +152,7 @@ const exportedMethods = {
     
     }
     
+
     updatedInfo.value._id = updatedInfo.value._id.toString();
     return updatedInfo.value;
   },

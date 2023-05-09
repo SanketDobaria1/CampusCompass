@@ -1,9 +1,9 @@
+import * as dotenv from "dotenv"; // see https://github.com/motdotla/dotenv#how-do-i-use-dotenv-with-import
 import express from "express";
 import exphbs from "express-handlebars";
 import session from "express-session";
 import path, { dirname } from "path";
 import { fileURLToPath } from "url";
-import * as dotenv from "dotenv"; // see https://github.com/motdotla/dotenv#how-do-i-use-dotenv-with-import
 dotenv.config();
 
 import {
@@ -63,28 +63,33 @@ app.use(
     saveUninitialized: true,
   })
 );
-
+app.use(loggingMiddleware);
 // Use middleware functions for routes
 app.get("/login", loginMiddleware);
 
 app.get("/signup", registrationMiddleware);
 app.get("/logout", logoutMiddleware);
+app.use("/home", rootMiddleware);
+app.use("/departments", rootMiddleware);
+app.use("/events", rootMiddleware);
+app.use("/locations", rootMiddleware);
+app.use("/search", rootMiddleware);
+app.use("/feedback", rootMiddleware);
+
 app.use("/locations/create", adminMiddleware);
 app.use("/locations/edit/:id", adminMiddleware);
+
+app.delete("/locations", adminMiddleware);
+app.delete("/departments/:id", adminMiddleware);
+
 app.use("/departments/create", adminMiddleware);
 app.use("/departments/edit/:id", adminMiddleware);
-app.delete("/locations/:id", adminMiddleware);
+
 app.use("/events/create", adminMiddleware);
 app.use("/events/edit/:id", adminMiddleware);
 app.delete("/events/:id", adminMiddleware);
 app.get("/events/:id", rootMiddleware);
-app.get("/home", rootMiddleware);
-app.get("/departments", rootMiddleware);
-app.get("/events", rootMiddleware);
-app.get("/locations/entrance", rootMiddleware);
-app.get("/locations", rootMiddleware);
-app.get("/search", rootMiddleware);
-app.use(loggingMiddleware);
+app.get("/feedback/getAll", adminMiddleware);
 
 ///helper function for <select> tag
 exphbs

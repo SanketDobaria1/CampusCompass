@@ -9,6 +9,20 @@
 </div>
 </div>
 <style>
+
+  .leaflet-routing-container {
+  
+  padding-left:2px;
+  background-color: white;
+  max-height: 50vh;
+  overflow-y: scroll;
+  border-radius: 2px;
+  }
+
+  .leaflet-routing-alt h2::before {
+    content: 'Distance, Time';
+  }
+  
   .modal {
   position: fixed;
   z-index: 9999;
@@ -59,82 +73,82 @@
 
 <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js" integrity="sha512-XQoYMqMTK8LvdxXYG3nZ448hOEQiglfqkJs1NOQV44cWnUrBc8PkAOcXy20w0vlaXaVUearIOBhiXZ5V3ynxwA==" crossorigin=""></script>
 <script src="https://unpkg.com/leaflet-routing-machine@3.2.12/dist/leaflet-routing-machine.min.js"></script>
-<script src="https://unpkg.com/osrm-text-instructions@0.1.1/dist/leaflet-routing-machine-osrm-text-instructions.min.js"></script>
 <script>
-  // Initialize the map
-  const map = L.map('map').setView([{{{centerPoint}}}], 16);
- const buildingName = "{{ data.name }}"
-  // Add OpenStreetMap tiles
-  L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-    attribution: 'Powered by &copy; <a href="https://www.mapbox.com/" target="_blank">Mapbox</a> Map data &copy; <a href="https://www.openstreetmap.org/copyright" target="_blank">OpenStreetMap</a> contributors, <a href="https://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>'
-  }).addTo(map);
+  // Wait for DOM to initialize before initializing the map
+  document.addEventListener('DOMContentLoaded', function() {
+    // Initialize the map
+    const map = L.map('map').setView([{{{centerPoint}}}], 16);
+    const buildingName = "{{ locationName }}";
 
-  // Function to request user's location and provide directions to the building
-  function showDirectionsToBuilding(destinationLatLng) {
-  if (navigator.geolocation) {
-    navigator.geolocation.getCurrentPosition((position) => {
-      // Get user's current location
-      const userLatLng = L.latLng(position.coords.latitude, position.coords.longitude);
+    // Add OpenStreetMap tiles
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+      attribution: 'Powered by &copy; <a href="https://www.mapbox.com/" target="_blank">Mapbox</a> | Map data &copy; <a href="https://www.openstreetmap.org/copyright" target="_blank">OpenStreetMap</a> contributors, <a href="https://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>'
+    }).addTo(map);
 
-      // Add a marker for the user's current location
-      L.marker(userLatLng).addTo(map).bindPopup('Your current location').openPopup();
+    // Function to request user's location and provide directions to the building
+    function showDirectionsToBuilding(destinationLatLng) {
+      if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition((position) => {
+          // Get user's current location
+          const userLatLng = L.latLng(position.coords.latitude, position.coords.longitude);
 
-      // Initialize the OSRM router with pedestrian profile
+          // Add a marker for the user's current location
+          L.marker(userLatLng).addTo(map).bindPopup('Your location').openPopup();
 
-      const osrmRouter = L.Routing.mapbox('{{ api_token }}',{
-        profile: 'mapbox/walking'
-      });
-     
+          // Initialize the OSRM router with pedestrian profile
+          const osrmRouter = L.Routing.mapbox('{{ api_token }}', {
+            profile: 'mapbox/walking'
+          });
 
-      // Add routing control to the map
-      const control = L.Routing.control({
-        waypoints: [
-          userLatLng,
-          destinationLatLng
-        ],
-        router: osrmRouter,
-        createMarker: function() { return null; }, // Disable adding new markers for route
-        collapsible: true,
-        show: false, // Hide routing control by default
-        lineOptions: {
-          styles: [{ color: 'blue', opacity: 0.6, weight: 4 }]
-        }
-      }).addTo(map);
+          // Add routing control to the map
+          const control = L.Routing.control({
+            waypoints: [
+              userLatLng,
+              destinationLatLng
+            ],
+            router: osrmRouter,
+            createMarker: function() { return null; }, // Disable adding new markers for route
+            collapsible: true,
+            show: false, // Hide routing control by default
+            lineOptions: {
+              styles: [{ color: 'blue', opacity: 0.6, weight: 4 }]
+            }
+          }).addTo(map);
 
-      control.show(); // Show routing control after it's added to the map
-    }, (error) => {
-      alert('Error: Unable to retrieve your location');
-    });
-  } else {
-    alert('Error: Geolocation is not supported by this browser');
-  }
-}
-
-  // Add a marker for a building
-  const buildingLatLng = L.latLng({{{ centerPoint }}}); // Replace with actual building coordinates
-  const buildingMarker = L.marker(buildingLatLng).addTo(map).bindPopup(buildingName).openPopup();
-  buildingMarker.on('click', () => {
-    // Check if the user has already granted location access
-    const alreadyAskedForLocation = localStorage.getItem('alreadyAskedForLocation');
-    if (alreadyAskedForLocation === 'true') {
-      // User has already granted access, show directions
-      showDirectionsToBuilding(buildingLatLng);
-      return;
+          control.show(); // Show routing control after it's added to the map
+        }, (error) => {
+          alert('Error: Unable to retrieve your location');
+        });
+      } else {
+        alert('Error: Geolocation is not supported by this browser');
+      }
     }
-  // Open the location request dialog box
-  document.getElementById('locationRequestModal').style.display = 'block';
-});
 
-document.getElementById('allowLocationButton').addEventListener('click', () => {
-            // Set the flag in localStorage
-            localStorage.setItem('alreadyAskedForLocation', 'true');
-            document.getElementById('locationRequestModal').style.display = 'none';
-            showDirectionsToBuilding(buildingLatLng);
-        });
+    // Add a marker for a building
+    const buildingLatLng = L.latLng({{{ centerPoint }}}); // Replace with actual building coordinates
+    const buildingMarker = L.marker(buildingLatLng).addTo(map).bindPopup(buildingName).openPopup();
+    buildingMarker.on('click', () => {
+      // Check if the user has already granted location access
+      const alreadyAskedForLocation = localStorage.getItem('alreadyAskedForLocation');
+      if (alreadyAskedForLocation === 'true') {
+        // User has already granted access, show directions
+        showDirectionsToBuilding(buildingLatLng);
+        return;
+      }
+      // Open the location request dialog box
+      document.getElementById('locationRequestModal').style.display = 'block';
+    });
 
-        document.getElementById('denyLocationButton').addEventListener('click', () => {
-            document.getElementById('locationRequestModal').style.display = 'none';
-            alert('You have denied access to your location. Directions cannot be provided.');
-        });
+    document.getElementById('allowLocationButton').addEventListener('click', () => {
+      // Set the flag in localStorage
+      localStorage.setItem('alreadyAskedForLocation', 'true');
+      document.getElementById('locationRequestModal').style.display = 'none';
+      showDirectionsToBuilding(buildingLatLng);
+    });
 
+    document.getElementById('denyLocationButton').addEventListener('click', () => {
+      document.getElementById('locationRequestModal').style.display = 'none';
+      alert('You have denied access to your location. Directions cannot be provided.');
+    });
+  });
 </script>

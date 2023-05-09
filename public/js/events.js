@@ -1,4 +1,105 @@
 $(document).ready(function () {
+  validateForm("#event-create-form");
+  validateForm("#event-edit-form");
+
+  function validateForm(formId) {
+    const form = $(formId);
+    const eventName = form.find("#event_name");
+    const eventDesc = form.find("#event_desc");
+    const eventType = form.find("#event_type");
+    const eventStartDate = form.find("#event_start_date");
+    const eventEndDate = form.find("#event_end_date");
+    const eventDays = form.find("#event_days");
+    const openingHours = form.find("#opening_hours");
+    const closingHours = form.find("#closing_hours");
+    const locationId = form.find("#location_id");
+
+    form.on("submit", function (e) {
+      let isValid = true;
+
+      // Event name validation
+      if (eventName.val().trim() === "") {
+        showError(eventName, "Event name is required");
+        isValid = false;
+      } else {
+        clearError(eventName);
+      }
+
+      // Event description validation
+      if (eventDesc.val().trim() === "") {
+        showError(eventDesc, "Event description is required");
+        isValid = false;
+      } else {
+        clearError(eventDesc);
+      }
+
+      // Event type validation
+      if (eventType.val().trim() === "") {
+        showError(eventType, "Event type is required");
+        isValid = false;
+      } else {
+        clearError(eventType);
+      }
+
+      // Event date validation
+      if (eventStartDate.val() === "" || eventEndDate.val() === "") {
+        showError(eventStartDate, "Both start and end dates are required");
+        isValid = false;
+      } else if (eventStartDate.val() > eventEndDate.val()) {
+        showError(eventStartDate, "Start date cannot be later than end date");
+        isValid = false;
+      } else {
+        clearError(eventStartDate);
+      }
+
+      // Event days validation
+      if (!eventDays.val()) {
+        showError(eventDays, "At least one event day is required");
+        isValid = false;
+      } else {
+        clearError(eventDays);
+      }
+
+      // Event hours validation
+      if (openingHours.val() === "" || closingHours.val() === "") {
+        showError(openingHours, "Both opening and closing hours are required");
+        isValid = false;
+      } else if (openingHours.val() >= closingHours.val()) {
+        showError(
+          openingHours,
+          "Opening hours must be earlier than closing hours"
+        );
+        isValid = false;
+      } else {
+        clearError(openingHours);
+      }
+
+      // Location validation
+      if (locationId.val().trim() === "") {
+        showError(locationId, "Location is required");
+        isValid = false;
+      } else {
+        clearError(locationId);
+      }
+
+      if (!isValid) {
+        e.preventDefault();
+      }
+    });
+  }
+
+  function showError(input, message) {
+    const errorMsg = input.next();
+    errorMsg.text(message);
+    input.addClass("invalid");
+  }
+
+  function clearError(input) {
+    const errorMsg = input.next();
+    errorMsg.text("");
+    input.removeClass("invalid");
+  }
+
   // Delete event
   $(".delete").on("click", function () {
     const eventId = $(this).data("id");

@@ -9,7 +9,8 @@ const exportedMethods = {
     const notificationInfo = await notificationCollection.findOne({
       _id: new ObjectId(id),
     });
-    if (notificationInfo === null) throw "No notification element found with that Id";
+    if (notificationInfo === null)
+      throw "No notification element found with that Id";
     notificationInfo._id = notificationInfo._id.toString();
     return notificationInfo;
   },
