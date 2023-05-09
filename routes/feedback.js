@@ -12,18 +12,14 @@ const router = Router();
 router
   .route("/")
   .get(async (req, res) => {
-    let isAdmin = false;
-    if (req.session.userRole === "admin") {
-      isAdmin = true;
-    }
     try {
       let events = await eventsData.getAll();
       let departments = await departmentData.getDepartmentAll();
       let locations = await locationsData.getAll();
       res.render("pages/feedback/feedback", {
         id: req.session.userID,
-        isAdmin: isAdmin,
         logedin: "userID" in req.session && req.session.userID.length > 5,
+        isAdmin: req.session.userRole === "admin",
         events: events,
         departments: departments,
         locations: locations,
@@ -34,6 +30,16 @@ router
     }
   })
   .post(async (req, res) => {
+    if (!req.xhr)
+      if (
+        req.headers["user-agent"] &&
+        req.headers["user-agent"].includes("Mozilla")
+      )
+        return res.status(403).render("pages/error", {
+          statusCode: 403,
+          errorMessage: "Forbidden",
+        });
+      else return res.status(401).json({ error: "Forbidden" });
     let objectType, reported_object_id, feedbackDesc;
     let objectTypeList = ["departments", "events", "locations"];
     try {
@@ -68,16 +74,18 @@ router
   });
 
 router.route("/getAll").get(async (req, res) => {
-  if (xss(!req.session.userID)) {
-    return res.redirect("/");
-  }
   try {
     let feedbacks = await feedbackData.getAll();
     if (req.session.userRole == "admin") {
       res.render("pages/feedback/allfeedbacks", {
-        admin: true,
         logedin: "userID" in req.session && req.session.userID.length > 5,
+        admin: req.session.userRole === "admin",
         feedbacks: feedbacks,
+        title: "Feedbacks Admin Page",
+        feedbackString:
+          feedbacks.length > 0
+            ? "List of All Feedbacks Received"
+            : "No Feedbacks Recevied",
       });
     } else {
       res.status(404).send(e);

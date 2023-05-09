@@ -26,6 +26,21 @@ const exportedMethods = {
     return type;
   },
 
+  checkLocationType(type) {
+    type = this.checkString(type, "Department Type");
+    let locationList = [
+      "Residence",
+      "Academic",
+      "Recreational",
+      "Administrative",
+      "Parking",
+      "Health",
+    ];
+    if (!locationList.includes(type))
+      throw new Error(`Please check Location type`);
+    return type;
+  },
+
   checkStevensMail(emailid) {
     if (!emailid) throw new Error(`Expected Emailid to be non-empty`);
     if (typeof emailid !== "string" || emailid.trim().length === 0)

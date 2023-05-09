@@ -1,7 +1,12 @@
-<form action="/locations" id="location-create-form" method="POST">
+<form class="container" action="/locations" id="location-create-form" method="POST">
 
-  <div id="error" class="divError" hidden></div>
+  <div id="error" class="divError">
 
+    {{#if error}}
+    <p>{{error}}</p>
+    {{/if}}
+  </div>
+  
   <label for="location_name">Name</label>
   <br />
   <input
@@ -28,14 +33,17 @@
 
   <label for="location_type">Location Type</label>
   <br />
-  <input
-    class="form-input"
-    id="location_type"
-    name="location_type"
-    type="text"
-    placeholder="Type of this Location"
-    value="{{data.location_type}}"
-  />
+
+  <select class="form-input" name="location_type" id="location_type">
+    <option value="#">Select Type</option>
+    <option value="Residence" {{ selected data.location_type "Residence" }}>Residence</option>
+    <option value="Academic" {{ selected data.location_type "Academic" }}>Academic</option>
+    <option value="Recreational" {{ selected data.location_type "Recreational" }}>Recreational</option>
+    <option value="Administrative" {{ selected data.location_type "Administrative" }}>Administrative</option>
+    <option value="Parking" {{ selected data.location_type "Academic" }}>Parking</option>
+    <option value="Health" {{ selected data.location_type "Health" }}>Health</option>
+  </select>
+  
   <br />
 
   <label for="opening_hours">Opening Hours</label>
@@ -67,14 +75,14 @@
   />
   <br />
 
-  <label for="location">Location Coordinates</label>
+  <label for="location">Location Coordinates. Please enter Co-ordinates in GeoJSON Co-ordinate format</label>
   <br />
   <input
     class="form-input"
     id="location"
     name="location"
     type="text"
-    placeholder="GeoJson of Location"
+    placeholder="Ex: [[[-74.027, 40.74], [-74.07, 40.742], [-74.028, 40.73], [-74.65, 40.78], [-74.04, 40.98], [-74.027, 40.74], [-74.024, 40.7434]]]"
     value="{{data.location}}"
   />
   <br />
@@ -95,9 +103,16 @@
   newEntranceHtml = ` <fieldset> <label for="location_entrances">Entrance
   ${numEntrances}'s Coordinates:</label> <br> <input class="form-input"
   id="location_entrances" name="location_entrances" type="text"
-  placeholder="Cordinates of Entrances"> <label
-  for="entrance_access">Accessible? (Y/N): <input class="form-input" type="text"
-  name="entrance_access" pattern="[YyNn]"></label><br> </fieldset> `;
+  placeholder="Cordinates of Entrances"> 
+  <label for="entrance_access">Accessible? (Y/N): 
+  <select class="form-input" 
+  name="entrance_access" pattern="[YyNn]">
+  <option value="#">Select Type</option>
+  <option value="Y">Yes</option>
+  <option value="N">No</option>
+  </select>
+  </label>
+  <br> </fieldset> `;
   entrancesContainer.insertAdjacentHTML('beforeend', newEntranceHtml);
   numEntrances++; });
 </script>
