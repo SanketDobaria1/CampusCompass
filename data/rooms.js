@@ -25,11 +25,13 @@ const exportedMethods = {
     const locationsCollection = await locations();
     const checkExistingLocation = await locationsCollection.findOne(
       {
+
       $and: [
         { "rooms.room_number": room_number },
         {"rooms.locationId": locationId}
       ],
       },
+
       { projection: { _id: 1, name: 1 } }
     );
 
