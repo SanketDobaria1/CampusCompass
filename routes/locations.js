@@ -232,7 +232,12 @@ router
         logedin: "userID" in req.session && req.session.userID.length > 5,
       });
     } catch (error) {
-      return res.status(404).json({ error: error.message });
+      return res.status(404).render("pages/error", {
+        title: "Error",
+        statusCode: 404,
+        errorMessage: "Not Found, Requested Page Doesnot exists!",
+        logedin: "userID" in req.session && req.session.userID.length > 5,
+      });
     }
   })
   .put(async (req, res) => {
@@ -313,7 +318,12 @@ router
     try {
       req.params.id = validation.checkId(req.params.id, "Id URL Parameter");
     } catch (e) {
-      return res.status(400).json({ error: e.message });
+      return res.status(404).render("pages/error", {
+        title: "Error",
+        statusCode: 404,
+        errorMessage: "Not Found, Requested Page Doesnot exists!",
+        logedin: "userID" in req.session && req.session.userID.length > 5,
+      });
     }
     try {
       const location = await locationsData.getById(req.params.id);
@@ -361,14 +371,24 @@ router
         logedin: "userID" in req.session && req.session.userID.length > 5,
       });
     } catch (e) {
-      return res.status(404).json({ error: e.message });
+      return res.status(404).render("pages/error", {
+        title: "Error",
+        statusCode: 404,
+        errorMessage: "Not Found, Requested Page Doesnot exists!",
+        logedin: "userID" in req.session && req.session.userID.length > 5,
+      });
     }
   })
   .post(async (req, res) => {
     try {
       req.params.id = validation.checkId(req.params.id, "Id URL Parameter");
     } catch (e) {
-      return res.status(400).json({ error: e.message });
+      return res.status(404).render("pages/error", {
+        title: "Error",
+        statusCode: 404,
+        errorMessage: "Not Found, Requested Page Doesnot exists!",
+        logedin: "userID" in req.session && req.session.userID.length > 5,
+      });
     }
     try {
       let confirmation = await locationsData.remove(req.params.id);
@@ -382,7 +402,12 @@ router
     try {
       req.params.id = validation.checkId(req.params.id, "Id URL Parameter");
     } catch (e) {
-      return res.status(400).json({ error: e });
+      return res.status(404).render("pages/error", {
+        title: "Error",
+        statusCode: 404,
+        errorMessage: "Not Found, Requested Page Doesnot exists!",
+        logedin: "userID" in req.session && req.session.userID.length > 5,
+      });
     }
     try {
       await locationsData.remove(req.params.id);

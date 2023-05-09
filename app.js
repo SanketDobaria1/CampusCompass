@@ -71,20 +71,24 @@ app.get("/signup", registrationMiddleware);
 app.get("/logout", logoutMiddleware);
 app.use("/locations/create", adminMiddleware);
 app.use("/locations/edit/:id", adminMiddleware);
+
 app.use("/departments/create", adminMiddleware);
 app.use("/departments/edit/:id", adminMiddleware);
 app.delete("/locations/:id", adminMiddleware);
 app.use("/events/create", adminMiddleware);
 app.use("/events/edit/:id", adminMiddleware);
 app.delete("/events/:id", adminMiddleware);
+app.use("/departments", rootMiddleware);
+app.get("/locations", rootMiddleware);
 app.get("/events/:id", rootMiddleware);
+app.get("/search", rootMiddleware);
+app.get("/feedback", rootMiddleware);
+app.get("/feedback/getAll", adminMiddleware);
 app.get("/home", rootMiddleware);
 app.get("/departments", rootMiddleware);
 app.get("/events", rootMiddleware);
 app.get("/locations/entrance", rootMiddleware);
-app.get("/locations", rootMiddleware);
-app.get("/search", rootMiddleware);
-app.get("/feedback", rootMiddleware);
+
 app.use(loggingMiddleware);
 
 ///helper function for <select> tag

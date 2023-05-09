@@ -148,7 +148,12 @@ router
     try {
       departmentID = validations.checkId(departmentID);
     } catch (e) {
-      return res.status(400).json({ error: e.message });
+      return res.status(400).render("pages/error", {
+        title: "Error",
+        statusCode: 400,
+        errorMessage: "Not Found, Requested Page Doesnot exists!",
+        logedin: "userID" in req.session && req.session.userID.length > 5,
+      });
     }
     try {
       let department = await departmentData.getById(departmentID);
@@ -164,13 +169,25 @@ router
         department: department,
       });
     } catch (e) {
-      return res
-        .status(404)
-        .json({ error: `No Department for ID ${departmentID}` });
+      return res.status(404).render("pages/error", {
+        title: "Error",
+        statusCode: 404,
+        errorMessage: "Not Found, Requested Department Doesnot Exists!",
+        logedin: "userID" in req.session && req.session.userID.length > 5,
+      });
     }
   })
   .put(async (req, res) => {
     let departmentID = req.params.id;
+    if (!req.xhr)
+      if (
+        req.headers["user-agent"] &&
+        req.headers["user-agent"].includes("Mozilla")
+      )
+        return res.status(403).render("pages/error", {
+          statusCode: 403,
+          errorMessage: "Forbidden",
+        });
     try {
       departmentID = validations.checkId(departmentID);
     } catch (e) {
@@ -234,7 +251,12 @@ router
     try {
       departmentID = validations.checkId(departmentID);
     } catch (e) {
-      return res.status(400).json({ error: e });
+      return res.status(404).render("pages/error", {
+        title: "Error",
+        statusCode: 404,
+        errorMessage: "Not Found, Requested Department Doesnot Exists!",
+        logedin: "userID" in req.session && req.session.userID.length > 5,
+      });
     }
     try {
       let departmentObject = await departmentData.getById(departmentID);
@@ -249,17 +271,18 @@ router
         validations.returnDay(day)
       );
       departmentObject.operating_days_str = operating_days.join(", ");
-      console.log(departmentObject);
       return res.render("pages/departments/departmentID", {
         title: departmentObject.name,
         logedin: "userID" in req.session && req.session.userID.length > 5,
         data: departmentObject,
       });
     } catch (err) {
-      console.log(err);
-      return res
-        .status(400)
-        .json({ error: "No Department found", error_msg: err });
+      return res.status(400).render("pages/error", {
+        title: "Error",
+        statusCode: 404,
+        errorMessage: "Not Found, Requested Department Doesnot Exists!",
+        logedin: "userID" in req.session && req.session.userID.length > 5,
+      });
     }
   })
   .delete(async (req, res) => {
