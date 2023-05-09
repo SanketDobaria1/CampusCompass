@@ -1,0 +1,40 @@
+  <div class="flex-container">
+    <div class="flex-child" style="height: 60vh">
+      <h1>{{data.name}}</h1>
+      <p>{{data.desc}}</p>
+      <p>Building type: {{data.type}}</p>
+      <p>Operating Hours: {{data.operating_hours}}</p>
+      <p>Accessible Entrances: {{accessibleEntrances}} </p>
+    </div>
+    <div class="flex-child">
+      {{>map}}
+    </div>
+  </div>
+  
+  {{#if isAdmin}}
+    <a href="/rooms/{{data._id}}" class="btn btn-sm btn-primary">Create a New Room</a>
+  {{/if}}
+
+  <div class="container-fluid">
+    <div class="row align-items-center">
+      {{#each rooms}}
+        <div class="cards col-md-4 my-2 col-sm-6">
+          <div class="card-body">
+            <p>Room Number: {{room_number}}</p>
+            <p>Capacity: {{capacity}}</p>
+            <p>Floor Number: {{floor_number}}</p>
+            <p>Room Type: {{type}}</p>
+          </div>
+          {{#if @root.isAdmin}}
+        <form method="GET" action="/rooms/room/{{_id}}">
+          <button
+            type="submit"
+            class="btn btn-sm btn-outline-danger">
+            Delete</button>
+        </form>
+      {{/if}}
+        </div>
+      {{/each}}
+    </div>
+  </div>
+  <a href="/locations" class="btn btn-info">Back to all locations</a>

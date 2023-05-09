@@ -1,0 +1,240 @@
+<form action="/events/edit/{{data._id}}" id="event-edit-form" method="POST">
+    {{!-- <input type="hidden" name="_method" value="PUT"> --}}
+    <input name='_method' value="PUT" hidden />
+    <h1>Edit Event</h1>
+    <fieldset>
+        <legend>Event Details</legend>
+        <div>
+            <label for="event_name">Name</label>
+            <input class="form-input" id="event_name" name="event_name" type="text" placeholder="Name" value="{{data.name}}" required>
+            <div class="error-msg"></div>
+        </div>
+        <div>
+            <label for="event_desc">Description</label>
+            <input class="form-input" id="event_desc" name="event_desc" type="text"
+                placeholder="Description" value="{{data.desc}}"> 
+            <div class="error-msg"></div>
+        </div>
+        <div>
+            <label for="event_type">Event Type*</label>
+            <select class="form-input" name="event_type" id="event_type" required>
+                <option value="#">Select Type</option>
+                <option value="Class" {{#if_eq data.type "Class"}}selected{{/if_eq}}>Class</option>
+                <option value="Event" {{#if_eq data.type "Event"}}selected{{/if_eq}}>Event</option>
+            </select>
+            <div class="error-msg"></div>
+        </div>
+        <div>
+            <label for="event_start_date">Start Date</label>
+            <input class="form-input" id="event_start_date" name="event_start_date" type="date" placeholder="Date" value="{{data.event_date.[0]}}" required>
+            <div class="error-msg"></div>
+        </div>
+        <div>
+            <label for="event_end_date">End Date</label>
+            <input class="form-input" id="event_end_date" name="event_end_date" type="date" placeholder="Date" value="{{data.event_date.[1]}}" required>
+            <div class="error-msg"></div>
+        </div>
+        <div>
+            <label for="event_days">Event Days*. Hold down the Ctrl (windows) or Command (Mac) button to select multiple options.</label>
+            <select class="form-input" name="event_days" id="event_days" multiple required>
+                <option value="1" {{#if_in data.event_date.[2] "1"}}selected{{/if_in}}>Monday</option>
+                <option value="2" {{#if_in data.event_date.[2] "2"}}selected{{/if_in}}>Tuesday</option>
+                <option value="3" {{#if_in data.event_date.[2] "3"}}selected{{/if_in}}>Wednesday</option>
+                <option value="4" {{#if_in data.event_date.[2] "4"}}selected{{/if_in}}>Thursday</option>
+                <option value="5" {{#if_in data.event_date.[2] "5"}}selected{{/if_in}}>Friday</option>
+                <option value="6" {{#if_in data.event_date.[2] "6"}}selected{{/if_in}}>Saturday</option>
+                <option value="7" {{#if_in data.event_date.[2] "7"}}selected{{/if_in}}>Sunday</option>
+            </select>
+            <div class="error-msg"></div>
+        </div>
+        <div>
+            <label for="opening_hours">Opening Hours</label>
+            <input class="form-input" id="opening_hours" name="opening_hours" type="time" min="00:00:00" max="23:59:59" step="1" value="{{data.hours.[0]}}" required>
+            <div class="error-msg"></div>
+        </div>
+        <div>
+            <label for="closing_hours">Closing Hours</label>
+            <input class="form-input" id="closing_hours" name="closing_hours" type="time" min="00:00:00" max="23:59:59" step="1" value="{{data.hours.[1]}}" required>
+            <div class="error-msg"></div>
+        </div>
+    </fieldset>
+    <fieldset>
+        <legend>Event Location</legend>
+        <div>
+            <label for="location_id">Location:</label>
+            <select id="location_id" name="location_id" required>
+                <option value="">Select location</option>
+                {{#each location}}
+                <option value="{{_id}}" {{#if_eq @root.data.location_id _id}}selected{{/if_eq}}>{{name}}</option>
+                {{/each}}
+            </select>
+            <div class="error-msg"></div>
+        </div>
+    </fieldset>
+    <input type="submit" class="submit-button" value="Save Changes"></input>
+</form>
+<div id="custom-dialog" class="dialog">
+  <div class="dialog-header">
+    <h2 class="dialog-title"></h2>
+    <button class="close-dialog">&times;</button>
+  </div>
+  <div class="dialog-content"></div>
+  <div class="dialog-footer">
+    <button class="dialog-confirm">Confirm</button>
+    <button class="dialog-cancel">Cancel</button>
+  </div>
+</div>
+<style>
+  body {
+    font-family: 'Helvetica Neue', sans-serif;
+    background-color: #f8f8f8;
+  }
+  form {
+    max-width: 500px;
+    margin: 0 auto;
+    background-color: #fff;
+    padding: 30px;
+    border-radius: 5px;
+    box-shadow: 0px 0px 10px rgba(0,0,0,0.2);
+  }
+  h1 {
+    text-align: center;
+    margin-bottom: 20px;
+    color: #a32638; /* Use theme color for headings */
+  }
+  fieldset {
+    border: none;
+    margin: 0;
+    padding: 0;
+  }
+  legend {
+    font-size: 18px;
+    font-weight: bold;
+    color: #a32638; /* Use theme color for legend text */
+    margin-bottom: 20px;
+  }
+  label {
+    display: block;
+    margin-bottom: 5px;
+    font-size: 14px;
+    color: #333;
+  }
+  input,
+  select,
+  textarea {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+    margin-bottom: 20px;
+    font-size: 14px;
+  }
+  select[multiple] {
+    height: 120px;
+  }
+  input[type="submit"] {
+    background-color: #a32638; /* Use theme color for submit button background */
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 4px;
+    font-size: 16px;
+    cursor: pointer;
+  }
+  input[type="submit"]:hover {
+    background-color: #861e2f; /* Darken theme color on hover */
+  }
+  .error-msg {
+    color: #f00;
+    border-color: #f00;
+    font-size: 0.8rem;
+    margin-top: 0.2rem;
+  }
+  @media screen and (max-width: 600px) {
+  form {
+    padding: 20px;
+    max-width: 100%;
+  }
+  }
+  /* css for dialog */
+  .dialog-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 999;
+  display: none;
+}
+
+.dialog {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: white;
+  padding: 20px;
+  border-radius: 5px;
+  z-index: 1000;
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.5);
+  display: none;
+  max-width: 500px;
+  width: 90%;
+}
+
+.dialog-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.dialog-header h2 {
+  margin: 0;
+}
+
+.close-dialog {
+  background: none;
+  border: none;
+  font-size: 24px;
+  cursor: pointer;
+}
+
+.dialog-content {
+  margin-bottom: 10px;
+}
+
+.dialog-footer {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+}
+
+.dialog-confirm,
+.dialog-cancel {
+  margin-left: 10px;
+  background-color: #a32638;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.dialog-confirm:hover,
+.dialog-cancel:hover {
+  background-color: #960b2c;
+}
+
+.notification {
+  background-color: #fff;
+  color: #a32638;
+  border: 1px solid #a32638;
+  border-radius: 5px;
+  padding: 10px;
+  margin-bottom: 10px;
+}
+</style>

@@ -14,8 +14,11 @@ $(document).ready(function () {
 
     if (errors.length > 0) {
       $("#error-form").removeAttr("hidden");
-      for (let i = 0; i < errors.length; i++)
-        $("#error-form").append(`<p class="error">${errors[i]}</p>`);
+      for (let i = 0; i < errors.length; i++) {
+        let errorParagraph = $(`<p class="error">${errors[i]}</p>`);
+        $("#error-form").append(errorParagraph);
+        removeErrorAfterTime(errorParagraph, 3000);
+      }
     } else {
       $("#error-form").prop("hidden");
       $("#form-login").off("submit").submit();
@@ -26,4 +29,13 @@ $(document).ready(function () {
 function validStevensEmail(emailid) {
   let regex = /^[\w._%+-]+(@stevens\.edu)$/;
   return regex.test(emailid);
+}
+
+function removeErrorAfterTime(errorElement, time) {
+  setTimeout(function () {
+    errorElement.remove();
+    if ($("#error-form").children().length === 0) {
+      $("#error-form").attr("hidden", true);
+    }
+  }, time);
 }

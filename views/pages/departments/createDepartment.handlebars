@@ -1,33 +1,43 @@
 <div class="container">
-    <h1>New Department Creation form</h1>
-<form class="form-create" id="department-create-form" method="POST">
+    <h1>Department {{formname}} form</h1>
+<form class="form-create" id="department-form" data-function="{{form_type}}" data-departmentID="{{department._id}}" method="POST">
     <p>* Required</p>
     <label for="department-name">Name*</label>
-    <input class="form-input" id="department-name" name="department-name" type="text" placeholder="Department Name">
+    <input class="form-input" id="department-name" name="department-name" type="text" placeholder="Department Name"
+    {{#if department}}
+    value="{{department.name}}"
+    {{/if}}
+    >
     <br>
 
     <label for="department-desc">Description</label>
     <br>
-    <textarea class="form-input" id="department-desc" name="department-desc" placeholder="Description"></textarea>
+    <textarea class="form-input" id="department-desc" name="department-desc" placeholder="Description">{{#if department}}{{department.desc}}{{/if}}</textarea>
     <br>
 
     <div class="flex-container">
         <div class="flex-child">
             <label for="department-hour-start">Open Time*</label>
             <br>
-            <input class="form-input" id="department-hour-start" name="department-hour-start" type="time" >
+            <input class="form-input" id="department-hour-start" name="department-hour-start" type="time" 
+            {{#if department}}
+                value="{{department.departmentStart}}"
+            {{/if}}
+            >
         </div>
         <div class="flex-child">
             <label for="department-hour-end">Closing Time*</label>
             <br>
-            <input class="form-input" id="department-hour-end" name="department-hour-end" type="time" >
+            <input class="form-input" id="department-hour-end" name="department-hour-end" type="time" {{#if department}}
+                value="{{department.departmentEnd}}"
+            {{/if}} >
         </div>
         <div class="flex-child"><label for="department-type">Department Type*</label>
             <br>
             <select class="form-input" name="department-type" id="department-type">
                 <option value="#">Select Type</option>
-                <option value="Administrative">Administrative</option>
-                <option value="Academic">Academic</option>
+                <option value="Administrative" {{ selected department.type "Administrative"}}>Administrative</option>
+                <option value="Academic" {{ selected department.type "Academic"}} >Academic</option>
             </select>
             <br>
         </div>
@@ -35,16 +45,15 @@
     <label for="department-days">Working Days*. Hold down the Ctrl (windows) or Command (Mac) button to select multiple options.</label>
     <br>
     <select class="form-input" name="department-days" id="department-days" multiple>
-        <option value="1">Monday</option>
-        <option value="2">Tuesday</option>
-        <option value="3">Wednesday</option>
-        <option value="4">Thursday</option>
-        <option value="5">Friday</option>
-        <option value="6">Saturday</option>
-        <option value="7">Sunday</option>
+        <option value="1" {{selectarr "1" @root.department.operating_days}}>Monday</option>
+        <option value="2" {{selectarr "2" @root.department.operating_days}}>Tuesday</option>
+        <option value="3" {{selectarr "3" @root.department.operating_days}}>Wednesday</option>
+        <option value="4" {{selectarr "4" @root.department.operating_days}}>Thursday</option>
+        <option value="5" {{selectarr "5" @root.department.operating_days}}>Friday</option>
+        <option value="6" {{selectarr "6" @root.department.operating_days}}>Saturday</option>
+        <option value="7" {{selectarr "7" @root.department.operating_days}}>Sunday</option>
     </select>
     <br>
-
     <div class="flex-container">
         <div class="flex-child">
             <label for="department-building-location">Location*</label>
@@ -52,7 +61,7 @@
             <select class="form-input" name="department-building-location" id="department-building-location">
                 <option value="#">Select Location</option>
                 {{#each location}}
-                <option value="{{_id}}">{{name}}</option>
+                <option value="{{_id}}" {{selected @root.department.location_name name}}>{{name}}</option>
                 {{/each}}
             </select>
         </div>
@@ -67,6 +76,8 @@
         </div>
     </div>
     <input type="submit" class="submit-button" value="Create">
+    <button type="button" class="submit-button" id="back-btn">Back</button>
+
 </form>
 
 <div id="error-form" hidden></div>
@@ -77,7 +88,7 @@
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h2 class="modal-title">Depatment Alert</h2>
+                <h2 class="modal-title"></h2>
                 <button type="button" class="close" data-dismiss="modal">&times;</button>
             </div>
             <div class="modal-body">

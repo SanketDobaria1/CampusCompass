@@ -1,134 +1,96 @@
+(function ($) {
+  let responseData;
+  let roomsAPI = "/rooms/getRoomsDropdown/";
+  let departmentsAPI = "/departments/getAllRecords";
+  let locationsAPI = "/locations/getAllRecords";
+  let eventsAPI = "/events/getAllRecords";
 
-function events() {
-    let staticForm = document.getElementById('feedback-form');
-    if (staticForm) {
-    let userIDField = document.getElementById('reported_by');
-    let eventTypeField = document.getElementById('event_type');
-    let eventsListField = document.getElementById('events_list');
-    let DepartmentListField = document.getElementById('department_list');
-    let eventListField = document.getElementById('event_list');
-    let locationsListField = document.getElementById('locations_list');
-    let feedbackDescriptionField = document.getElementById('feedback_description');
-    eventsListField.hidden=true;
+  $("#object_type").on("change", () => {
+    let object_type = $("#object_type").val().trim();
+    if (object_type === "departments") getRecords(departmentsAPI);
+    if (object_type === "locations") getRecords(locationsAPI);
+    if (object_type === "events") getRecords(eventsAPI);
+  });
 
-    eventTypeInput = eventTypeField.value
-        if (eventTypeInput == "events"){
-            eventsListField.hidden=false;
-            DepartmentListField.hidden=true;
-            eventListField.hidden=true;
-            locationsListField.hidden=true;
-            
-        }
-        else if (eventTypeInput == "departments"){
-            DepartmentListField.hidden=false;
-            eventsListField.hidden=true;
-            eventListField.hidden=true;
-            locationsListField.hidden=true;
-            
-        }
-        else if (eventTypeInput == "locations"){
-            locationsListField.hidden=false;
-            eventsListField.hidden=true;
-            eventListField.hidden=true;
-            DepartmentListField.hidden=true;
-            
-        }
-
-}
-}
-
-
-function submitfeedback() {
-    function checkId(id, varName) {
-        if (!id) throw `Error: You must provide an ${varName} id to search for`;
-        if (typeof id !== "string") throw `Error:${varName} must be a string`;
-        id = id.trim();
-        if (id.length === 0)
-          throw `Error: ${varName} cannot be an empty string or just spaces`;
-        return id;
+  $("#feedback-form").on("submit", (event) => {
+    event.preventDefault();
+    let object_type = $("#object_type").val().trim();
+    let object_name = $("#reported_object").val().trim();
+    let feedback = $("#feedback_description").val().trim();
+    error = [];
+    $("#errors").empty();
+    if (object_type === "#") {
+      error.push("Please Select Object Type");
     }
-    function checkString(strVal, varName) {
-        if (!strVal) throw `Error: You must supply a ${varName}!`;
-        if (typeof strVal !== "string") throw `Error: ${varName} must be a string!`;
-        strVal = strVal.trim();
-        if (strVal.length === 0)
-          throw `Error: ${varName} cannot be an empty string or string with just spaces`;
-        if (!isNaN(strVal))
-          throw `Error: ${strVal} is not a valid value for ${varName} as it only contains digits`;
-        return strVal;
+    if (object_name === "#") {
+      error.push("Missing Object Name");
     }
-    let staticForm = document.getElementById('feedback-form');
-    if (staticForm) {
-        let userIDField = document.getElementById('reported_by');
-        let eventTypeField = document.getElementById('event_type');
-        let eventsListField = document.getElementById('events_list');
-        let DepartmentListField = document.getElementById('department_list');
-        let eventListField = document.getElementById('event_list');
-        let locationsListField = document.getElementById('locations_list');
-        let feedbackDescriptionField = document.getElementById('feedback_description');
-        let errorContainer = document.getElementById('error');
-        let errorTextElement = errorContainer.getElementsByClassName('error-text')[0];
-        eventsListField.hidden=true;
+    if (feedback.length === "0" || feedback === "") {
+      error.push("Missing Feedback");
+    }
 
-        staticForm.addEventListener('submit', (event) => {
-            event.preventDefault();
-        try{
-            let userIDInput = userIDField.value
-            let feedbackDescriptionInput = feedbackDescriptionField.value
-            errorContainer.hidden=true;
-            staticForm.classList.remove('error');
-            let eventTypeInput = eventTypeField.value;
-            if (eventTypeInput == "events"){
-                let eventsListInput= checkId(eventsListField.value, "event id");
-                if (DepartmentListField.length > 0) {
-                    DepartmentListField.remove(DepartmentListField.length-1);
-                }
-                if (locationsListField.length > 0) {
-                    locationsListField.remove(locationsListField.length-1);
-                }
-                if (eventListField.length > 0) {
-                    eventListField.remove(eventListField.length-1);
-                }
-            }
-            else if (eventTypeInput == "departments"){
-                let DepartmentListInput= checkId(DepartmentListField.value, "event id");
-                if (locationsListField.length > 0) {
-                    locationsListField.remove(locationsListField.length-1);
-                }
-                if (eventListField.length > 0) {
-                    eventListField.remove(eventListField.length-1);
-                }
-                if (eventsListField.length > 0) {
-                    eventsListField.remove(eventsListField.length-1);
-                }
-            }
-            else if (eventTypeInput == "locations"){
-                let locationsListInput= checkId(locationsListField.value, "event id");
-                if (DepartmentListField.length > 0) {
-                    DepartmentListField.remove(DepartmentListField.length-1);
-                }
-                if (eventsListField.length > 0) {
-                    eventsListField.remove(eventsListField.length-1);
-                }
-                if (eventListField.length > 0) {
-                    eventListField.remove(eventListField.length-1);
-                }
-            }
-            userIDInput= checkId(userIDInput, "user id");
-            userIDInput= checkId(userIDInput, "event id");
-            feedbackDescriptionInput= checkString(feedbackDescriptionInput, "feedback description");
-            staticForm.submit();
-        }
-        catch(e){
-            let message = typeof e === 'string' ? e : e.message;
-            console.log("error")
-            errorTextElement.textContent = e;
-            errorContainer.hidden = false;
-        }
+    if (error.length === 0) {
+      $.ajax({
+        url: "/feedback",
+        type: "POST",
+        contentType: "application/json; charset=utf-8",
+        data: JSON.stringify({
+          objectType: object_type,
+          reportedObject: object_name,
+          feedbackDesc: feedback,
+        }),
+        success: function (response) {
+          if (response.feedbackCreated) {
+            $("#msg").html("Feedback Created");
+            $(".modal-title").text("Status");
+            $("#myModal").modal("show");
+            return;
+          } else {
+            location.reload();
+          }
+        },
+        error: function (xhr, textStatus, error) {
+          console.log(xhr.responseJSON);
+          console.log(textStatus);
+          console.log(error);
+          $("#msg").html(xhr.responseJSON.error);
+          $(".modal-title").text("Error");
+          $("#myModal").modal("show");
+          $("#errors").append(`<p class="error">${xhr.responseJSON.error}</p>`);
+        },
+      });
+    } else {
+      error.forEach((error) => {
+        $("#errors").append(`<p>${error}</p>`);
+      });
+    }
+  });
+
+  function getRecords(url) {
+    $.ajax({
+      url: url,
+      success: function (response) {
+        responseData = response.data;
+        appendDropdown(response.data);
+      },
+      error: function (xhr, textStatus, error) {
+        location.reload();
+      },
     });
-}
+  }
 
-};
-
-
-
+  function appendDropdown(data) {
+    $("#reported-object-dropdown").removeAttr("hidden");
+    let optionsToRemove = $("#reported_object").find(
+      "option:not(:first-child)"
+    );
+    optionsToRemove.remove();
+    if (data.length > 0) {
+      data.forEach((element) => {
+        $("#reported_object").append(
+          `<option value="${element._id}">${element.name}</option>`
+        );
+      });
+    }
+  }
+})(window.jQuery);

@@ -1,4 +1,5 @@
-<main>
+<div class="flex-container">
+    <div class="flex-child">
     <h1>{{data.name}}</h1>
     <p>{{data.desc}}</p>
     <p>Department type: {{data.type}}</p>
@@ -6,4 +7,5 @@
     <p>Operating Hours: {{data.formated_time_start}} to {{data.formated_time_end}}</p>
     <p>Located at: <a href="/locations/{{data.location_id}}">{{data.location_name}}</a> </p>
     <a href="/departments">Back to all Departments</a>
-</main>
+    </div>
+</div>

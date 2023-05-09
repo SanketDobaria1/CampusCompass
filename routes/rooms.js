@@ -2,25 +2,13 @@ import { Router } from "express";
 import { locationsData, roomsData } from "../data/index.js";
 import validation from "../validate.js";
 const router = Router();
+import xss from "xss";
 
 router
   .route("/:id")
   .get(async (req, res) => {
-    try {
-      req.params.id = validation.checkId(req.params.id, "Id URL Parameter");
-    } catch (e) {
-      return res.status(400).json({ error: e });
-    }
-    try {
-      const roomList = await roomsData.getAll(req.params.id);
-      if (roomList.length === 0) {
-        res.status(404).send("No Rooms found for this Location!");
-      } else {
-        res.json(roomList);
-      }
-    } catch (e) {
-      res.status(404).send(e);
-    }
+    const location = await locationsData.getById(req.params.id);
+    return res.render("pages/location/createRoom", { location: location });
   })
   .post(async (req, res) => {
     const data = req.body;
@@ -31,13 +19,17 @@ router
     }
     try {
       req.params.id = validation.checkId(req.params.id, "Id URL Parameter");
+      data.room_number = JSON.parse(xss(data.room_number));
+      data.capacity = JSON.parse(xss(data.capacity));
+      data.floor_number = JSON.parse(xss(data.floor_number));
+
       if (typeof data.room_number !== "number")
         throw `Room number must be a Number !`;
       if (typeof data.capacity !== "number")
         throw `Room capacity must be a Number !`;
       if (typeof data.floor_number !== "number")
         throw `Floor number must be a Number !`;
-      data.type = validation.checkString(data.type, "Room Type");
+      data.type = validation.checkString(xss(data.type), "Room Type");
     } catch (e) {
       return res.status(400).json({ error: e });
     }
@@ -51,7 +43,7 @@ router
         floor_number,
         type
       );
-      res.json(await locationsData.getById(req.params.id));
+      res.redirect(`/locations/${req.params.id}`);
     } catch (e) {
       res.status(404).json({ error: e });
     }
@@ -80,13 +72,23 @@ router
     }
     try {
       await roomsData.remove(req.params.id);
-      res.json({ RoomId: req.params.id, deteled: true });
+      res.redirect("/locations");
     } catch (e) {
       res.status(404).json({ error: e });
     }
   });
 
 router.route("/getRoomsDropdown/:id").get(async (req, res) => {
+  if (!req.xhr)
+    if (
+      req.headers["user-agent"] &&
+      req.headers["user-agent"].includes("Mozilla")
+    )
+      return res.status(401).render("pages/error", {
+        statusCode: 401,
+        errorMessage: "Forbidden",
+      });
+    else return res.status(401).json({ error: "Forbidden" });
   let roomId;
   try {
     roomId = validation.checkId(req.params.id);

@@ -1,6 +1,8 @@
 import { ObjectId } from "mongodb";
 import { events } from "../config/mongoCollections.js";
 import validation from "../validate.js";
+import notifications from "../data/notification.js"
+
 
 const exportedMethods = {
   async getById(id) {
@@ -14,26 +16,28 @@ const exportedMethods = {
     return event;
   },
 
-  async create(name, desc, type, hours, location_id) {
+  async create(name, desc, type, event_date, hours, created_by, location_id) {
     // ERROR HANDLING & INPUT VALIDATIONS //
     name = validation.checkString(name, "event Name");
     desc = validation.checkString(desc, "Description");
     type = validation.checkString(type, "event Type");
+    event_date = validation.checkStringArray(event_date, "event Date", 3);
     hours = validation.checkStringArray(hours, "Hours", 2);
-    const created_by = "adminId";
-    // location_id = validation.checkId(location_id, "Location ID");
+    created_by = validation.checkId(created_by, "Created By");
+    location_id = validation.checkId(location_id, "Location ID");
 
-    const date = new Date();
-    date.setTime(date.getTime() + -240 * 60 * 1000);
+    const lastupdatedDate = new Date();
+    lastupdatedDate.setTime(lastupdatedDate.getTime() + -240 * 60 * 1000);
 
     let newevent = {
       name: name,
       desc: desc,
       type: type,
+      event_date: event_date,
       hours: hours,
       created_by: created_by,
       location_id: location_id,
-      lastupdatedDate: date,
+      lastupdatedDate: lastupdatedDate,
     };
 
     const eventsCollection = await events();
@@ -58,25 +62,29 @@ const exportedMethods = {
     return eventsList;
   },
 
-  async update(id, name, desc, type, hours, location_id) {
+  async update(id, name, desc, type, event_date, hours, created_by, location_id) {
     // ERROR HANDLING & INPUT VALIDATIONS //
     id = validation.checkId(id, "eventID");
     name = validation.checkString(name, "event Name");
     desc = validation.checkString(desc, "Description");
     type = validation.checkString(type, "event Type");
-    hours = validation.checkStringArray(hours, "Hours");
+    event_date = validation.checkStringArray(event_date, "event Date", 3);
+    hours = validation.checkStringArray(hours, "Hours", 2);
+    created_by = validation.checkId(created_by, "Created By");
     location_id = validation.checkId(location_id, "Location ID");
 
-    const date = new Date();
-    date.setTime(date.getTime() + -240 * 60 * 1000);
+    const lastupdatedDate = new Date();
+    lastupdatedDate.setTime(lastupdatedDate.getTime() + -240 * 60 * 1000);
 
     const updatedevent = {
       name: name,
       desc: desc,
       type: type,
+      event_date: event_date,
       hours: hours,
+      created_by: created_by,
       location_id: location_id,
-      lastupdatedDate: date,
+      lastupdatedDate: lastupdatedDate,
     };
 
     const eventsCollection = await events();
@@ -91,7 +99,25 @@ const exportedMethods = {
     );
     if (updatedInfo.lastErrorObject.n === 0)
       throw "Could not update event successfully !";
-
+    let notificationTitle = "Event update";
+    let notificationDetails = `Updated the event ${event.name}`;
+    let notificationDesc = `Updated the event ${event.name}`;
+    if(event.name !== updatedInfo.value.name){
+      notificationDetails = notificationDetails+` name from ${event.name} to ${updatedInfo.value.name}`;
+    }
+    else if(event.desc !== updatedInfo.value.desc){
+      notificationDetails = notificationDetails+` description from ${event.desc} to ${updatedInfo.value.desc}`;
+    }
+    else if(event.type !== updatedInfo.value.type){
+      notificationDetails = notificationDetails+` type from ${event.type} to ${updatedInfo.value.type}`;
+    }
+    else if(event.hours !== updatedInfo.value.hours){
+      notificationDetails = notificationDetails+` hours from ${event.hours} to ${updatedInfo.value.hours}`;
+    }
+    else if(event.location_id !== updatedInfo.value.location_id){
+      notificationDetails = notificationDetails+` location from ${event.location_id} to ${updatedInfo.value.location_id}`;
+    }
+    let newNotification = notifications.create(notificationTitle, notificationDesc, notificationDetails);
     updatedInfo.value._id = updatedInfo.value._id.toString();
     return updatedInfo.value;
   },

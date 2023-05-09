@@ -1,0 +1,46 @@
+<form action="/rooms/{{location._id}}" id="location-create-form" method="POST">
+  <h1>{{location.name}}</h1>
+  <label for="room_number">Room Number</label>
+  <br />
+  <input
+    class="form-input"
+    id="room_number"
+    name="room_number"
+    type="text"
+    placeholder="Room Number"
+  />
+  <br />
+
+  <label for="capacity">Room Capacity</label>
+  <br />
+  <input
+    class="form-input"
+    id="capacity"
+    name="capacity"
+    type="text"
+    placeholder="Capacity of this Room"
+  />
+  <br />
+
+  <label for="floor_number">Floor Number</label>
+  <br />
+  <input
+    class="form-input"
+    id="floor_number"
+    name="floor_number"
+    type="text"
+    placeholder="Floor Number of this Room"
+  />
+  <br />
+
+  <label for="type">Room Type</label>
+  <br />
+  <select class="form-input" id="type" name="type">
+    <option value="classroom">Classroom</option>
+    <option value="admin">Admin</option>
+    <option value="laboratory">Laboratory</option>
+  </select>
+  <br />
+
+  <input type="submit" class="submit-button" value="Create" />
+</form>

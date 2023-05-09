@@ -1,18 +1,14 @@
-<div class="container">
-<h1>CampusCompass</h1>
+<div class="container-fluid">
+
 <div class="flex-container">
   <div class="flex-child">
-    <h2>Welcome</h2>
-    <p>This is CampusCompass - an online site to help users notify of their
+    <h1>CampusCompass</h1>
+    <p>Welcome to CampusCompass - an online site to help users notify of their
       current lectures and display all event occuring on campus</p>
-    <p>Description for page</p>
+    <p>Login to browse through application!</p>
   </div>
   <div class="flex-child center">
     <div class="form-inner">
-
-      {{#if new_user_created}}
-        <p class="new_user">New User Created! Please Login</p>
-      {{/if}}
       <h2>Login</h2>
       <form action="/login" id="form-login" method="POST">
         <label for="login_email">Email</label>
@@ -23,6 +19,9 @@
           name="login_email"
           type="email"
           placeholder="mystevens@stevens.edu"
+          {{#if email}}
+          value="{{email}}"
+          {{/if}}
         />
         <br>
         <label for="login_password">Password</label>

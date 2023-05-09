@@ -6,12 +6,12 @@ import validations from "../validate.js";
 const passwordEncryptRounds = 10;
 
 const exportedMethods = {
-  async createUser(name, emailid, password, department, role = "student") {
+  async createUser(name, emailid, password, role = "student") {
     let usersCollection = await users();
     name = validations.checkString(name, "User Name");
     emailid = validations.checkStevensMail(emailid);
-    password = validations.checkString(password, "Password");
-    department = validations.checkString(department, "Department");
+    password = validations.checkPassword(password);
+
     let hashpassword = await bcrypt.hash(password, passwordEncryptRounds);
     role = validations.checkString(role, "User Role");
     const date = new Date();
@@ -27,7 +27,7 @@ const exportedMethods = {
       role,
       emailid,
       name,
-      department,
+
       hashedpassword: hashpassword,
       events: [],
       lastupdatedDate: date,
@@ -121,6 +121,8 @@ const exportedMethods = {
         },
         { projection: { _id: 1, name: 1, rooms: 1, location: 1 } }
       );
+
+      if (!location) return;
 
       let tempGeo = {
         type: "Feature",

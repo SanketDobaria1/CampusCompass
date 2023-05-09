@@ -22,6 +22,15 @@ const exportedMethods = {
     capacity = validation.checkNumber(capacity, "Capacity");
     type = validation.checkRoomType(type, "Room Type");
 
+    const locationsCollection = await locations();
+    const checkExistingLocation = await locationsCollection.findOne(
+      { "rooms.room_number": room_number },
+      { projection: { _id: 1, name: 1 } }
+    );
+
+    if (checkExistingLocation)
+      throw new Error(`Rooms already exists for number`);
+
     const date = new Date();
     date.setTime(date.getTime() + -240 * 60 * 1000);
     let newRoom = {
@@ -31,8 +40,6 @@ const exportedMethods = {
       floor_number: floor_number,
       type: type,
     };
-
-    const locationsCollection = await locations();
     const locationInfo = await locationsCollection.findOneAndUpdate(
       { _id: new ObjectId(locationId) },
       {
