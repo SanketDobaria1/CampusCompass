@@ -20,7 +20,7 @@ router
       let events = await eventsData.getAll();
       let departments = await departmentData.getDepartmentAll();
       let locations = await locationsData.getAll();
-      res.render("pages/feedback", {
+      res.render("pages/feedback/feedback", {
         id: req.session.userID,
         isAdmin: isAdmin,
         logedin: "userID" in req.session && req.session.userID.length > 5,
@@ -74,7 +74,7 @@ router.route("/getAll").get(async (req, res) => {
   try {
     let feedbacks = await feedbackData.getAll();
     if (req.session.userRole == "admin") {
-      res.render("pages/allfeedbacks", {
+      res.render("pages/feedback/allfeedbacks", {
         admin: true,
         logedin: "userID" in req.session && req.session.userID.length > 5,
         feedbacks: feedbacks,
@@ -99,7 +99,7 @@ router.route("/:id")
   }
   try {
     const feedbackbyID = await feedbackData.getById(req.params.id);
-    res.render("pages/feedbackID", {
+    res.render("pages/feedback/feedbackID", {
       title: "feedback",
       data: feedbackbyID,
       logedin: "userID" in req.session && req.session.userID.length > 5,
