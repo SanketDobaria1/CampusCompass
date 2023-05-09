@@ -92,6 +92,9 @@
     margin-bottom: 20px;
     color: #a32638; /* Use theme color for headings */
   }
+  div {
+    margin-bottom: 20px;
+  }
   fieldset {
     border: none;
     margin: 0;
@@ -135,12 +138,6 @@
   input[type="submit"]:hover {
     background-color: #861e2f; /* Darken theme color on hover */
   }
-  .error-msg {
-    color: #f00;
-    border-color: #f00;
-    font-size: 0.8rem;
-    margin-top: 0.2rem;
-  }
   @media screen and (max-width: 600px) {
   form {
     padding: 20px;
@@ -156,4 +153,19 @@
   padding: 10px;
   margin-bottom: 10px;
 }
+.invalid {
+    border: 1px solid #a32638;
+}
+
+.error-msg {
+    color: #a32638;
+    font-size: 0.9em;
+    margin-top: 5px;
+    display: none;  /* Hide error messages by default */
+}
+
+.invalid + .error-msg {
+    display: block;  /* Show error message when input is invalid */
+}
 </style>
+<script src="/public/js/events.js"></script>
