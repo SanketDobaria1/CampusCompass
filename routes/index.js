@@ -19,7 +19,12 @@ const constructorMethod = (app) => {
   app.use("/notifications", notificationRoutes);
   app.use("/", loginRoutes);
   app.use("*", (req, res) => {
-    return res.status(404).json({ error: "Accessing invalid path" });
+    return res.status(404).render("pages/error", {
+      title: "Error",
+      statusCode: 404,
+      errorMessage: "Not Found, Requested Page Doesnot exists!",
+      logedin: "userID" in req.session && req.session.userID.length > 5,
+    });
   });
 };
 

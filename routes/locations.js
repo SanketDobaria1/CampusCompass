@@ -224,12 +224,21 @@ router.route("/create").get(async (req, res) => {
 router
   .route("/edit/:id")
   .get(async (req, res) => {
-    const location = await locationsData.getById(req.params.id);
-    return res.render("pages/location/editLocation", {
-      data: location,
-      title: "Edit Location",
-      logedin: "userID" in req.session && req.session.userID.length > 5,
-    });
+    try {
+      const location = await locationsData.getById(req.params.id);
+      return res.render("pages/location/editLocation", {
+        data: location,
+        title: "Edit Location",
+        logedin: "userID" in req.session && req.session.userID.length > 5,
+      });
+    } catch (error) {
+      return res.status(404).render("pages/error", {
+        title: "Error",
+        statusCode: 404,
+        errorMessage: "Not Found, Requested Page Doesnot exists!",
+        logedin: "userID" in req.session && req.session.userID.length > 5,
+      });
+    }
   })
   .put(async (req, res) => {
     const data = req.body;
@@ -309,7 +318,12 @@ router
     try {
       req.params.id = validation.checkId(req.params.id, "Id URL Parameter");
     } catch (e) {
-      return res.status(400).json({ error: e.message });
+      return res.status(404).render("pages/error", {
+        title: "Error",
+        statusCode: 404,
+        errorMessage: "Not Found, Requested Page Doesnot exists!",
+        logedin: "userID" in req.session && req.session.userID.length > 5,
+      });
     }
     try {
       const location = await locationsData.getById(req.params.id);
@@ -343,7 +357,6 @@ router
         type: "FeatureCollection",
         features: entrances_geo,
       };
-      // console.dir(entrances_geo, { depth: null });
       return res.render("pages/location/location", {
         title: "Location",
         data: location,
@@ -357,14 +370,24 @@ router
         logedin: "userID" in req.session && req.session.userID.length > 5,
       });
     } catch (e) {
-      return res.status(404).json({ error: e.message });
+      return res.status(404).render("pages/error", {
+        title: "Error",
+        statusCode: 404,
+        errorMessage: "Not Found, Requested Page Doesnot exists!",
+        logedin: "userID" in req.session && req.session.userID.length > 5,
+      });
     }
   })
   .post(async (req, res) => {
     try {
       req.params.id = validation.checkId(req.params.id, "Id URL Parameter");
     } catch (e) {
-      return res.status(400).json({ error: e.message });
+      return res.status(404).render("pages/error", {
+        title: "Error",
+        statusCode: 404,
+        errorMessage: "Not Found, Requested Page Doesnot exists!",
+        logedin: "userID" in req.session && req.session.userID.length > 5,
+      });
     }
     try {
       let confirmation = await locationsData.remove(req.params.id);
@@ -378,7 +401,12 @@ router
     try {
       req.params.id = validation.checkId(req.params.id, "Id URL Parameter");
     } catch (e) {
-      return res.status(400).json({ error: e });
+      return res.status(404).render("pages/error", {
+        title: "Error",
+        statusCode: 404,
+        errorMessage: "Not Found, Requested Page Doesnot exists!",
+        logedin: "userID" in req.session && req.session.userID.length > 5,
+      });
     }
     try {
       await locationsData.remove(req.params.id);

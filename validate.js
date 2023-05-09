@@ -4,8 +4,7 @@ import { ObjectId } from "mongodb";
 
 const exportedMethods = {
   checkId(id, varName) {
-    if (!id)
-      throw new Error(`Error: You must provide an ${varName} id to search for`);
+    if (!id) throw new Error(`Error: You must provide an ${varName} id`);
     if (typeof id !== "string")
       throw new Error(`Error:${varName} must be a string`);
     id = id.trim();

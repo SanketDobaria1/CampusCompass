@@ -1,4 +1,4 @@
-<form action="/locations/edit/{{data._id}}" id="location-edit-form" method="POST">
+<form class="container" action="/locations/edit/{{data._id}}" id="location-edit-form" method="POST">
     <input name='_method' value="PUT" hidden />
     
     <label for="location_name">Name</label>
@@ -14,7 +14,16 @@
 
     <label for="location_type">Location Type</label>
     <br>
-    <input class="form-input" id="location_type" name="location_type" type="text" placeholder="Type of this Location" value="{{data.type}}">
+    {{data.location_type}}
+    <select class="form-input" name="location_type" id="location_type">
+        <option value="#">Select Type</option>
+        <option value="Residence" {{ selected data.location_type "Residence" }}>Residence</option>
+        <option value="Academic" {{ selected data.location_type "Academic" }}>Academic</option>
+        <option value="Recreational" {{ selected data.location_type "Recreational" }}>Recreational</option>
+        <option value="Administrative" {{ selected data.location_type "Administrative" }}>Administrative</option>
+        <option value="Parking" {{ selected data.location_type "Academic" }}>Parking</option>
+        <option value="Health" {{ selected data.location_type "Health" }}>Health</option>
+    </select>
     <br>
     
     <label for="opening_hours">Opening Hours</label>

@@ -74,24 +74,23 @@ router
   });
 
 router.route("/getAll").get(async (req, res) => {
-  try {
+  if (req.session.userRole == "admin") {
     let feedbacks = await feedbackData.getAll();
-    if (req.session.userRole == "admin") {
-      res.render("pages/feedback/allfeedbacks", {
-        logedin: "userID" in req.session && req.session.userID.length > 5,
-        admin: req.session.userRole === "admin",
-        feedbacks: feedbacks,
-        title: "Feedbacks Admin Page",
-        feedbackString:
-          feedbacks.length > 0
-            ? "List of All Feedbacks Received"
-            : "No Feedbacks Recevied",
-      });
-    } else {
-      res.status(404).send(e);
-    }
-  } catch (e) {
-    res.status(404).send(e);
+    res.render("pages/feedback/allfeedbacks", {
+      logedin: "userID" in req.session && req.session.userID.length > 5,
+      admin: req.session.userRole === "admin",
+      feedbacks: feedbacks,
+      title: "Feedbacks Admin Page",
+      feedbackString:
+        feedbacks.length > 0
+          ? "List of All Feedbacks Received"
+          : "No Feedbacks Recevied",
+    });
+  } else {
+    return res.status(401).render("pages/error", {
+      statusCode: 401,
+      errorMessage: "Forbidden",
+    });
   }
 });
 
