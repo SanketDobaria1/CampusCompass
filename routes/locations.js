@@ -1,9 +1,9 @@
+import * as turf from "@turf/turf";
 import { Router } from "express";
+import xss from "xss";
 import { locationsData, roomsData } from "../data/index.js";
 import validation from "../validate.js";
-import * as turf from "@turf/turf";
 const router = Router();
-import xss from "xss";
 
 router.route("/getAllRecords").get(async (req, res) => {
   if (!req.xhr)
@@ -340,6 +340,7 @@ router
         api_token: process.env.MAPBOX_TOKEN,
         geoObject: JSON.stringify(entrances_geo),
         centerPoint: reversedArray,
+        locationName : location.name,
         isAdmin: isAdmin,
         logedin: "userID" in req.session && req.session.userID.length > 5,
       });

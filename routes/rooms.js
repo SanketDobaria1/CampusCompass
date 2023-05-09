@@ -1,8 +1,8 @@
 import { Router } from "express";
+import xss from "xss";
 import { locationsData, roomsData } from "../data/index.js";
 import validation from "../validate.js";
 const router = Router();
-import xss from "xss";
 
 router
   .route("/:id")

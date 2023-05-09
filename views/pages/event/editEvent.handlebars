@@ -73,17 +73,7 @@
     </fieldset>
     <input type="submit" class="submit-button" value="Save Changes"></input>
 </form>
-<div id="custom-dialog" class="dialog">
-  <div class="dialog-header">
-    <h2 class="dialog-title"></h2>
-    <button class="close-dialog">&times;</button>
-  </div>
-  <div class="dialog-content"></div>
-  <div class="dialog-footer">
-    <button class="dialog-confirm">Confirm</button>
-    <button class="dialog-cancel">Cancel</button>
-  </div>
-</div>
+{{> dialog}}
 <style>
   body {
     font-family: 'Helvetica Neue', sans-serif;
@@ -101,6 +91,9 @@
     text-align: center;
     margin-bottom: 20px;
     color: #a32638; /* Use theme color for headings */
+  }
+  div {
+    margin-bottom: 20px;
   }
   fieldset {
     border: none;
@@ -145,89 +138,12 @@
   input[type="submit"]:hover {
     background-color: #861e2f; /* Darken theme color on hover */
   }
-  .error-msg {
-    color: #f00;
-    border-color: #f00;
-    font-size: 0.8rem;
-    margin-top: 0.2rem;
-  }
   @media screen and (max-width: 600px) {
   form {
     padding: 20px;
     max-width: 100%;
   }
   }
-  /* css for dialog */
-  .dialog-overlay {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background-color: rgba(0, 0, 0, 0.5);
-  z-index: 999;
-  display: none;
-}
-
-.dialog {
-  position: fixed;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  background-color: white;
-  padding: 20px;
-  border-radius: 5px;
-  z-index: 1000;
-  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.5);
-  display: none;
-  max-width: 500px;
-  width: 90%;
-}
-
-.dialog-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 10px;
-}
-
-.dialog-header h2 {
-  margin: 0;
-}
-
-.close-dialog {
-  background: none;
-  border: none;
-  font-size: 24px;
-  cursor: pointer;
-}
-
-.dialog-content {
-  margin-bottom: 10px;
-}
-
-.dialog-footer {
-  display: flex;
-  justify-content: flex-end;
-  align-items: center;
-}
-
-.dialog-confirm,
-.dialog-cancel {
-  margin-left: 10px;
-  background-color: #a32638;
-  color: white;
-  border: none;
-  padding: 10px 20px;
-  border-radius: 5px;
-  cursor: pointer;
-  transition: background-color 0.2s ease;
-}
-
-.dialog-confirm:hover,
-.dialog-cancel:hover {
-  background-color: #960b2c;
-}
 
 .notification {
   background-color: #fff;
@@ -237,4 +153,19 @@
   padding: 10px;
   margin-bottom: 10px;
 }
+.invalid {
+    border: 1px solid #a32638;
+}
+
+.error-msg {
+    color: #a32638;
+    font-size: 0.9em;
+    margin-top: 5px;
+    display: none;  /* Hide error messages by default */
+}
+
+.invalid + .error-msg {
+    display: block;  /* Show error message when input is invalid */
+}
 </style>
+<script src="/public/js/events.js"></script>
