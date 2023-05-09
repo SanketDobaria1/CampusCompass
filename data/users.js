@@ -122,6 +122,8 @@ const exportedMethods = {
         { projection: { _id: 1, name: 1, rooms: 1, location: 1 } }
       );
 
+      if (!location) return;
+
       let tempGeo = {
         type: "Feature",
         geometry: location.location,

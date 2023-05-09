@@ -15,13 +15,20 @@ router.get("/home", async (req, res) => {
     return res.json({ error: error.message });
   }
   let tempGeo;
-  if (userRegisteredEvents.eventsData.length > 0) {
+  if (
+    userRegisteredEvents &&
+    userRegisteredEvents.hasOwnProperty("eventsData") &&
+    userRegisteredEvents.eventsData.length > 0
+  ) {
     displayString = "Your Upcoming Classes and Events";
     tempGeo = {
       type: "FeatureCollection",
       features: userRegisteredEvents.locationData,
     };
-  } else displayString = "No Classes or Events for today";
+  } else {
+    (displayString = "No Classes or Events for today"),
+      (userRegisteredEvents = []);
+  }
 
   return res.render("pages/landing", {
     title: "Landing",
@@ -29,7 +36,10 @@ router.get("/home", async (req, res) => {
     username: req.session.username,
     displayString,
     events: userRegisteredEvents.eventsData,
-    renderMap: userRegisteredEvents.locationData.length > 0,
+    renderMap:
+      userRegisteredEvents.length > 0
+        ? userRegisteredEvents.locationData.length > 0
+        : false,
     geoObject: JSON.stringify(tempGeo),
   });
 });
