@@ -107,7 +107,8 @@ const exportedMethods = {
       throw new Error(
         `You must supply at least one element in an array of ${varName}`
       );
-    arr = arr.split(",").join("");
+
+    // arr = arr.split(',').join('');
     // arr.forEach((elm) => {
     //   if (typeof elm != "number" || isNaN(elm))
     //     throw new Error(`Expected ${varName} to contain number`);
