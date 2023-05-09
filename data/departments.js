@@ -227,8 +227,10 @@ const exportedMethods = {
         },
         { projection: { _id: 1, name: 1 } }
       );
-      department.location_id = location._id.toString();
-      department.location_name = location.name;
+      if (location) {
+        department.location_id = location._id.toString();
+        department.location_name = location.name;
+      }
     }
     return { totalRecords: departmentCount, departments: departmentList };
   },
