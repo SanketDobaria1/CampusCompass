@@ -32,8 +32,7 @@ async function main() {
     "test",
     "test@stevens.edu",
     "Aa123b123c123@",
-    "administrator",
-    "admin"
+    "admin",
   );
 
   const sanket = await userData.createUser(
@@ -1450,14 +1449,15 @@ async function main() {
     "Class",
     [
       "2021-12-18",
-      "2023-05-11"
+      "2023-05-11",
+      "1"
     ],
     [
       "18:30:00",
       "21:00:00"
     ],
     admin.user_id,
-    edwin._id
+    [edwin._id]
   )
 
 
@@ -1467,14 +1467,15 @@ async function main() {
     "Class",
     [
       "2021-12-18",
-      "2023-05-11"
+      "2023-05-11",
+      "1"
     ],
     [
       "15:30:00",
       "18:00:00"
     ],
     admin.user_id,
-    edwin._id
+    [edwin._id]
   )
 
 
@@ -1484,14 +1485,15 @@ async function main() {
     "Class",
     [
       "2021-12-18",
-      "2023-05-11"
+      "2023-05-11",
+      "3"
     ],
     [
       "15:30:00",
       "18:00:00"
     ],
     admin.user_id,
-    babioCenter._id
+    [babioCenter._id]
   )
 
 
@@ -1501,14 +1503,15 @@ async function main() {
     "Class",
     [
       "2021-12-18",
-      "2023-05-11"
+      "2023-05-11",
+      "4"
     ],
     [
       "18:30:00",
       "21:00:00"
     ],
     admin.user_id,
-    gatewaySouthHall._id
+    [gatewaySouthHall._id]
   )
 
 
@@ -1518,14 +1521,15 @@ async function main() {
     "Class",
     [
       "2021-12-18",
-      "2023-05-11"
+      "2023-05-11",
+      "2"
     ],
     [
       "15:00:00",
       "17:30:00"
     ],
     admin.user_id,
-    burchard._id
+    [burchard._id]
   )
 
 
@@ -1535,14 +1539,15 @@ async function main() {
     "Class",
     [
       "2021-12-18",
-      "2023-05-11"
+      "2023-05-11",
+      "1"
     ],
     [
       "15:00:00",
       "17:30:00"
     ],
     admin.user_id,
-    mcLeanHall._id
+    [mcLeanHall._id]
   )
 
 
@@ -1552,14 +1557,15 @@ async function main() {
     "Class",
     [
       "2021-12-18",
-      "2023-05-11"
+      "2023-05-11",
+      "5"
     ],
     [
       "15:00:00",
       "17:30:00"
     ],
     admin.user_id,
-    burchard._id
+    [burchard._id]
   )
 
 
@@ -1569,14 +1575,15 @@ async function main() {
     "Class",
     [
       "2021-12-18",
-      "2023-05-11"
+      "2023-05-11",
+      "1"
     ],
     [
       "18:30:00",
       "21:00:00"
     ],
     admin.user_id,
-    mcLeanHall._id
+    [mcLeanHall._id]
   )
 
 
@@ -1586,14 +1593,15 @@ async function main() {
     "Event",
     [
       "2023-05-18",
-      "2023-05-18"
+      "2023-05-18",
+      "4"
     ],
     [
       "16:00:00",
       "17:30:00"
     ],
     admin.user_id,
-    castlePointHall._id
+    [castlePointHall._id]
   )
 
 
@@ -1603,14 +1611,15 @@ async function main() {
     "Event",
     [
       "2023-05-16",
-      "2023-05-16"
+      "2023-05-16",
+      "5"
     ],
     [
       "13:00:00",
       "14:00:00"
     ],
     admin.user_id,
-    castlePointHall._id
+    [castlePointHall._id]
   )
 
 
@@ -1620,14 +1629,15 @@ async function main() {
     "Event",
     [
       "2023-05-10",
-      "2023-05-10"
+      "2023-05-10",
+      "2"
     ],
     [
       "12:00:00",
       "13:00:00"
     ],
     admin.user_id,
-    library._id
+    [library._id]
   )
 
 
@@ -1637,14 +1647,15 @@ async function main() {
     "Event",
     [
       "2023-05-05",
-      "2023-05-05"
+      "2023-05-05",
+      "2"
     ],
     [
       "18:00:00",
       "20:00:00"
     ],
     admin.user_id,
-    howeCenter._id
+    [howeCenter._id]
   )
 
   await closeConnection();
