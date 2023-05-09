@@ -101,7 +101,6 @@ router.get("/logout", async (req, res) => {
   // Clear the session cookie to log the user out
   req.session.destroy((err) => {
     if (err) {
-      console.error(err);
       res.status(500);
       return res.render("pages/error", {
         statusCode: 500,

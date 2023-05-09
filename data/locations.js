@@ -24,7 +24,7 @@ const exportedMethods = {
     //   throw `Provide operating hours in HH:MM:SS,HH:MM:SS format`;
     // }
     // operating_hours = operating_hours.split(",");
-    // console.log(operating_hours);
+
     operating_hours = validation.checkStringArray(
       operating_hours,
       "Operating Hours",

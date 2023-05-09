@@ -28,8 +28,8 @@
   }
 
   function renderData(data) {
-    if (data.length === 0) {
-      $("#container").append("<h4>No Results</h4>");
+    if (data || data.length === 0) {
+      $("#department-container").append("<h4>No Results</h4>");
       $("#pagination").attr("hidden", true);
       return;
     }
@@ -49,14 +49,7 @@
     $("html, body").animate({ scrollTop: 0 }, 0);
 
     const createDiv = `
-    <div class="cards">
-    <div class="cards-inner">
-        <a href="/departments/create">
-          <img src="/public/img/plus-circle.svg" alt="Create new Department">
-          <span>Create New Department</span>
-          </a>
-    </div>
-    </div>`;
+    `;
 
     if (isAdmin) $("#department-container").append(createDiv);
 

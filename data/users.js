@@ -92,11 +92,6 @@ const exportedMethods = {
     let locationCollection = await locations();
     const currentDate = new Date();
     const currentDateEst = new Date(currentDate.getTime() + -5 * 60 * 1000);
-    console.log(
-      currentDateEst.getDay(),
-      currentDateEst.getDay() === 0,
-      currentDateEst.getDay()
-    );
     let currentDay =
       currentDateEst.getDay() === 0 ? 7 : currentDateEst.getDay();
     let locationRender = [];
@@ -159,7 +154,7 @@ const exportedMethods = {
           currentDateEst.getTime() +
             userEvents[i]["event_date"][2] * 24 * 60 * 60 * 1000
         );
-      // console.log(currentDateEst, tempDate);
+
       userEvents[i]["next_occurence_date"] =
         currentDateEst < tempDate
           ? new Date(
@@ -168,7 +163,6 @@ const exportedMethods = {
           : tempDate;
     }
     userEvents.sort((a, b) => {
-      //console.log(a.next_occurence_date - b.next_occurence_date);
       return a.next_occurence_date - b.next_occurence_date;
     });
     return { locationData: locationRender, eventsData: userEvents };

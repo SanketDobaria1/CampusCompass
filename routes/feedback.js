@@ -76,8 +76,6 @@ router
 router.route("/getAll").get(async (req, res) => {
   if (req.session.userRole == "admin") {
     let feedbacks = await feedbackData.getAll();
-
-    console.dir(feedbacks, { depth: null });
     res.render("pages/feedback/allfeedbacks", {
       logedin: "userID" in req.session && req.session.userID.length > 5,
       admin: req.session.userRole === "admin",
