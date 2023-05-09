@@ -3,6 +3,7 @@ import {
   departmentData,
   locationsData,
   roomsData,
+  eventsData
 } from "../data/index.js";
 import { closeConnection } from "../config/mongoConnection.js";
 
@@ -24,6 +25,47 @@ async function main() {
   //   ["08:00:00", "16:00:00"],
   //   [1, 2, 3, 4, 5]
   // );
+  
+
+
+  const admin = await userData.createUser(
+    "test",
+    "test@stevens.edu",
+    "Aa123b123c123@",
+    "admin",
+  );
+
+  const sanket = await userData.createUser(
+    "Sanket",
+    "sanket@stevens.edu",
+    "Sanket@123",
+    "student"
+
+  );
+
+  const kavitha = await userData.createUser(
+    "Kavitha",
+    "kavitha@stevens.edu",
+    "Kavitha@123",
+    "student"
+
+  );
+
+  const priyank = await userData.createUser(
+    "Priyank",
+    "priyank@stevens.edu",
+    "Priyank@123",
+    "student"
+
+  );
+
+  const nikunj = await userData.createUser(
+    "Nikunj",
+    "nikunj@stevens.edu",
+    "Nikunj@123",
+    "student"
+
+  );
 
   const library = await locationsData.create(
     "Samuel C Williams Library",
@@ -59,6 +101,7 @@ async function main() {
       },
     ]
   );
+
 
   const howeCenter = await locationsData.create(
     "Howe Center",
@@ -102,6 +145,7 @@ async function main() {
       },
     ]
   );
+
 
   const babioCenter = await locationsData.create(
     "Lawrence T. Babbio Jr. Center",
@@ -163,6 +207,7 @@ async function main() {
       },
     ]
   );
+
 
   const athleticCenter = await locationsData.create(
     "Schaefer Athletic and Recreation Center",
@@ -226,6 +271,7 @@ async function main() {
       },
     ]
   );
+
 
   const walkerGym = await locationsData.create(
     "Walker Gymnasium",
@@ -299,6 +345,7 @@ async function main() {
     ]
   );
 
+
   const davisHall = await locationsData.create(
     "Davis Hall",
     "Davis Hall offers traditional double rooms for first-year men and women. Some rooms have a view of the Hudson River and New York City, while others overlook Stevens’ scenic campus lawn. Davis Hall is located on lower campus, just steps away from academic buildings, athletic facilities and local shops and restaurants.",
@@ -346,6 +393,7 @@ async function main() {
     ]
   );
 
+
   const harriesTower = await locationsData.create(
     "Richard Harries Residential Tower",
     "Richard Harries from the Class of 1958 and his wife Carol made the largest gift ever received by Stevens in support of the University Complex Center project. The North Residential Tower now bears the Harries name.",
@@ -389,10 +437,11 @@ async function main() {
     ]
   );
 
+
   const southTower = await locationsData.create(
     "South Residential Tower",
     "Between the two Residential Towers, there are 937 beds, 644 rooms, and 374 suites. The Residential Towers house returning students; first-year students reside in our traditional on-campus residence halls. Second-year students have priority for selecting the Residential Towers, followed by third-, fourth- and fifth-year students. It is an institutional priority for our newer students to be housed on-campus as they transition into the University and make connections. Our older students are encouraged to live more independently in private apartments throughout Hoboken and other local communities. Richard Harries from the Class of 1958 and his wife Carol made the largest gift ever received by Stevens in support of the University Complex Center project. The North Residential Tower now bears the Harries name.",
-    "Residential",
+    "Residence",
     ["06:00:00", "23:00:00"],
     {
       type: "Polygon",
@@ -425,6 +474,50 @@ async function main() {
       },
     ]
   );
+
+
+  // const ucc = await locationsData.create(
+  //   "University Campus Center",
+  //   "The University Center Complex will revitalize Castle Point for the entire Stevens community. With a design that accentuates stunning views of the Manhattan skyline, the university center will become the heart of campus life, while the residential towers will signal the rise of Stevens to millions in the metropolitan region. Throughout 70,000 square feet, the university center will benefit students, faculty and alumni in numerous ways. By creating spaces for student clubs and activities, such as fitness, gaming, dining and more, the university center will provide an enriched collegiate experience.With versatile event venues, Stevens will be able to showcase its innovation and entrepreneurship to visitors from academia, industry and government, furthering the university’s impact and prestige.",
+  //   "Administrative",
+  //   ["08:00:00", "22:00:00"],
+  //   {
+  //     type: "Polygon",
+  //     coordinates: [
+  //       [
+  //         [-74.02502470236887, 40.74413877415137],
+  //         [-74.02520133701732, 40.74397286025473],
+  //         [-74.02515207251356, 40.743943748269345],
+  //         [-74.02526647206722, 40.743770759819114],
+  //         [-74.02533850189691, 40.743705884951],
+  //         [-74.02522351426153, 40.743632769815804],
+  //         [-74.02519584059436, 40.74365768030367],
+  //         [-74.02511331796029, 40.74360534865053],
+  //         [-74.02510516944984, 40.743612264005066],
+  //         [-74.02507487258663, 40.74359009111586],
+  //         [-74.02493508489759, 40.74366112212235],
+  //         [-74.0248204277174, 40.74376292416804],
+  //         [-74.02483964624945, 40.74378805225598],
+  //         [-74.02487589323567, 40.743773028597815],
+  //         [-74.0250825623666, 40.744050780769726],
+  //         [-74.02504096106976, 40.74406757603887],
+  //         [-74.02505276298741, 40.74408539728381],
+  //         [-74.02500862193135, 40.74412688190529],
+  //         [-74.02502470236887, 40.74413877415137],
+  //       ],
+  //     ],
+  //   },
+  //   [
+  //     {
+  //       location: {
+  //         coordinates: [-74.02517330165612, 40.743912250622884],
+  //         type: "Point",
+  //       },
+  //       accessible: "Y",
+  //     },
+  //   ]
+  // );
+
 
   const castlePointHall = await locationsData.create(
     "Castle Point Hall",
@@ -461,6 +554,7 @@ async function main() {
       },
     ]
   );
+
 
   const jonasHall = await locationsData.create(
     "Jonas Hall",
@@ -513,6 +607,7 @@ async function main() {
     ]
   );
 
+
   const wellnessCenter = await locationsData.create(
     "Student Wellness Center",
     "All students must wear a mask at all times and practice social distancing. Students are encouraged to minimize the number of personal belongings brought into the facilities.",
@@ -541,47 +636,6 @@ async function main() {
     ]
   );
 
-  const ucc = await locationsData.create(
-    "University Campus Center",
-    "The University Center Complex will revitalize Castle Point for the entire Stevens community. With a design that accentuates stunning views of the Manhattan skyline, the university center will become the heart of campus life, while the residential towers will signal the rise of Stevens to millions in the metropolitan region. Throughout 70,000 square feet, the university center will benefit students, faculty and alumni in numerous ways. By creating spaces for student clubs and activities, such as fitness, gaming, dining and more, the university center will provide an enriched collegiate experience.With versatile event venues, Stevens will be able to showcase its innovation and entrepreneurship to visitors from academia, industry and government, furthering the university’s impact and prestige.",
-    "Administrative",
-    ["08:00:00", "22:00:00"],
-    {
-      type: "Polygon",
-      coordinates: [
-        [
-          [-74.02502470236887, 40.74413877415137],
-          [-74.02520133701732, 40.74397286025473],
-          [-74.02515207251356, 40.743943748269345],
-          [-74.02526647206722, 40.743770759819114],
-          [-74.02533850189691, 40.743705884951],
-          [-74.02522351426153, 40.743632769815804],
-          [-74.02519584059436, 40.74365768030367],
-          [-74.02511331796029, 40.74360534865053],
-          [-74.02510516944984, 40.743612264005066],
-          [-74.02507487258663, 40.74359009111586],
-          [-74.02493508489759, 40.74366112212235],
-          [-74.0248204277174, 40.74376292416804],
-          [-74.02483964624945, 40.74378805225598],
-          [-74.02487589323567, 40.743773028597815],
-          [-74.0250825623666, 40.744050780769726],
-          [-74.02504096106976, 40.74406757603887],
-          [-74.02505276298741, 40.74408539728381],
-          [-74.02500862193135, 40.74412688190529],
-          [-74.02502470236887, 40.74413877415137],
-        ],
-      ],
-    },
-    [
-      {
-        location: {
-          coordinates: [-74.02517330165612, 40.743912250622884],
-          type: "Point",
-        },
-        accessible: "Y",
-      },
-    ]
-  );
 
   const burchard = await locationsData.create(
     "The Burchard Bulding",
@@ -612,6 +666,7 @@ async function main() {
       },
     ]
   );
+
 
   const edwin = await locationsData.create(
     "Edwin A. Stevens Hall & DeBaun Auditorium",
@@ -668,6 +723,7 @@ async function main() {
     ]
   );
 
+
   const mcLeanHall = await locationsData.create(
     "McLean Hall",
     "McLean Hall hosts most of the chemistry and biomedical engineering labs at Stevens. Active research labs include the Center for Healthcare Innovation, the Movement Control Rehabilitation (MOCORE) Laboratory, the Translational Research in Medicine lab, the Motion Capture Laboratory, the Center for Mass Spectrometry and the Synthetic Organic and Medicinal Chemistry. McLean also has multiple neuroengineering-focused labs, including the McConnell lab and the Yu Lab. McLean Hall also hosts classes and faculty offices for the biomedical engineering chemistry and biological sciences, chemical engineering and materials science and mechanical engineering departments.",
@@ -684,7 +740,7 @@ async function main() {
           [-74.02691983773933, 40.74189481279427],
           [-74.02692664168012, 40.74190140316168],
           [-74.02692245378606, 40.74191562591312],
-          [-74.02691345723085, 40.74191562591312],
+          [-74.02691345723085, 40.74191562591313],
           [-74.02678685119602, 40.742335091223794],
           [-74.02679232259766, 40.74233545169923],
           [-74.0267909992311, 40.742347388645555],
@@ -711,6 +767,7 @@ async function main() {
       },
     ]
   );
+
 
   const gatewaySouthHall = await locationsData.create(
     "Gateway South hall",
@@ -749,6 +806,7 @@ async function main() {
     ]
   );
 
+
   const gianforteFamilyHall = await locationsData.create(
     "Gianforte Family Hall",
     "Breaking ground in 2017, the Gateway Academic Center is comprised of two buildings – South Hall and Gianforte Family Hall – connected by a glass skybridge. With 10 new smart classrooms, 13 labs and 45 faculty offices, the new four-story building will have an impact throughout the Stevens community. The new technology-enabled smart classrooms expand students’ opportunities to learn and provides professors with new possibilities to collaborate and conduct research. The classrooms are also equipped for active video conferencing for online learning.",
@@ -777,95 +835,186 @@ async function main() {
     ]
   );
 
-  const ISSS = await departmentData.create(
-    "International Student and Scholar Services (ISSS)",
-    // "64236f804eebf566c9d8d8df",
-    "The International Student and Scholar Services (ISSS) office is committed to assisting international students, faculty and scholars in accomplishing their academic, personal and professional objectives through advising, providing immigration services, promoting cross-cultural opportunities and offering specific programs and services to our international population.",
-    "Administrative",
-    ["08:00:00", "16:00:00"],
-    [1, 5, 7]
-  );
 
-  const BioEngineering = await departmentData.create(
-    "Department of Biomedical Engineering",
-    // "64236f804eebf566c9d8d8df",
-    "The Department of Biomedical Engineering amplifies broad-based education and hands-on research initiatives at the boundary between science and engineering.",
-    "Academic",
-    ["08:00:00", "16:00:00"],
-    [1, 2, 3, 4, 5]
-  );
+  // const ISSS = await departmentData.create(
+  //   "International Student and Scholar Services (ISSS)",
+  //   // "64236f804eebf566c9d8d8df",
+  //   "The International Student and Scholar Services (ISSS) office is committed to assisting international students, faculty and scholars in accomplishing their academic, personal and professional objectives through advising, providing immigration services, promoting cross-cultural opportunities and offering specific programs and services to our international population.",
+  //   "Administrative",
+  //   [
+  //     "08:00:00",
+  //     "16:00:00"
+  //   ],
+  //   [
+  //     1,
+  //     5,
+  //     7
+  //   ]
+  // )
 
-  const ChemAndBio = await departmentData.create(
-    "Department of Chemistry and Chemical Biology",
-    // "64236f804eebf566c9d8d8df",
-    "The Department of Chemistry and Chemical Biology at Stevens is known for its legacy of fostering and nurturing groundbreaking, world-class innovation.",
-    "Academic",
-    ["08:00:00", "16:00:00"],
-    [1, 2, 3, 4, 5]
-  );
+  // const BioEngineering = await departmentData.create(
+  //   "Department of Biomedical Engineering",
+  //   // "64236f804eebf566c9d8d8df",
+  //   "The Department of Biomedical Engineering amplifies broad-based education and hands-on research initiatives at the boundary between science and engineering.",
+  //   "Academic",
+  //   [
+  //     "08:00:00",
+  //     "16:00:00"
+  //   ],
+  //   [
+  //     1,
+  //     2,
+  //     3,
+  //     4,
+  //     5
+  //   ]
+  // )
 
-  const ChemEngineering = await departmentData.create(
-    "Department of Chemical Engineering and Materials Science",
-    // "64236f804eebf566c9d8d8df",
-    "The Department of Chemical Engineering and Materials Science at Stevens harnesses the synergy between two impactful disciplines to drive discoveries and innovation that change industry – and society.",
-    "Academic",
-    ["08:00:00", "16:00:00"],
-    [1, 2, 3, 4, 5]
-  );
+  // const ChemAndBio = await departmentData.create(
+  //   "Department of Chemistry and Chemical Biology",
+  //   // "64236f804eebf566c9d8d8df",
+  //   "The Department of Chemistry and Chemical Biology at Stevens is known for its legacy of fostering and nurturing groundbreaking, world-class innovation.",
+  //   "Academic",
+  //   [
+  //     "08:00:00",
+  //     "16:00:00"
+  //   ],
+  //   [
+  //     1,
+  //     2,
+  //     3,
+  //     4,
+  //     5
+  //   ]
+  // )
 
-  const CivilEngineering = await departmentData.create(
-    "Department of Civil, Environmental and Ocean Engineering",
-    // "64236f804eebf566c9d8d8df",
-    "The Department of Civil, Environmental and Ocean Engineering at Stevens was founded on the core principles of engineering that underpin the infrastructure which supports our economy and our society.",
-    "Academic",
-    ["08:00:00", "16:00:00"],
-    [1, 2, 3, 4, 5]
-  );
+  // const ChemEngineering = await departmentData.create(
+  //   "Department of Chemical Engineering and Materials Science",
+  //   // "64236f804eebf566c9d8d8df",
+  //   "The Department of Chemical Engineering and Materials Science at Stevens harnesses the synergy between two impactful disciplines to drive discoveries and innovation that change industry – and society.",
+  //   "Academic",
+  //   [
+  //     "08:00:00",
+  //     "16:00:00"
+  //   ],
+  //   [
+  //     1,
+  //     2,
+  //     3,
+  //     4,
+  //     5
+  //   ]
+  // )
 
-  const ComputerScience = await departmentData.create(
-    "Department of Computer Science",
-    // "64236f804eebf566c9d8d8df",
-    "The Department of Computer Science at Stevens is one of the leading computer science departments in the country, with globally-recognized experts in cybersecurity, artificial intelligence, machine learning, and computer vision.",
-    "Academic",
-    ["08:00:00", "16:00:00"],
-    [1, 2, 3, 4, 5]
-  );
+  // const CivilEngineering = await departmentData.create(
+  //   "Department of Civil, Environmental and Ocean Engineering",
+  //   // "64236f804eebf566c9d8d8df",
+  //   "The Department of Civil, Environmental and Ocean Engineering at Stevens was founded on the core principles of engineering that underpin the infrastructure which supports our economy and our society.",
+  //   "Academic",
+  //   [
+  //     "08:00:00",
+  //     "16:00:00"
+  //   ],
+  //   [
+  //     1,
+  //     2,
+  //     3,
+  //     4,
+  //     5
+  //   ]
+  // )
 
-  const ElectricalEngineering = await departmentData.create(
-    "Department of Electrical and Computer Engineering",
-    // "64236f804eebf566c9d8d8df",
-    "As one of the first in the nation, the Department of Electrical and Computer Engineering at Stevens has a long legacy of innovation and discovery.",
-    "Academic",
-    ["08:00:00", "16:00:00"],
-    [1, 2, 3, 4, 5]
-  );
+  // const ComputerScience = await departmentData.create(
+  //   "Department of Computer Science",
+  //   // "64236f804eebf566c9d8d8df",
+  //   "The Department of Computer Science at Stevens is one of the leading computer science departments in the country, with globally-recognized experts in cybersecurity, artificial intelligence, machine learning, and computer vision.",
+  //   "Academic",
+  //   [
+  //     "08:00:00",
+  //     "16:00:00"
+  //   ],
+  //   [
+  //     1,
+  //     2,
+  //     3,
+  //     4,
+  //     5
+  //   ]
+  // )
 
-  const MathematicalSciences = await departmentData.create(
-    "Department of Mathematical Sciences",
-    // "64236f804eebf566c9d8d8df",
-    "The Department of Mathematical Sciences at Stevens is a leader in the field of algebraic cryptography.",
-    "Academic",
-    ["08:00:00", "16:00:00"],
-    [1, 2, 3, 4, 5]
-  );
 
-  const MechanicalEngineering = await departmentData.create(
-    "Department of Mechanical Engineering",
-    // "64236f804eebf566c9d8d8df",
-    "As the founding department at Stevens and the home of its very first degree, the Department of Mechanical Engineering is the legacy of our university.",
-    "Academic",
-    ["08:00:00", "16:00:00"],
-    [1, 2, 3, 4, 5]
-  );
+  // const ElectricalEngineering = await departmentData.create(
+  //   "Department of Electrical and Computer Engineering",
+  //   // "64236f804eebf566c9d8d8df",
+  //   "As one of the first in the nation, the Department of Electrical and Computer Engineering at Stevens has a long legacy of innovation and discovery.",
+  //   "Academic",
+  //   [
+  //     "08:00:00",
+  //     "16:00:00"
+  //   ],
+  //   [
+  //     1,
+  //     2,
+  //     3,
+  //     4,
+  //     5
+  //   ]
+  // )
 
-  const Physics = await departmentData.create(
-    "Department of Physics",
-    // "64236f804eebf566c9d8d8df",
-    "As one of the first departments established at Stevens Institute of Technology, the Department of Physics has been an active participant in the revolution of physics science and education for 150 years.",
-    "Academic",
-    ["08:00:00", "16:00:00"],
-    [1, 2, 3, 4, 5]
-  );
+  // const MathematicalSciences = await departmentData.create(
+  //   "Department of Mathematical Sciences",
+  //   // "64236f804eebf566c9d8d8df",
+  //   "The Department of Mathematical Sciences at Stevens is a leader in the field of algebraic cryptography.",
+  //   "Academic",
+  //   [
+  //     "08:00:00",
+  //     "16:00:00"
+  //   ],
+  //   [
+  //     1,
+  //     2,
+  //     3,
+  //     4,
+  //     5
+  //   ]
+  // )
+
+
+  // const MechanicalEngineering = await departmentData.create(
+  //   "Department of Mechanical Engineering",
+  //   // "64236f804eebf566c9d8d8df",
+  //   "As the founding department at Stevens and the home of its very first degree, the Department of Mechanical Engineering is the legacy of our university.",
+  //   "Academic",
+  //   [
+  //     "08:00:00",
+  //     "16:00:00"
+  //   ],
+  //   [
+  //     1,
+  //     2,
+  //     3,
+  //     4,
+  //     5
+  //   ]
+  // )
+
+  // const Physics = await departmentData.create(
+  //   "Department of Physics",
+  //   // "64236f804eebf566c9d8d8df",
+  //   "As one of the first departments established at Stevens Institute of Technology, the Department of Physics has been an active participant in the revolution of physics science and education for 150 years.",
+  //   "Academic",
+  //   [
+  //     "08:00:00",
+  //     "16:00:00"
+  //   ],
+  //   [
+  //     1,
+  //     2,
+  //     3,
+  //     4,
+  //     5
+  //   ]
+  // )
 
   // await roomsData.create(library._id.toString(), 101, 60, 1, "classroom");
   // await roomsData.create(library._id.toString(), 102, 60, 1, "laboratory");
@@ -876,6 +1025,638 @@ async function main() {
   // await roomsData.create(babioCenter._id.toString(), 201, 60, 2, "classroom");
   // await roomsData.create(babioCenter._id.toString(), 202, 30, 2, "laboratory");
   //const itSupport = await departmentData.create("IT SUPPORT");
+
+
+
+  const DavisRoom116 = await roomsData.create(
+    davisHall._id,
+    116,
+    52,
+    1,
+    "admin"
+  )
+
+
+  const ComputerScience = await departmentData.create(
+    "Department of Computer Science",
+    DavisRoom116._id,
+    "The Department of Computer Science at Stevens is one of the leading computer science departments in the country, with globally-recognized experts in cybersecurity, artificial intelligence, machine learning, and computer vision.",
+    "Academic",
+    [
+      "08:00:00",
+      "16:00:00",
+    ],
+    [1,2],
+  )
+
+
+  const GatewaySouth103 = await roomsData.create(
+    gatewaySouthHall._id,
+    103,
+    40,
+    1,
+    "admin"
+  )
+
+
+  const MechanicalEngineering = await departmentData.create(
+    "Department of Mechanical Engineering",
+    GatewaySouth103._id,
+    "As the founding department at Stevens and the home of its very first degree, the Department of Mechanical Engineering is the legacy of our university.",
+    "Academic",
+    [
+      "08:00:00",
+      "16:00:00"
+    ],
+    [
+      1,
+      2,
+      3,
+      4,
+      5
+    ]
+  )
+
+
+  const McLean211 = await roomsData.create(
+    mcLeanHall._id,
+    211,
+    40,
+    2,
+    "admin"
+  )
+
+
+  const BioEngineering = await departmentData.create(
+    "Department of Biomedical Engineering",
+    McLean211._id,
+    "The Department of Biomedical Engineering amplifies broad-based education and hands-on research initiatives at the boundary between science and engineering.",
+    "Academic",
+    [
+      "08:00:00",
+      "16:00:00"
+    ],
+    [
+      1,
+      2,
+      3,
+      4,
+      5
+    ]
+  )
+
+
+  const Burchard514 = await roomsData.create(
+    burchard._id,
+    514,
+    21,
+    5,
+    "admin"
+  )
+
+
+  const SystemsEnginnering = await departmentData.create(
+    "Department of Systems Engineering",
+    Burchard514._id,
+    "The Systems Engineering Department is a team of interdisciplinary engineers committed to designing, developing, and optimizing complex systems. Their expertise includes mechanical, electrical, and computer engineering, and they work together to create reliable and innovative solutions.",
+    "Academic",
+    [
+      "08:00:00",
+      "16:00:00"
+    ],
+    [
+      1,
+      2,
+      3,
+      4,
+      5
+    ]
+  )
+
+
+  const Edwin231 = await roomsData.create(
+    edwin._id,
+    231,
+    19,
+    2,
+    "admin"
+  )
+
+
+  const ElectricalEngineering = await departmentData.create(
+    "Department of Electrical and Computer Engineering",
+    Edwin231._id,
+    "As one of the first in the nation, the Department of Electrical and Computer Engineering at Stevens has a long legacy of innovation and discovery.",
+    "Academic",
+    [
+      "08:00:00",
+      "16:00:00"
+    ],
+    [
+      1,
+      2,
+      3,
+      4,
+      5
+    ]
+  )
+
+
+  const Babbio110 = await roomsData.create(
+    babioCenter._id,
+    110,
+    29,
+    1,
+    "admin"
+  )
+
+
+  const FinancialEngineering = await departmentData.create(
+    "Department of Financial Engineering",
+    Babbio110._id,
+    "The Financial Engineering Department is a team of experts who combine financial theory, mathematics, and computer science to develop advanced financial models and innovative investment strategies. Their goal is to optimize financial decision-making and help clients navigate complex financial markets. They specialize in risk management, quantitative analysis, and portfolio optimization, and are dedicated to providing tailored solutions that meet each client's unique needs.",
+    "Academic",
+    [
+      "08:00:00",
+      "16:00:00"
+    ],
+    [
+      1,
+      2,
+      3,
+      4,
+      5
+    ]
+  )
+
+
+  const Howe303 = await roomsData.create(
+    howeCenter._id,
+    303,
+    59,
+    3,
+    "admin"
+  )
+
+
+  const ISSS = await departmentData.create(
+    "International Student and Scholar Services (ISSS)",
+    Howe303._id,
+    "The International Student and Scholar Services (ISSS) office is committed to assisting international students, faculty and scholars in accomplishing their academic, personal and professional objectives through advising, providing immigration services, promoting cross-cultural opportunities and offering specific programs and services to our international population.",
+    "Administrative",
+    [
+      "08:00:00",
+      "16:00:00"
+    ],
+    [
+      1,
+      2,
+      3,
+      4,
+      5,
+      6
+    ]
+  )
+
+
+  const Babbio121 = await roomsData.create(
+    babioCenter._id,
+    121,
+    59,
+    1,
+    "admin"
+  )
+
+
+  const BIA = await departmentData.create(
+    "Business Intelligence and Analytics",
+    Babbio121._id,
+    "The Business Intelligence and Analytics Department is a team of data experts who specialize in transforming raw data into actionable insights. Using advanced analytics techniques and cutting-edge technology, they help businesses make informed decisions and gain a competitive edge in the marketplace. Their expertise includes data warehousing, data mining, predictive modeling, and visual analytics, and they are committed to delivering solutions that drive business growth and success.",
+    "Administrative",
+    [
+      "08:00:00",
+      "16:00:00"
+    ],
+    [
+      1,
+      2,
+      3,
+      4,
+      5
+    ]
+  )
+
+
+  const Babbio122 = await roomsData.create(
+    babioCenter._id,
+    122,
+    59,
+    1,
+    "admin"
+  )
+
+
+  const management = await departmentData.create(
+    "Department of Management studies",
+    Babbio122._id,
+    "The Management Studies Department is a team of experts dedicated to advancing the theory and practice of management. With a focus on interdisciplinary collaboration, they bring together insights from psychology, sociology, economics, and other fields to develop innovative approaches to leadership, organizational behavior, and strategic planning.",
+    "Administrative",
+    [
+      "08:00:00",
+      "16:00:00"
+    ],
+    [
+      1,
+      2,
+      3,
+      4,
+      5
+    ]
+  )
+
+
+  const Burchard111 = await roomsData.create(
+    burchard._id,
+    111,
+    35,
+    1,
+    "admin"
+  )
+
+
+  const MIS = await departmentData.create(
+    "Department of Information Systems",
+    Babbio122._id,
+    "The Information Systems (IS) Department is a critical component of our organization's IT function. Led by a team of experienced professionals, the IS Department is responsible for managing and maintaining our technology infrastructure, ensuring that it remains secure, reliable, and efficient.",
+    "Administrative",
+    [
+      "08:00:00",
+      "16:00:00"
+    ],
+    [
+      1,
+      2,
+      3,
+      4,
+      5
+    ]
+  )
+
+
+  const GatewaySouth216 = await roomsData.create(
+    gatewaySouthHall._id,
+    216,
+    40,
+    2,
+    "admin"
+  )
+
+
+  const ChemEngineering = await departmentData.create(
+    "Department of Chemical Engineering and Materials Science",
+    GatewaySouth216._id,
+    "The Department of Chemical Engineering and Materials Science at Stevens harnesses the synergy between two impactful disciplines to drive discoveries and innovation that change industry – and society.",
+    "Academic",
+    [
+      "08:00:00",
+      "16:00:00"
+    ],
+    [
+      1,
+      2,
+      3,
+      4,
+      5
+    ]
+  )
+
+
+  const McLean323 = await roomsData.create(
+    mcLeanHall._id,
+    323,
+    45,
+    3,
+    "admin"
+  )
+
+
+  const ChemAndBio = await departmentData.create(
+    "Department of Chemistry and Chemical Biology",
+    McLean323._id,
+    "The Department of Chemistry and Chemical Biology at Stevens is known for its legacy of fostering and nurturing groundbreaking, world-class innovation.",
+    "Academic",
+    [
+      "08:00:00",
+      "16:00:00"
+    ],
+    [
+      1,
+      2,
+      3,
+      4,
+      5
+    ]
+  )
+
+
+  const GatewaySouth121 = await roomsData.create(
+    gatewaySouthHall._id,
+    121,
+    29,
+    1,
+    "admin"
+  )
+
+
+  const Physics = await departmentData.create(
+    "Department of Physics",
+    GatewaySouth121._id,
+    "As one of the first departments established at Stevens Institute of Technology, the Department of Physics has been an active participant in the revolution of physics science and education for 150 years.",
+    "Academic",
+    [
+      "08:00:00",
+      "16:00:00"
+    ],
+    [
+      1,
+      2,
+      3,
+      4,
+      5
+    ]
+  )
+
+
+  const Edwin122 = await roomsData.create(
+    edwin._id,
+    122,
+    39,
+    1,
+    "admin"
+  )
+
+
+  const CivilEngineering = await departmentData.create(
+    "Department of Civil, Environmental and Ocean Engineering",
+    Edwin122._id,
+    "The Department of Civil, Environmental and Ocean Engineering at Stevens was founded on the core principles of engineering that underpin the infrastructure which supports our economy and our society.",
+    "Academic",
+    [
+      "08:00:00",
+      "16:00:00"
+    ],
+    [
+      1,
+      2,
+      3,
+      4,
+      5
+    ]
+  )
+
+
+  const Babbio304 = await roomsData.create(
+    babioCenter._id,
+    304,
+    29,
+    3,
+    "admin"
+  )
+
+
+  const MathematicalSciences = await departmentData.create(
+    "Department of Mathematical Sciences",
+    Babbio304._id,
+    "The Department of Mathematical Sciences at Stevens is a leader in the field of algebraic cryptography.",
+    "Academic",
+    [
+      "08:00:00",
+      "16:00:00"
+    ],
+    [
+      1,
+      2,
+      3,
+      4,
+      5
+    ]
+  )
+
+
+  const WebProgramming1 = await eventsData.create(
+    "Web Programming I",
+    "This course will provide students with a first strong approach of internet programming. It will give the basic knowledge on how the Internet works and how to create advanced web sites by the use of script languages, after learning the basics of HTML. The course will teach the students how to create a complex global site through the creation of individual working modules, giving them the skills required in any business such as proper team work and coordination between groups.",
+    "Class",
+    [
+      "2021-12-18",
+      "2023-05-11",
+      "1"
+    ],
+    [
+      "18:30:00",
+      "21:00:00"
+    ],
+    admin.user_id,
+    [edwin._id]
+  )
+
+
+  const WebProgramming2 = await eventsData.create(
+    "Web Programming II",
+    "This course focuses on teaching students the newest technologies available in Web Programming. Topics include advanced client side programming, responsive design, NoSQL databases, JQuery, AJAX, Web Site security, and the latest Frameworks. Students will be given the opportunity to suggest topics they would like to discover at the end of the semester. The course is a very hands-on course where everything taught will be practiced through in-class exercises.",
+    "Class",
+    [
+      "2021-12-18",
+      "2023-05-11",
+      "1"
+    ],
+    [
+      "15:30:00",
+      "18:00:00"
+    ],
+    admin.user_id,
+    [edwin._id]
+  )
+
+
+  const DBMS = await eventsData.create(
+    "Database Management Systems I",
+    "Introduction to the design and querying of relational databases. Topics include: relational schemas; keys and foreign key references; relational algebra (as an introduction to SQL); SQL in depth; Entity-Relationship (ER) database design; translating from ER models to relational schemas and from relational schemas to ER models; functional dependencies; and normalization.",
+    "Class",
+    [
+      "2021-12-18",
+      "2023-05-11",
+      "3"
+    ],
+    [
+      "15:30:00",
+      "18:00:00"
+    ],
+    admin.user_id,
+    [babioCenter._id]
+  )
+
+
+  const FOC = await eventsData.create(
+    "Fundamentals of Computing",
+    "This is an introduction to computer science with an emphasis on programming, in Python. The topics include: design; algorithmic thinking; recursion; object-oriented programming; and some basics about computer systems: machine language, interpreters, compilers, and data representation. Undergraduates are not allowed to enroll.",
+    "Class",
+    [
+      "2021-12-18",
+      "2023-05-11",
+      "4"
+    ],
+    [
+      "18:30:00",
+      "21:00:00"
+    ],
+    admin.user_id,
+    [gatewaySouthHall._id]
+  )
+
+
+  const AnalysisandDesignofComposites = await eventsData.create(
+    "Analysis and Design of Composites",
+    "Composite  material  characterization;  composite  mechanics  of  plates,  panels,  beams,  columns,  and  rods  integrated with design procedures; analysis and design of composite structures; joining methods and procedures; introduction to manufacturing processes of filament winding, braiding, injection, compression and resin transfer molding, machining and drilling; and industrial applications.",
+    "Class",
+    [
+      "2021-12-18",
+      "2023-05-11",
+      "2"
+    ],
+    [
+      "15:00:00",
+      "17:30:00"
+    ],
+    admin.user_id,
+    [burchard._id]
+  )
+
+
+  const EngineeringProgrammingPython = await eventsData.create(
+    "Engineering Programming: Python",
+    "This course presents tool, techniques, algorithms, and programming techniques using the Python programming language for data intensive applications and decision making. The course formally introduces techniques to: (i) gather,(ii) store, and (iii) process large volumes of data to make informed decisions. Such techniques find applicability in many engineering application areas, including communications systems, embedded systems, smart grids, robotics, Internet, and enterprise networks, or any network where information flows and alters decision making.",
+    "Class",
+    [
+      "2021-12-18",
+      "2023-05-11",
+      "1"
+    ],
+    [
+      "15:00:00",
+      "17:30:00"
+    ],
+    admin.user_id,
+    [mcLeanHall._id]
+  )
+
+
+  const OptimizationandProcessAnalytics = await eventsData.create(
+    "Optimization and Process Analytics",
+    "This course covers basic concepts in optimization and heuristic search with an emphasis on process improvement and optimization. This course emphasizes the application of mathematical optimization models over the underlying mathematics of their algorithms. While the skills developed in this course can be applied to a very broad range of business problems, the practice examples and student exercises will focus on the following areas: healthcare, logistics and supply chain optimization, capital budgeting, asset management, portfolio analysis. Most of the student exercises will involve the use of Microsoft Excel “Solver” add-on package for mathematical optimization.",
+    "Class",
+    [
+      "2021-12-18",
+      "2023-05-11",
+      "5"
+    ],
+    [
+      "15:00:00",
+      "17:30:00"
+    ],
+    admin.user_id,
+    [burchard._id]
+  )
+
+
+  const DataAcquisitionModelingAnalys = await eventsData.create(
+    "Data Acquisition/Modeling/Analysis",
+    "This course is designed to enhance ECE’s students knowledge in core subjects with the ability of analyzing big data applications.  It will cover both the computational techniques, and the mathematical intuitions in the skill sets for the big data analytics. This class will provide students with the necessary data engineering processing skills, refined data optimizations for feature engineering, and sophisticated linear analysis for data transform and model ensembling. ",
+    "Class",
+    [
+      "2021-12-18",
+      "2023-05-11",
+      "1"
+    ],
+    [
+      "18:30:00",
+      "21:00:00"
+    ],
+    admin.user_id,
+    [mcLeanHall._id]
+  )
+
+
+  const KickBackParty = await eventsData.create(
+    "Kick Back Party",
+    "Kick back, relax and take a study break with the Office of DEI at our end of the year party! Games, crafts, music and more.",
+    "Event",
+    [
+      "2023-05-18",
+      "2023-05-18",
+      "4"
+    ],
+    [
+      "16:00:00",
+      "17:30:00"
+    ],
+    admin.user_id,
+    [castlePointHall._id]
+  )
+
+
+  const MiddayMeditationandJournaling = await eventsData.create(
+    "Midday Meditation and Journaling",
+    "Take a breather in between studying with Lore-El! Join us for a guided meditation and journaling session designed to de-stress and calm your mind during the busiest time of the semester.",
+    "Event",
+    [
+      "2023-05-16",
+      "2023-05-16",
+      "5"
+    ],
+    [
+      "13:00:00",
+      "14:00:00"
+    ],
+    admin.user_id,
+    [castlePointHall._id]
+  )
+
+
+  const StressLesswiththeLibraryPets = await eventsData.create(
+    "Stress Less with the Library Pets!",
+    "Visit our Stress Less guide to find a variety of stress-relieving activities, or stop by the Library Great Hall starting Friday, May 5 for grab-and-go sudokus and coloring sheets, as well as games and jigsaw puzzles. Stay tuned for some pop-up relaxation and making/crafting events! Stop by the Library Great Hall May 5-16 for grab-and-go sudokus, coloring, and activity sheets, or stay for a while to play a game or work on a jigsaw puzzle.",
+    "Event",
+    [
+      "2023-05-10",
+      "2023-05-10",
+      "2"
+    ],
+    [
+      "12:00:00",
+      "13:00:00"
+    ],
+    admin.user_id,
+    [library._id]
+  )
+
+
+  const UnwindGameNight = await eventsData.create(
+    "Unwind Game Night",
+    "Game night is a fun social activity where friends or family gather to play board games, card games, or other types of games. It's a great way to unwind, relax, and have some laughs while engaging in friendly competition. Game night can be a regular occurrence or a special event, and can take place in someone's home or at a venue. It's a wonderful way to spend quality time with loved ones and build lasting memories. Whether it's a classic game like Monopoly or a newer game like Settlers of Catan, game night is a surefire way to have a good time.",
+    "Event",
+    [
+      "2023-05-05",
+      "2023-05-05",
+      "2"
+    ],
+    [
+      "18:00:00",
+      "20:00:00"
+    ],
+    admin.user_id,
+    [howeCenter._id]
+  )
 
   await closeConnection();
 }

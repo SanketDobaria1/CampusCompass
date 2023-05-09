@@ -126,6 +126,7 @@
       $.ajax({
         url: `/departments/getAll?page=${current_page}`,
         success: function (response) {
+          console.log(response)
           $("#container").empty();
           if (!response.data) window.reload();
           if (response.admin) isAdmin = response.admin;
