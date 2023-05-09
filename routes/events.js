@@ -215,13 +215,14 @@ router
         "Event days"
       );
       let event_date = [];
-      event_date.push(data.event_start_date);
-      event_date.push(data.event_end_date);
+      event_date.push(updatedData.event_start_date);
+      event_date.push(updatedData.event_end_date);
       // let days_string = xss(data.event_days).split(',').join('');
-      event_date.push(data.event_days);
-      delete data.event_start_date;
-      delete data.event_end_date;
-      delete data.event_days;
+      event_date.push(updatedData.event_days);
+      updatedData.event_date = event_date;
+      delete updatedData.event_start_date;
+      delete updatedData.event_end_date;
+      delete updatedData.event_days;
 
       let hours = [];
       hours.push(xss(updatedData.opening_hours));
