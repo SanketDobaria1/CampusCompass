@@ -91,19 +91,19 @@ const exportedMethods = {
 
   async getAll() {
     const feedbackCollection = await feedback();
-    const userCollection = await users();
-    let feedbackList = await feedbackCollection.find({}).toArray();
-    if (!feedbackList) throw "Could not get feedback";
-    let userList = await userCollection.find({}).toArray();
-    feedbackList = feedbackList.map((element) => {
-      let user = userList.find(function (user, index) {
-        if (user._id == element.reportedby) return true;
-      });
 
-      element._id = element._id.toString();
-      element.username = user.name;
-      return element;
-    });
+    let feedbackList = await feedbackCollection
+      .find({}, { projection: { _id: 1 } })
+      .toArray();
+    if (!feedbackList) throw "Could not get feedback";
+
+    for (let i = 0; i < feedbackList.length; i++) {
+      feedbackList[i]._id = feedbackList[i]._id.toString();
+      feedbackList[i].reported_object_details = await this.getById(
+        feedbackList[i]._id
+      );
+    }
+
     return feedbackList;
   },
 

@@ -224,12 +224,16 @@ router.route("/create").get(async (req, res) => {
 router
   .route("/edit/:id")
   .get(async (req, res) => {
-    const location = await locationsData.getById(req.params.id);
-    return res.render("pages/location/editLocation", {
-      data: location,
-      title: "Edit Location",
-      logedin: "userID" in req.session && req.session.userID.length > 5,
-    });
+    try {
+      const location = await locationsData.getById(req.params.id);
+      return res.render("pages/location/editLocation", {
+        data: location,
+        title: "Edit Location",
+        logedin: "userID" in req.session && req.session.userID.length > 5,
+      });
+    } catch (error) {
+      return res.status(404).json({ error: error.message });
+    }
   })
   .put(async (req, res) => {
     const data = req.body;

@@ -119,8 +119,10 @@ router
       data.created_by = xss(req.session.userID);
 
       data.location_id = validation.checkId(data.location_id, "Location ID");
+
+      data.locations_arr = [data.location_id];
     } catch (e) {
-      return res.status(400).json({ error: e });
+      return res.status(400).json({ error: e.message });
     }
 
     try {
@@ -131,7 +133,7 @@ router
         event_date,
         hours,
         created_by,
-        location_id,
+        locations_arr,
       } = data;
       const newevent = await eventsData.create(
         event_name,
@@ -140,12 +142,12 @@ router
         event_date,
         hours,
         created_by,
-        location_id
+        locations_arr
       );
       // res.json(newevent);
       return res.redirect("/events");
     } catch (e) {
-      res.status(404).json({ error: e });
+      res.status(404).json({ error: e.message.message });
     }
   });
 
@@ -165,7 +167,7 @@ router
     try {
       req.params.id = validation.checkId(req.params.id, "Id URL Parameter");
     } catch (e) {
-      return res.status(400).json({ error: e });
+      return res.status(400).json({ error: e.message });
     }
     try {
       const event = await eventsData.getById(req.params.id);
@@ -177,7 +179,7 @@ router
         logedin: "userID" in req.session && req.session.userID.length > 5,
       });
     } catch (e) {
-      res.status(404).json({ error: e });
+      res.status(404).json({ error: e.message });
     }
   })
 
@@ -244,7 +246,7 @@ router
         "Location ID"
       );
     } catch (e) {
-      return res.status(400).json({ error: e });
+      return res.status(400).json({ error: e.message });
     }
 
     try {
@@ -269,7 +271,7 @@ router
       );
       res.redirect(`/events/${req.params.id}`);
     } catch (e) {
-      res.status(404).json({ error: e });
+      res.status(404).json({ error: e.message });
     }
   })
 
@@ -277,13 +279,13 @@ router
     try {
       req.params.id = validation.checkId(req.params.id, "Id URL Parameter");
     } catch (e) {
-      return res.status(400).json({ error: e });
+      return res.status(400).json({ error: e.message });
     }
     try {
       await eventsData.remove(req.params.id);
       res.json({ eventId: req.params.id, deteled: true });
     } catch (e) {
-      res.status(404).json({ error: e });
+      res.status(404).json({ error: e.message });
     }
   });
 
@@ -297,14 +299,14 @@ router
     try {
       req.params.id = validation.checkId(req.params.id, "Id URL Parameter");
     } catch (e) {
-      return res.status(400).json({ error: e });
+      return res.status(400).json({ error: e.message });
     }
     try {
       const event = await eventsData.getById(req.params.id);
       event["formated_time_start"] = validation.formatTime(event.hours[0]);
       event["formated_time_end"] = validation.formatTime(event.hours[1]);
 
-      const location = await locationsData.getById(event.location_id);
+      const location = await locationsData.getById(event.location_id[0]);
       let location_geo = location.location;
 
       const tempPolygon = turf.polygon(location_geo.coordinates);
@@ -322,20 +324,20 @@ router
         centerPoint: reversedArray,
       });
     } catch (e) {
-      res.status(404).json({ error: e });
+      res.status(404).json({ error: e.message });
     }
   })
   .delete(async (req, res) => {
     try {
       req.params.id = validation.checkId(req.params.id, "Id URL Parameter");
     } catch (e) {
-      return res.status(400).json({ error: e });
+      return res.status(400).json({ error: e.message });
     }
     try {
       await eventsData.remove(req.params.id);
       res.json({ eventId: req.params.id, deteled: true });
     } catch (e) {
-      res.status(404).json({ error: e });
+      res.status(404).json({ error: e.message });
     }
   });
 
@@ -343,7 +345,7 @@ router.route("/register/:id").post(async (req, res) => {
   try {
     req.params.id = validation.checkId(req.params.id, "Id URL Parameter");
   } catch (e) {
-    return res.status(400).json({ error: e });
+    return res.status(400).json({ error: e.message });
   }
   try {
     const registeredEvent = await userData.registerEvents(
@@ -352,7 +354,7 @@ router.route("/register/:id").post(async (req, res) => {
     );
     res.redirect("/events");
   } catch (e) {
-    res.status(404).json({ error: e });
+    res.status(404).json({ error: e.message });
   }
 });
 
