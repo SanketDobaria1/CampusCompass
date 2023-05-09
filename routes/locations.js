@@ -117,6 +117,8 @@ router
         xss(data.location_type),
         "Location Type"
       );
+
+      data.location_type = validation.checkLocationType(data.location_type);
       // data.operating_hours = JSON.parse(
       //   data.operating_hours.replace(/"/g, '"')
       // );
@@ -168,14 +170,11 @@ router
         });
       }
 
-      // console.log(data.entrance_access);
-      // console.log(data.location_entrances);
-      // data.location = data.location;
-
       data.location_entrances = entrance;
     } catch (e) {
+      data.location = JSON.stringify(data.location.coordinates);
       return res.status(400).render("pages/location/createLocation", {
-        data: req.body,
+        data: data,
         logedin: "userID" in req.session && req.session.userID.length > 5,
         error: e,
       });
@@ -198,12 +197,19 @@ router
         location,
         location_entrances
       );
+      if (!newLocation)
+        return res.status(500).render("/pages/location/createLocation", {
+          title: "Create Location",
+          logedin: "userID" in req.session && req.session.userID.length > 5,
+          error: "Error: Creating Location",
+        });
       return res.redirect("/locations");
     } catch (e) {
+      data.location = JSON.stringify(data.location.coordinates);
       return res.status(400).render("pages/location/createLocation", {
         logedin: "userID" in req.session && req.session.userID.length > 5,
         data: req.body,
-        error: e,
+        error: e.message,
       });
     }
   });
