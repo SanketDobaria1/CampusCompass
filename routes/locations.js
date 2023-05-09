@@ -357,7 +357,6 @@ router
         type: "FeatureCollection",
         features: entrances_geo,
       };
-      // console.dir(entrances_geo, { depth: null });
       return res.render("pages/location/location", {
         title: "Location",
         data: location,
