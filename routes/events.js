@@ -307,14 +307,20 @@ router
       const event = await eventsData.getById(req.params.id);
       event["formated_time_start"] = validation.formatTime(event.hours[0]);
       event["formated_time_end"] = validation.formatTime(event.hours[1]);
-
-      const location = await locationsData.getById(event.location_id[0]);
-      let location_geo = location.location;
-
-      const tempPolygon = turf.polygon(location_geo.coordinates);
-
-      const centerPoint = turf.centroid(tempPolygon).geometry.coordinates;
-      const reversedArray = [...centerPoint].reverse();
+      let centerPoint;
+      let reversedArray;
+      let renderMap;
+      let location;
+      try {
+        location = await locationsData.getById(event.location_id[0]);
+        let location_geo = location.location;
+        const tempPolygon = turf.polygon(location_geo.coordinates);
+        centerPoint = turf.centroid(tempPolygon).geometry.coordinates;
+        reversedArray = [...centerPoint].reverse();
+      }
+        catch (e) {
+          centerPoint = reversedArray = renderMap = false;
+        }
 
       res.render("pages/event/eventID", {
         title: "Event",
@@ -322,8 +328,9 @@ router
         isAdmin: isAdmin,
         logedin: "userID" in req.session && req.session.userID.length > 5,
         api_token: process.env.MAPBOX_TOKEN,
-        locationName: location.name,
-        centerPoint: reversedArray,
+        locationName: location?.name,
+        centerPoint: reversedArray? true : false,
+        renderMap: renderMap
       });
     } catch (e) {
       res.status(404).json({ error: e.message });

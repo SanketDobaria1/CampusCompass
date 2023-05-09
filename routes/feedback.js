@@ -31,15 +31,10 @@ router
   })
   .post(async (req, res) => {
     if (!req.xhr)
-      if (
-        req.headers["user-agent"] &&
-        req.headers["user-agent"].includes("Mozilla")
-      )
         return res.status(403).render("pages/error", {
           statusCode: 403,
           errorMessage: "Forbidden",
         });
-      else return res.status(401).json({ error: "Forbidden" });
     let objectType, reported_object_id, feedbackDesc;
     let objectTypeList = ["departments", "events", "locations"];
     try {
