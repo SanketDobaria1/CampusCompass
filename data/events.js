@@ -106,7 +106,7 @@ const exportedMethods = {
     event_date = validation.checkStringArray(event_date, "event Date", 3);
     hours = validation.checkStringArray(hours, "Hours", 2);
     created_by = validation.checkId(created_by, "Created By");
-    location_id = validation.checkId(location_id, "Location ID");
+    location_id[0] = validation.checkId(location_id[0], "Location ID");
 
     const lastupdatedDate = new Date();
     lastupdatedDate.setTime(lastupdatedDate.getTime() + -240 * 60 * 1000);
