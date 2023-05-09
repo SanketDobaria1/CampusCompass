@@ -18,6 +18,8 @@ const exportedMethods = {
     name = validation.checkString(name, "Location Name");
     desc = validation.checkString(desc, "Description");
     type = validation.checkString(type, "Location Type");
+    type = validation.checkLocationType(type);
+
     // if (/^\d{2}:\d{2}:\d{2},\d{2}:\d{2}:\d{2}$/.test(operating_hours)) {
     //   throw `Provide operating hours in HH:MM:SS,HH:MM:SS format`;
     // }

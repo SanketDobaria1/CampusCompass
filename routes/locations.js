@@ -1,9 +1,9 @@
+import * as turf from "@turf/turf";
 import { Router } from "express";
+import xss from "xss";
 import { locationsData, roomsData } from "../data/index.js";
 import validation from "../validate.js";
-import * as turf from "@turf/turf";
 const router = Router();
-import xss from "xss";
 
 router.route("/getAllRecords").get(async (req, res) => {
   if (!req.xhr)
@@ -117,6 +117,8 @@ router
         xss(data.location_type),
         "Location Type"
       );
+
+      data.location_type = validation.checkLocationType(data.location_type);
       // data.operating_hours = JSON.parse(
       //   data.operating_hours.replace(/"/g, '"')
       // );
@@ -168,14 +170,12 @@ router
         });
       }
 
-      // console.log(data.entrance_access);
-      // console.log(data.location_entrances);
-      // data.location = data.location;
-
       data.location_entrances = entrance;
     } catch (e) {
+      data.location = JSON.stringify(data.location.coordinates);
       return res.status(400).render("pages/location/createLocation", {
-        data: req.body,
+        data: data,
+        logedin: "userID" in req.session && req.session.userID.length > 5,
         error: e,
       });
     }
@@ -197,24 +197,39 @@ router
         location,
         location_entrances
       );
+      if (!newLocation)
+        return res.status(500).render("/pages/location/createLocation", {
+          title: "Create Location",
+          logedin: "userID" in req.session && req.session.userID.length > 5,
+          error: "Error: Creating Location",
+        });
       return res.redirect("/locations");
     } catch (e) {
+      data.location = JSON.stringify(data.location.coordinates);
       return res.status(400).render("pages/location/createLocation", {
+        logedin: "userID" in req.session && req.session.userID.length > 5,
         data: req.body,
-        error: e,
+        error: e.message,
       });
     }
   });
 
 router.route("/create").get(async (req, res) => {
-  return res.render("pages/location/createLocation");
+  return res.render("pages/location/createLocation", {
+    title: "Create Location",
+    logedin: "userID" in req.session && req.session.userID.length > 5,
+  });
 });
 
 router
   .route("/edit/:id")
   .get(async (req, res) => {
     const location = await locationsData.getById(req.params.id);
-    return res.render("pages/location/editLocation", { data: location });
+    return res.render("pages/location/editLocation", {
+      data: location,
+      title: "Edit Location",
+      logedin: "userID" in req.session && req.session.userID.length > 5,
+    });
   })
   .put(async (req, res) => {
     const data = req.body;
@@ -289,11 +304,8 @@ router
 router
   .route("/:id")
   .get(async (req, res) => {
-    let isAdmin = false;
     let accessibleString = "No";
-    if (req.session.userRole === "admin") {
-      isAdmin = true;
-    }
+
     try {
       req.params.id = validation.checkId(req.params.id, "Id URL Parameter");
     } catch (e) {
@@ -340,11 +352,12 @@ router
         api_token: process.env.MAPBOX_TOKEN,
         geoObject: JSON.stringify(entrances_geo),
         centerPoint: reversedArray,
-        isAdmin: isAdmin,
+        locationName: location.name,
+        isAdmin: req.session.userRole === "admin",
         logedin: "userID" in req.session && req.session.userID.length > 5,
       });
     } catch (e) {
-      res.status(404).json({ error: e.message });
+      return res.status(404).json({ error: e.message });
     }
   })
   .post(async (req, res) => {
@@ -354,10 +367,10 @@ router
       return res.status(400).json({ error: e.message });
     }
     try {
-      await locationsData.remove(req.params.id);
-      res.redirect("/locations");
+      let confirmation = await locationsData.remove(req.params.id);
+      if (confirmation) return res.redirect("/locations");
     } catch (e) {
-      res.status(404).json({ error: e });
+      return res.status(404).json({ error: e });
     }
   })
 
@@ -369,7 +382,7 @@ router
     }
     try {
       await locationsData.remove(req.params.id);
-      res.json({ LocationId: req.params.id, deteled: true });
+      return res.json({ LocationId: req.params.id, deteled: true });
     } catch (e) {
       res.status(404).json({ error: e });
     }

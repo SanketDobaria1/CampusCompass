@@ -1,6 +1,6 @@
-import { ObjectId } from "mongodb";
 import booleanPointInPolygon from "@turf/boolean-point-in-polygon";
 import * as turf from "@turf/turf";
+import { ObjectId } from "mongodb";
 
 const exportedMethods = {
   checkId(id, varName) {
@@ -23,6 +23,21 @@ const exportedMethods = {
     let departmentList = ["Administrative", "Academic"];
     if (!departmentList.includes(type))
       throw new Error(`Please check Department type`);
+    return type;
+  },
+
+  checkLocationType(type) {
+    type = this.checkString(type, "Department Type");
+    let locationList = [
+      "Residence",
+      "Academic",
+      "Recreational",
+      "Administrative",
+      "Parking",
+      "Health",
+    ];
+    if (!locationList.includes(type))
+      throw new Error(`Please check Location type`);
     return type;
   },
 
@@ -85,7 +100,7 @@ const exportedMethods = {
     return strVal;
   },
 
-  // Todo : Need To work On it 
+  // Todo : Need To work On it
   checkDayArray(arr, varName) {
     // if (!arr || !Array.isArray(arr))
     //   throw new Error(`You must provide an array of ${varName}`);
@@ -93,6 +108,7 @@ const exportedMethods = {
       throw new Error(
         `You must supply at least one element in an array of ${varName}`
       );
+
     // arr = arr.split(',').join('');
     // arr.forEach((elm) => {
     //   if (typeof elm != "number" || isNaN(elm))

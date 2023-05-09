@@ -103,6 +103,7 @@ async function main() {
   );
 
 
+
   const howeCenter = await locationsData.create(
     "Howe Center",
     "The Howe Center is situated at the top of the hill on Castle Point where the ancestral home of the Stevens family – Castle Stevens – once stood. Built in 1784 by Colonel John Stevens the Georgian-style mansion served, at times, as a dormitory, a cafeteria and office space.",
@@ -145,6 +146,7 @@ async function main() {
       },
     ]
   );
+
 
 
   const babioCenter = await locationsData.create(
@@ -349,7 +351,7 @@ async function main() {
   const davisHall = await locationsData.create(
     "Davis Hall",
     "Davis Hall offers traditional double rooms for first-year men and women. Some rooms have a view of the Hudson River and New York City, while others overlook Stevens’ scenic campus lawn. Davis Hall is located on lower campus, just steps away from academic buildings, athletic facilities and local shops and restaurants.",
-    "Social",
+    "Residence",
     ["08:00:00", "22:00:00"],
     {
       type: "Polygon",
@@ -836,6 +838,7 @@ async function main() {
   );
 
 
+
   // const ISSS = await departmentData.create(
   //   "International Student and Scholar Services (ISSS)",
   //   // "64236f804eebf566c9d8d8df",
@@ -1092,18 +1095,9 @@ async function main() {
     McLean211._id,
     "The Department of Biomedical Engineering amplifies broad-based education and hands-on research initiatives at the boundary between science and engineering.",
     "Academic",
-    [
-      "08:00:00",
-      "16:00:00"
-    ],
-    [
-      1,
-      2,
-      3,
-      4,
-      5
-    ]
-  )
+    ["08:00:00", "16:00:00"],
+    [1, 2, 3, 4, 5]
+  );
 
 
   const Burchard514 = await roomsData.create(
@@ -1120,18 +1114,9 @@ async function main() {
     Burchard514._id,
     "The Systems Engineering Department is a team of interdisciplinary engineers committed to designing, developing, and optimizing complex systems. Their expertise includes mechanical, electrical, and computer engineering, and they work together to create reliable and innovative solutions.",
     "Academic",
-    [
-      "08:00:00",
-      "16:00:00"
-    ],
-    [
-      1,
-      2,
-      3,
-      4,
-      5
-    ]
-  )
+    ["08:00:00", "16:00:00"],
+    [1, 2, 3, 4, 5]
+  );
 
 
   const Edwin231 = await roomsData.create(
@@ -1148,18 +1133,9 @@ async function main() {
     Edwin231._id,
     "As one of the first in the nation, the Department of Electrical and Computer Engineering at Stevens has a long legacy of innovation and discovery.",
     "Academic",
-    [
-      "08:00:00",
-      "16:00:00"
-    ],
-    [
-      1,
-      2,
-      3,
-      4,
-      5
-    ]
-  )
+    ["08:00:00", "16:00:00"],
+    [1, 2, 3, 4, 5]
+  );
 
 
   const Babbio110 = await roomsData.create(
@@ -1176,18 +1152,10 @@ async function main() {
     Babbio110._id,
     "The Financial Engineering Department is a team of experts who combine financial theory, mathematics, and computer science to develop advanced financial models and innovative investment strategies. Their goal is to optimize financial decision-making and help clients navigate complex financial markets. They specialize in risk management, quantitative analysis, and portfolio optimization, and are dedicated to providing tailored solutions that meet each client's unique needs.",
     "Academic",
-    [
-      "08:00:00",
-      "16:00:00"
-    ],
-    [
-      1,
-      2,
-      3,
-      4,
-      5
-    ]
-  )
+    ["08:00:00", "16:00:00"],
+    [1, 2, 3, 4, 5]
+  );
+
 
 
   const Howe303 = await roomsData.create(
@@ -1275,6 +1243,7 @@ async function main() {
   )
 
 
+
   const Burchard111 = await roomsData.create(
     burchard._id,
     111,
@@ -1317,19 +1286,9 @@ async function main() {
     GatewaySouth216._id,
     "The Department of Chemical Engineering and Materials Science at Stevens harnesses the synergy between two impactful disciplines to drive discoveries and innovation that change industry – and society.",
     "Academic",
-    [
-      "08:00:00",
-      "16:00:00"
-    ],
-    [
-      1,
-      2,
-      3,
-      4,
-      5
-    ]
-  )
-
+    ["08:00:00", "16:00:00"],
+    [1, 2, 3, 4, 5]
+  );
 
   const McLean323 = await roomsData.create(
     mcLeanHall._id,
@@ -1345,18 +1304,9 @@ async function main() {
     McLean323._id,
     "The Department of Chemistry and Chemical Biology at Stevens is known for its legacy of fostering and nurturing groundbreaking, world-class innovation.",
     "Academic",
-    [
-      "08:00:00",
-      "16:00:00"
-    ],
-    [
-      1,
-      2,
-      3,
-      4,
-      5
-    ]
-  )
+    ["08:00:00", "16:00:00"],
+    [1, 2, 3, 4, 5]
+  );
 
 
   const GatewaySouth121 = await roomsData.create(
@@ -1373,18 +1323,9 @@ async function main() {
     GatewaySouth121._id,
     "As one of the first departments established at Stevens Institute of Technology, the Department of Physics has been an active participant in the revolution of physics science and education for 150 years.",
     "Academic",
-    [
-      "08:00:00",
-      "16:00:00"
-    ],
-    [
-      1,
-      2,
-      3,
-      4,
-      5
-    ]
-  )
+    ["08:00:00", "16:00:00"],
+    [1, 2, 3, 4, 5]
+  );
 
 
   const Edwin122 = await roomsData.create(

@@ -107,10 +107,12 @@
                 <dd>${operating_days}</dd>
                 <dt>Status</dt>
                 <dd class="${isOpen}">${isOpen}</dd>
-                <dt>Location</dt>
-                <dd><a href="/locations/${department.location_id}">${
-        department.location_name
-      }</a></dd>  
+                ${
+                  department.location_id && department.location_name
+                    ? `<dt>Location</dt>
+                <dd><a href="/locations/${department.location_id}">${department.location_name}</a></dd> `
+                    : ""
+                }
                 </dl>
                 ${renderEdit}
                 </div>

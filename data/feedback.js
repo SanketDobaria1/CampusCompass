@@ -1,9 +1,9 @@
 import { ObjectId } from "mongodb";
 import {
+  departments,
+  events,
   feedback,
   locations,
-  events,
-  departments,
   users,
 } from "../config/mongoCollections.js";
 import validation from "../validate.js";
@@ -46,10 +46,10 @@ const exportedMethods = {
       );
 
     const userinfo = await userCollection.findOne({
-        _id: new ObjectId(feedbackinfo.reportedby),
-      });
+      _id: new ObjectId(feedbackinfo.reportedby),
+    });
     feedbackinfo._id = feedbackinfo._id.toString();
-    feedbackinfo.username = userinfo.name
+    feedbackinfo.username = userinfo.name;
     return feedbackinfo;
   },
 
@@ -89,26 +89,23 @@ const exportedMethods = {
     return { feedbackCreated: true };
   },
 
-
   async getAll() {
     const feedbackCollection = await feedback();
     const userCollection = await users();
     let feedbackList = await feedbackCollection.find({}).toArray();
     if (!feedbackList) throw "Could not get feedback";
-    let userList = await userCollection.find({}).toArray()
+    let userList = await userCollection.find({}).toArray();
     feedbackList = feedbackList.map((element) => {
-      let user = userList.find(function(user, index) {
-        if(user._id == element.reportedby)
-          return true;
+      let user = userList.find(function (user, index) {
+        if (user._id == element.reportedby) return true;
       });
 
       element._id = element._id.toString();
-      element.username = user.name
+      element.username = user.name;
       return element;
     });
     return feedbackList;
   },
-
 
   async remove(id) {
     id = validation.checkId(id, "Feedback ID");
@@ -121,7 +118,6 @@ const exportedMethods = {
     }
     return `'${deletionInfo.value.name}' has been successfully resolved!`;
   },
-
 };
 
 export default exportedMethods;
