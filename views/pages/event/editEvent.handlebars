@@ -17,8 +17,10 @@
         </div>
         <div>
             <label for="event_type">Event Type*</label>
-            <select class="form-input" name="event_type" id="event_type" required size="1">
-                <option value="#">Select Value</option>
+
+            <select class="form-input" name="event_type" id="event_type" required>
+                <option value="">Select Option</option>
+
                 <option value="Class" {{#if_eq data.type "Class"}}selected{{/if_eq}}>Class</option>
                 <option value="Event" {{#if_eq data.type "Event"}}selected{{/if_eq}}>Event</option>
             </select>
@@ -65,7 +67,7 @@
             <select id="location_id" name="location_id" required>
                 <option value="">Select location</option>
                 {{#each location}}
-                <option value="{{_id}}" {{#if_eq @root.data.location_id _id}}selected{{/if_eq}}>{{name}}</option>
+                <option value="{{_id}}" {{#if_eq @root.data.location_id.[0] _id}}selected{{/if_eq}}>{{name}}</option>
                 {{/each}}
             </select>
             <div class="error-msg"></div>
