@@ -43,7 +43,6 @@ $(document).ready(function () {
 
     let filteredResponseList = [];
     $(".form-input").on("input", function () {
-      console.log("change fired");
       let serachString = $("#search-string").val().trim().toLowerCase();
       let searchType = $("#search-type").val();
       let accessibleType = $("#search-type-accessible").val();
