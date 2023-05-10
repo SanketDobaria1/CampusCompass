@@ -1014,7 +1014,7 @@ async function main() {
     "Web Programming I",
     "This course will provide students with a first strong approach of internet programming. It will give the basic knowledge on how the Internet works and how to create advanced web sites by the use of script languages, after learning the basics of HTML. The course will teach the students how to create a complex global site through the creation of individual working modules, giving them the skills required in any business such as proper team work and coordination between groups.",
     "Class",
-    ["2021-12-18", "2023-05-11", 1],
+    ["2021-12-18", "2023-05-11", "1"],
     ["18:30:00", "21:00:00"],
     admin.user_id,
     [edwin._id]
@@ -1024,7 +1024,7 @@ async function main() {
     "Web Programming II",
     "This course focuses on teaching students the newest technologies available in Web Programming. Topics include advanced client side programming, responsive design, NoSQL databases, JQuery, AJAX, Web Site security, and the latest Frameworks. Students will be given the opportunity to suggest topics they would like to discover at the end of the semester. The course is a very hands-on course where everything taught will be practiced through in-class exercises.",
     "Class",
-    ["2021-12-18", "2023-05-11", 1],
+    ["2021-12-18", "2023-05-11", "1"],
     ["15:30:00", "18:00:00"],
     admin.user_id,
     [edwin._id]
@@ -1034,7 +1034,7 @@ async function main() {
     "Database Management Systems I",
     "Introduction to the design and querying of relational databases. Topics include: relational schemas; keys and foreign key references; relational algebra (as an introduction to SQL); SQL in depth; Entity-Relationship (ER) database design; translating from ER models to relational schemas and from relational schemas to ER models; functional dependencies; and normalization.",
     "Class",
-    ["2021-12-18", "2023-05-11", 3],
+    ["2021-12-18", "2023-05-11", "3"],
     ["15:30:00", "18:00:00"],
     admin.user_id,
     [babioCenter._id]
@@ -1044,7 +1044,7 @@ async function main() {
     "Fundamentals of Computing",
     "This is an introduction to computer science with an emphasis on programming, in Python. The topics include: design; algorithmic thinking; recursion; object-oriented programming; and some basics about computer systems: machine language, interpreters, compilers, and data representation. Undergraduates are not allowed to enroll.",
     "Class",
-    ["2021-12-18", "2023-05-11", 4],
+    ["2021-12-18", "2023-05-11", "4"],
     ["18:30:00", "21:00:00"],
     admin.user_id,
     [gatewaySouthHall._id]
@@ -1054,7 +1054,7 @@ async function main() {
     "Analysis and Design of Composites",
     "Composite  material  characterization;  composite  mechanics  of  plates,  panels,  beams,  columns,  and  rods  integrated with design procedures; analysis and design of composite structures; joining methods and procedures; introduction to manufacturing processes of filament winding, braiding, injection, compression and resin transfer molding, machining and drilling; and industrial applications.",
     "Class",
-    ["2021-12-18", "2023-05-11", 2],
+    ["2021-12-18", "2023-05-11", "2"],
     ["15:00:00", "17:30:00"],
     admin.user_id,
     [burchard._id]
@@ -1064,7 +1064,7 @@ async function main() {
     "Engineering Programming: Python",
     "This course presents tool, techniques, algorithms, and programming techniques using the Python programming language for data intensive applications and decision making. The course formally introduces techniques to: (i) gather,(ii) store, and (iii) process large volumes of data to make informed decisions. Such techniques find applicability in many engineering application areas, including communications systems, embedded systems, smart grids, robotics, Internet, and enterprise networks, or any network where information flows and alters decision making.",
     "Class",
-    ["2021-12-18", "2023-05-11", 1],
+    ["2021-12-18", "2023-05-11", "1"],
     ["15:00:00", "17:30:00"],
     admin.user_id,
     [mcLeanHall._id]
@@ -1074,7 +1074,7 @@ async function main() {
     "Optimization and Process Analytics",
     "This course covers basic concepts in optimization and heuristic search with an emphasis on process improvement and optimization. This course emphasizes the application of mathematical optimization models over the underlying mathematics of their algorithms. While the skills developed in this course can be applied to a very broad range of business problems, the practice examples and student exercises will focus on the following areas: healthcare, logistics and supply chain optimization, capital budgeting, asset management, portfolio analysis. Most of the student exercises will involve the use of Microsoft Excel “Solver” add-on package for mathematical optimization.",
     "Class",
-    ["2021-12-18", "2023-05-11", 5],
+    ["2021-12-18", "2023-05-11", "5"],
     ["15:00:00", "17:30:00"],
     admin.user_id,
     [burchard._id]
@@ -1084,7 +1084,7 @@ async function main() {
     "Data Acquisition/Modeling/Analysis",
     "This course is designed to enhance ECE’s students knowledge in core subjects with the ability of analyzing big data applications.  It will cover both the computational techniques, and the mathematical intuitions in the skill sets for the big data analytics. This class will provide students with the necessary data engineering processing skills, refined data optimizations for feature engineering, and sophisticated linear analysis for data transform and model ensembling. ",
     "Class",
-    ["2021-12-18", "2023-05-11", 1],
+    ["2021-12-18", "2023-05-11", "1"],
     ["18:30:00", "21:00:00"],
     admin.user_id,
     [mcLeanHall._id]
@@ -1094,7 +1094,7 @@ async function main() {
     "Kick Back Party",
     "Kick back, relax and take a study break with the Office of DEI at our end of the year party! Games, crafts, music and more.",
     "Event",
-    ["2023-05-18", "2023-05-18", 4],
+    ["2023-05-18", "2023-05-18", "4"],
     ["16:00:00", "17:30:00"],
     admin.user_id,
     [castlePointHall._id]
@@ -1104,7 +1104,7 @@ async function main() {
     "Midday Meditation and Journaling",
     "Take a breather in between studying with Lore-El! Join us for a guided meditation and journaling session designed to de-stress and calm your mind during the busiest time of the semester.",
     "Event",
-    ["2023-05-16", "2023-05-16", 5],
+    ["2023-05-16", "2023-05-16", "5"],
     ["13:00:00", "14:00:00"],
     admin.user_id,
     [castlePointHall._id]
@@ -1114,7 +1114,7 @@ async function main() {
     "Stress Less with the Library Pets!",
     "Visit our Stress Less guide to find a variety of stress-relieving activities, or stop by the Library Great Hall starting Friday, May 5 for grab-and-go sudokus and coloring sheets, as well as games and jigsaw puzzles. Stay tuned for some pop-up relaxation and making/crafting events! Stop by the Library Great Hall May 5-16 for grab-and-go sudokus, coloring, and activity sheets, or stay for a while to play a game or work on a jigsaw puzzle.",
     "Event",
-    ["2023-05-10", "2023-05-10", 2],
+    ["2023-05-10", "2023-05-10", "2"],
     ["12:00:00", "13:00:00"],
     admin.user_id,
     [library._id]
@@ -1124,7 +1124,7 @@ async function main() {
     "Unwind Game Night",
     "Game night is a fun social activity where friends or family gather to play board games, card games, or other types of games. It's a great way to unwind, relax, and have some laughs while engaging in friendly competition. Game night can be a regular occurrence or a special event, and can take place in someone's home or at a venue. It's a wonderful way to spend quality time with loved ones and build lasting memories. Whether it's a classic game like Monopoly or a newer game like Settlers of Catan, game night is a surefire way to have a good time.",
     "Event",
-    ["2023-05-05", "2023-05-05", 2],
+    ["2023-05-05", "2023-05-05", "2"],
     ["18:00:00", "20:00:00"],
     admin.user_id,
     [howeCenter._id]
