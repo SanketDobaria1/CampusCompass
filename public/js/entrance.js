@@ -43,6 +43,7 @@ $(document).ready(function () {
 
     let filteredResponseList = [];
     $(".form-input").on("input", function () {
+      console.log("change fired");
       let serachString = $("#search-string").val().trim().toLowerCase();
       let searchType = $("#search-type").val();
       let accessibleType = $("#search-type-accessible").val();
@@ -50,6 +51,7 @@ $(document).ready(function () {
       if (
         searchType !== "#" ||
         accessibleType !== "#" ||
+        serachString === "" ||
         serachString.length > 0
       ) {
         filteredResponseList = filterResponse(
@@ -58,10 +60,13 @@ $(document).ready(function () {
           serachString,
           accessibleType
         );
+        // renderData(filteredResponseList, map);
+        // filteredResponseList.length > 0
+        //   ? renderData(filteredResponseList, map)
+        //   : renderData(response, map);
+
         renderData(filteredResponseList, map);
-        filteredResponseList.length > 0
-          ? renderData(filteredResponseList, map)
-          : renderData(response, map);
+
         filteredResponseList = [];
       } else {
         renderData(response, map);
@@ -107,7 +112,10 @@ $(document).ready(function () {
     $("#results-location").empty();
 
     if (response.length === 0) {
-      $("#results").html(`<p>No Records to Display</p>`);
+      $("#results-location").append(`<p>No Records to Display</p>`);
+      map.removeLayer(geoJSONLayer);
+      map.setView([40.744732, -74.025655]);
+      map.setZoom(16);
     } else {
       let geoObject = {
         type: "FeatureCollection",
@@ -115,6 +123,7 @@ $(document).ready(function () {
       };
       if (geoJSONLayer) {
         map.removeLayer(geoJSONLayer);
+        map.setView([40.744732, -74.025655]);
       }
 
       response.map((data) => {
