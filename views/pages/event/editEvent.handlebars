@@ -65,7 +65,7 @@
             <select id="location_id" name="location_id" required>
                 <option value="">Select location</option>
                 {{#each location}}
-                <option value="{{_id}}" {{#if_eq @root.data.location_id _id}}selected{{/if_eq}}>{{name}}</option>
+                <option value="{{_id}}" {{#if_eq @root.data.location_id.[0] _id}}selected{{/if_eq}}>{{name}}</option>
                 {{/each}}
             </select>
             <div class="error-msg"></div>

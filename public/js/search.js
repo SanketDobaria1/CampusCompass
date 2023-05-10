@@ -126,16 +126,21 @@ $(document).ready(function () {
     $(".form-input").on("input", function () {
       let additionalFilter = $("#search-type-additional").val();
       let searchStringVal = $("#search-string").val().trim().toLowerCase();
-      if (additionalFilter !== "#" || searchStringVal.length > 0) {
+      if (
+        additionalFilter !== "#" ||
+        searchStringVal.length === "" ||
+        searchStringVal.length > 0
+      ) {
         filteredResponseList = filterResponse(
           response,
           additionalFilter,
           searchStringVal
         );
 
-        filteredResponseList.length > 0
-          ? renderData(filteredResponseList)
-          : renderData(response);
+        // filteredResponseList.length > 0
+        //   ? renderData(filteredResponseList)
+        //   : renderData(response);
+        renderData(filteredResponseList);
         filteredResponseList = [];
       } else {
         renderData(response);
