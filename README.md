@@ -10,6 +10,12 @@ Instructions on how to install the project, including any prerequisites.
 $ npm install
 ```
 
+Run Below data to populate initial database fields
+
+```sh
+$ npm run seed
+```
+
 ## Usage
 
 Instructions on how to use the project, including any required commands or configuration.
@@ -17,3 +23,8 @@ Instructions on how to use the project, including any required commands or confi
 ```sh
 $ npm start
 ```
+
+Initial admin credentials 
+
+Username: test@stevens.edu
+Password: Test@123
