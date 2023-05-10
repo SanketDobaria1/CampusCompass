@@ -33,17 +33,15 @@
       </dl>
       {{#if @root.isAdmin}}
         <div class="container inline-forms">
-        <form method="POST" action="/locations/{{_id}}">
-          <button
-            type="submit"
-            class="submit-button"
-          >Delete</button>
-        </form>
+        
         <form method="GET" action="/locations/edit/{{_id}}">
           <button
             type="submit"
             class="submit-button"
           >Edit</button>
+        </form>
+        <form method="POST" action="/locations/{{_id}}">
+          <button type="submit" class="submit-button">Delete</button>
         </form>
         </div>
       {{/if}}
