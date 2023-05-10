@@ -23,6 +23,7 @@ router
         events: events,
         departments: departments,
         locations: locations,
+        title: "feedback",
         username: req.session.username,
       });
     } catch (e) {
