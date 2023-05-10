@@ -312,7 +312,9 @@ footer {
 }
 
 #pagination a.active {
-  background-color: #a32638;
+
+  background-color: #157c18;
+
   color: white;
 }
 
