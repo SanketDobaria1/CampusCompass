@@ -769,33 +769,33 @@ async function main() {
     ]
   );
 
-  const gianforteFamilyHall = await locationsData.create(
-    "Gianforte Family Hall",
-    "Breaking ground in 2017, the Gateway Academic Center is comprised of two buildings – South Hall and Gianforte Family Hall – connected by a glass skybridge. With 10 new smart classrooms, 13 labs and 45 faculty offices, the new four-story building will have an impact throughout the Stevens community. The new technology-enabled smart classrooms expand students’ opportunities to learn and provides professors with new possibilities to collaborate and conduct research. The classrooms are also equipped for active video conferencing for online learning.",
-    "Academic",
-    ["08:30:00", "22:00:00"],
-    {
-      type: "Polygon",
-      coordinates: [
-        [
-          [-74.02775382051752, 40.743531150876095],
-          [-74.02781533556845, 40.743327804726334],
-          [-74.02746279984584, 40.743265827201924],
-          [-74.02740107675292, 40.74347015442214],
-          [-74.02775382051752, 40.743531150876095],
-        ],
-      ],
-    },
-    [
-      {
-        location: {
-          coordinates: [-74.0275822383959, 40.74328706576168],
-          type: "Point",
-        },
-        accessible: "Y",
-      },
-    ]
-  );
+  // const gianforteFamilyHall = await locationsData.create(
+  //   "Gianforte Family Hall",
+  //   "Breaking ground in 2017, the Gateway Academic Center is comprised of two buildings – South Hall and Gianforte Family Hall – connected by a glass skybridge. With 10 new smart classrooms, 13 labs and 45 faculty offices, the new four-story building will have an impact throughout the Stevens community. The new technology-enabled smart classrooms expand students’ opportunities to learn and provides professors with new possibilities to collaborate and conduct research. The classrooms are also equipped for active video conferencing for online learning.",
+  //   "Academic",
+  //   ["08:30:00", "22:00:00"],
+  //   {
+  //     type: "Polygon",
+  //     coordinates: [
+  //       [
+  //         [-74.02775382051752, 40.743531150876095],
+  //         [-74.02781533556845, 40.743327804726334],
+  //         [-74.02746279984584, 40.743265827201924],
+  //         [-74.02740107675292, 40.74347015442214],
+  //         [-74.02775382051752, 40.743531150876095],
+  //       ],
+  //     ],
+  //   },
+  //   [
+  //     {
+  //       location: {
+  //         coordinates: [-74.0275822383959, 40.74328706576168],
+  //         type: "Point",
+  //       },
+  //       accessible: "Y",
+  //     },
+  //   ]
+  // );
 
   const DavisRoom116 = await roomsData.create(
     davisHall._id,
@@ -1001,14 +1001,14 @@ async function main() {
     "admin"
   );
 
-  const MathematicalSciences = await departmentData.create(
-    "Department of Mathematical Sciences",
-    Babbio304._id,
-    "The Department of Mathematical Sciences at Stevens is a leader in the field of algebraic cryptography.",
-    "Academic",
-    ["08:00:00", "16:00:00"],
-    [1, 2, 3, 4, 5]
-  );
+  // const MathematicalSciences = await departmentData.create(
+  //   "Department of Mathematical Sciences",
+  //   Babbio304._id,
+  //   "The Department of Mathematical Sciences at Stevens is a leader in the field of algebraic cryptography.",
+  //   "Academic",
+  //   ["08:00:00", "16:00:00"],
+  //   [1, 2, 3, 4, 5]
+  // );
 
   const WebProgramming1 = await eventsData.create(
     "Web Programming I",
