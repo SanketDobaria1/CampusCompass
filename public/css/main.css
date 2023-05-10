@@ -312,7 +312,9 @@ footer {
 }
 
 #pagination a.active {
+
   background-color: #157c18;
+
   color: white;
 }
 
@@ -497,19 +499,19 @@ p {
  }
 
 
-/* Card */
+
 .card {
   background-color: #f0f0f0;
   border-radius: 5px;
   padding: 15px;
 }
 
-/* Card body */
+
 .card-body {
   margin-bottom: 10px;
 }
 
-/* Button */
+
 .btn {
   display: inline-block;
   padding: 8px 16px;
@@ -528,28 +530,33 @@ p {
   color: #dc3545;
 }
 
-/* Container fluid */
+  li {
+display: block;
+}
+
+
+
 .container-fluid {
   padding: 20px;
 }
 
-/* Row */
+
 .row {
   margin: -15px;
 }
 
-/* Card column */
+
 .card.col-md-4 {
   padding: 15px;
 }
 
-/* Label */
+
 label {
   font-size: 25px;
   margin-bottom: 5px;
 }
 
-/* Input */
+
 .form-input {
   width: 100%;
   padding: 8px;
@@ -570,8 +577,7 @@ label {
   display: inline-block;
 }
 
-/* Button */
-/* .submit-button, */
+
 #add-entrance {
   display: inline-block;
   padding: 8px 16px;
@@ -586,17 +592,17 @@ label {
   transition: background-color 0.3s;
 }
 
-/* .submit-button:hover, */
+
 #add-entrance:hover {
   background-color: #0056b3;
 }
 
-/* Entrances Container */
+
 #entrances-container {
   margin-top: 10px;
 }
 
-/* Entrance Fieldset */
+
 fieldset {
   border: none;
   padding: 0;
@@ -604,30 +610,29 @@ fieldset {
   margin-bottom: 10px;
 }
 
-/* Entrance Accessibility Label */
+
 fieldset label[for="entrance_access"] {
   display: block;
   margin-top: 5px;
 }
 
-/* Entrance Accessibility Input */
+
 fieldset label[for="entrance_access"] input[type="text"] {
   width: 30px;
 }
 
-/* Add Entrance Button */
 #add-entrance {
   margin-top: 10px;
 }
 
-/* Error Message */
+
 .error-message {
   color: #dc3545;
   font-size: 14px;
   margin-top: 5px;
 }
 
-/* Success Message */
+
 .success-message {
   color: #28a745;
   font-size: 14px;
