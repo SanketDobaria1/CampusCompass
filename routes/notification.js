@@ -16,6 +16,7 @@ router.route("/").get(async (req, res) => {
     let notificationList = await notificationsData.getAll();
     res.render("pages/notifications", {
       id: req.session.userID,
+      title: "notifications",
       isAdmin: isAdmin,
       logedin: true,
       notifications: notificationList,
