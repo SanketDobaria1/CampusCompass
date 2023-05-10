@@ -14,15 +14,14 @@
 
     <label for="location_type">Location Type</label>
     <br>
-    {{data.location_type}}
     <select class="form-input" name="location_type" id="location_type">
         <option value="#">Select Type</option>
-        <option value="Residence" {{ selected data.location_type "Residence" }}>Residence</option>
-        <option value="Academic" {{ selected data.location_type "Academic" }}>Academic</option>
-        <option value="Recreational" {{ selected data.location_type "Recreational" }}>Recreational</option>
-        <option value="Administrative" {{ selected data.location_type "Administrative" }}>Administrative</option>
-        <option value="Parking" {{ selected data.location_type "Academic" }}>Parking</option>
-        <option value="Health" {{ selected data.location_type "Health" }}>Health</option>
+        <option value="Residence" {{ selected data.type "Residence" }}>Residence</option>
+        <option value="Academic" {{ selected data.type "Academic" }}>Academic</option>
+        <option value="Recreational" {{ selected data.type "Recreational" }}>Recreational</option>
+        <option value="Administrative" {{ selected data.type "Administrative" }}>Administrative</option>
+        <option value="Parking" {{ selected data.type "Parking" }}>Parking</option>
+        <option value="Health" {{ selected data.type "Health" }}>Health</option>
     </select>
     <br>
     
@@ -52,7 +51,8 @@
 {{/if}}
 
 
-    <input type="submit" class="submit-button" value="Update"></input>
-    <br />
-    <a href="/locations" class="btn btn-info">Back to all locations</a>
+    <input type="submit" class="submit-button" value="Update">
+    
+    <a href="/locations" class="submit-button" >Back to all locations</a>
 </form>
+

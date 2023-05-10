@@ -10,15 +10,16 @@
             <div class="error-msg"></div>
         </div>
         <div>
-            <label for="event_desc">Description</label>
-            <input class="form-input" id="event_desc" name="event_desc" type="text"
-                placeholder="Description" value="{{data.desc}}"> 
-            <div class="error-msg"></div>
+          <label for="event_desc">Event Description:</label>
+          <textarea id="event_desc" name="event_desc" placeholder="Enter event description" required>{{data.desc}}</textarea>
+          <div class="error-msg"></div>
         </div>
         <div>
             <label for="event_type">Event Type*</label>
+
             <select class="form-input" name="event_type" id="event_type" required>
-                <option value="#">Select Type</option>
+                <option value="">Select Option</option>
+
                 <option value="Class" {{#if_eq data.type "Class"}}selected{{/if_eq}}>Class</option>
                 <option value="Event" {{#if_eq data.type "Event"}}selected{{/if_eq}}>Event</option>
             </select>
@@ -26,12 +27,12 @@
         </div>
         <div>
             <label for="event_start_date">Start Date</label>
-            <input class="form-input" id="event_start_date" name="event_start_date" type="date" placeholder="Date" value="{{data.event_date.[0]}}" required>
+            <input class="form-input" id="event_start_date" name="event_start_date" type="date" value="{{data.event_date.[0]}}" required>
             <div class="error-msg"></div>
         </div>
         <div>
             <label for="event_end_date">End Date</label>
-            <input class="form-input" id="event_end_date" name="event_end_date" type="date" placeholder="Date" value="{{data.event_date.[1]}}" required>
+            <input class="form-input" id="event_end_date" name="event_end_date" type="date" value="{{data.event_date.[1]}}" required>
             <div class="error-msg"></div>
         </div>
         <div>
@@ -65,107 +66,14 @@
             <select id="location_id" name="location_id" required>
                 <option value="">Select location</option>
                 {{#each location}}
-                <option value="{{_id}}" {{#if_eq @root.data.location_id _id}}selected{{/if_eq}}>{{name}}</option>
+                <option value="{{_id}}" {{#if_eq @root.data.location_id.[0] _id}}selected{{/if_eq}}>{{name}}</option>
                 {{/each}}
             </select>
             <div class="error-msg"></div>
         </div>
     </fieldset>
-    <input type="submit" class="submit-button" value="Save Changes"></input>
+    <input type="submit" class="submit-button" value="Save Changes">
 </form>
 {{> dialog}}
-<style>
-  body {
-    font-family: 'Helvetica Neue', sans-serif;
-    background-color: #f8f8f8;
-  }
-  form {
-    max-width: 500px;
-    margin: 0 auto;
-    background-color: #fff;
-    padding: 30px;
-    border-radius: 5px;
-    box-shadow: 0px 0px 10px rgba(0,0,0,0.2);
-  }
-  h1 {
-    text-align: center;
-    margin-bottom: 20px;
-    color: #a32638; /* Use theme color for headings */
-  }
-  div {
-    margin-bottom: 20px;
-  }
-  fieldset {
-    border: none;
-    margin: 0;
-    padding: 0;
-  }
-  legend {
-    font-size: 18px;
-    font-weight: bold;
-    color: #a32638; /* Use theme color for legend text */
-    margin-bottom: 20px;
-  }
-  label {
-    display: block;
-    margin-bottom: 5px;
-    font-size: 14px;
-    color: #333;
-  }
-  input,
-  select,
-  textarea {
-    width: 100%;
-    padding: 10px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    box-sizing: border-box;
-    margin-bottom: 20px;
-    font-size: 14px;
-  }
-  select[multiple] {
-    height: 120px;
-  }
-  input[type="submit"] {
-    background-color: #a32638; /* Use theme color for submit button background */
-    color: #fff;
-    border: none;
-    padding: 10px 20px;
-    border-radius: 4px;
-    font-size: 16px;
-    cursor: pointer;
-  }
-  input[type="submit"]:hover {
-    background-color: #861e2f; /* Darken theme color on hover */
-  }
-  @media screen and (max-width: 600px) {
-  form {
-    padding: 20px;
-    max-width: 100%;
-  }
-  }
-
-.notification {
-  background-color: #fff;
-  color: #a32638;
-  border: 1px solid #a32638;
-  border-radius: 5px;
-  padding: 10px;
-  margin-bottom: 10px;
-}
-.invalid {
-    border: 1px solid #a32638;
-}
-
-.error-msg {
-    color: #a32638;
-    font-size: 0.9em;
-    margin-top: 5px;
-    display: none;  /* Hide error messages by default */
-}
-
-.invalid + .error-msg {
-    display: block;  /* Show error message when input is invalid */
-}
-</style>
+<link rel="stylesheet" href="/public/css/event.css">
 <script src="/public/js/events.js"></script>

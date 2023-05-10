@@ -82,8 +82,9 @@
       let renderEdit;
       if (isAdmin)
         renderEdit = `
-        <button type="button" data-action="edit" class="btn btn-success text-dark" data-id="${department._id}">Edit</button>
-        <button atype="button" data-action="delete" class="btn btn-danger text-dark" data-id="${department._id}">Delete</button>`;
+
+        <button type="button" data-action="edit" class="btn btn-outline-secondary" data-id="${department._id}">Edit</button>
+        <button atype="button" data-action="delete" class="btn btn-outline-danger" data-id="${department._id}">Delete</button>`;
       else renderEdit = "";
       // isOpen = department.operating_days.includes(weekday) ? "Open" : "Closed";
       const div = `<div class="cards">
@@ -126,7 +127,7 @@
       $.ajax({
         url: `/departments/getAll?page=${current_page}`,
         success: function (response) {
-          console.log(response)
+          console.log(response);
           $("#container").empty();
           if (!response.data) window.reload();
           if (response.admin) isAdmin = response.admin;

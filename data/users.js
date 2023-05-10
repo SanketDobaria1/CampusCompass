@@ -95,6 +95,10 @@ const exportedMethods = {
     let locationCollection = await locations();
     const currentDate = new Date();
     const currentDateEst = new Date(currentDate.getTime() + -5 * 60 * 1000);
+    const estTimezone = "America/New_York";
+    const currentDateTime = new Date().toLocaleString("en-US", {
+      timeZone: estTimezone,
+    });
     let currentDay =
       currentDateEst.getDay() === 0 ? 7 : currentDateEst.getDay();
     let locationRender = [];
@@ -102,7 +106,9 @@ const exportedMethods = {
       .find(
         {
           _id: { $in: eventList },
-          "event_date.1": { $gte: currentDateEst.toISOString().slice(0, 10) },
+          // "event_date.1": {
+          //   $gte: new Date(currentDateTime).toISOString().slice(0, 10),
+          // },
           "event_date.2": { $in: [0, currentDay] },
         },
         { projection: { desc: 0, lastupdatedDate: 0, created_by: 0 } }
