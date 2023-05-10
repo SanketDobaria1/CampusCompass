@@ -322,9 +322,6 @@ router
       } catch (e) {
         centerPoint = reversedArray = renderMap = false;
       }
-        catch (e) {
-          centerPoint = reversedArray = renderMap = false;
-        }
 
       res.render("pages/event/eventID", {
         title: "Event",
@@ -333,8 +330,8 @@ router
         logedin: "userID" in req.session && req.session.userID.length > 5,
         api_token: process.env.MAPBOX_TOKEN,
         locationName: location?.name,
-        centerPoint: reversedArray? true : false,
-        renderMap: renderMap
+        centerPoint: reversedArray ? true : false,
+        renderMap: renderMap,
       });
     } catch (e) {
       res.status(404).json({ error: e.message });
