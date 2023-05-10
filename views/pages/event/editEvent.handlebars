@@ -17,8 +17,7 @@
         </div>
         <div>
             <label for="event_type">Event Type*</label>
-            <select class="form-input" name="event_type" id="event_type" required>
-                <option value="#">Select Type</option>
+            <select class="form-input" name="event_type" id="event_type" required size="1">
                 <option value="Class" {{#if_eq data.type "Class"}}selected{{/if_eq}}>Class</option>
                 <option value="Event" {{#if_eq data.type "Event"}}selected{{/if_eq}}>Event</option>
             </select>
@@ -26,12 +25,12 @@
         </div>
         <div>
             <label for="event_start_date">Start Date</label>
-            <input class="form-input" id="event_start_date" name="event_start_date" type="date" placeholder="Date" value="{{data.event_date.[0]}}" required>
+            <input class="form-input" id="event_start_date" name="event_start_date" type="date" value="{{data.event_date.[0]}}" required>
             <div class="error-msg"></div>
         </div>
         <div>
             <label for="event_end_date">End Date</label>
-            <input class="form-input" id="event_end_date" name="event_end_date" type="date" placeholder="Date" value="{{data.event_date.[1]}}" required>
+            <input class="form-input" id="event_end_date" name="event_end_date" type="date" value="{{data.event_date.[1]}}" required>
             <div class="error-msg"></div>
         </div>
         <div>
@@ -71,7 +70,7 @@
             <div class="error-msg"></div>
         </div>
     </fieldset>
-    <input type="submit" class="submit-button" value="Save Changes"></input>
+    <input type="submit" class="submit-button" value="Save Changes">
 </form>
 {{> dialog}}
 <style>
