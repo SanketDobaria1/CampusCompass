@@ -1114,7 +1114,7 @@ async function main() {
     "Stress Less with the Library Pets!",
     "Visit our Stress Less guide to find a variety of stress-relieving activities, or stop by the Library Great Hall starting Friday, May 5 for grab-and-go sudokus and coloring sheets, as well as games and jigsaw puzzles. Stay tuned for some pop-up relaxation and making/crafting events! Stop by the Library Great Hall May 5-16 for grab-and-go sudokus, coloring, and activity sheets, or stay for a while to play a game or work on a jigsaw puzzle.",
     "Event",
-    ["2023-05-10", "2023-05-11", "3"],
+    ["2023-05-10", "2023-05-10", "2"],
     ["12:00:00", "13:00:00"],
     admin.user_id,
     [library._id]
