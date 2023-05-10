@@ -83,9 +83,8 @@
       if (isAdmin)
         renderEdit = `
 
-        <button type="button" data-action="edit" class="btn" data-id="${department._id}">Edit</button>
-        <button atype="button" data-action="delete" class="btn" data-id="${department._id}">Delete</button>`;
-
+        <button type="button" data-action="edit" class="btn btn-outline-secondary" data-id="${department._id}">Edit</button>
+        <button atype="button" data-action="delete" class="btn btn-outline-danger" data-id="${department._id}">Delete</button>`;
       else renderEdit = "";
       // isOpen = department.operating_days.includes(weekday) ? "Open" : "Closed";
       const div = `<div class="cards">
