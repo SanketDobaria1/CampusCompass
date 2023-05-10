@@ -42,7 +42,6 @@ const exportedMethods = {
       throw new Error(`End Data cannot be less than start date`);
     else if (event_date[0] === event_date[1])
       event_date[2] = event_start.getDay();
-    console.log(event_end === event_start, event_end.getDay());
 
     event_date[2] = Number(event_date[2]);
 
