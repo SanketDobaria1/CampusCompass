@@ -68,7 +68,7 @@ const exportedMethods = {
 
     let notificationTitle = "New Event Alert!";
     let notificationDesc = `New event ${newevent.name} has been created.`;
-    let notificationDetails = `The new event ${newevent.name} - ${newevent.desc} will be scheduled on ${newevent.event_date[0]} with timings from ${newevent.element.hours[0]} to ${newevent.element.hours[1]}.`;
+    let notificationDetails = `The new event ${newevent.name} - ${newevent.desc} will be scheduled on ${newevent.event_date[0]} with timings from ${newevent.hours[0]} to ${newevent.hours[1]}.`;
 
     let newNotification = await notifications.create(
       notificationTitle,
