@@ -14,6 +14,9 @@ const exportedMethods = {
 
     let hashpassword = await bcrypt.hash(password, passwordEncryptRounds);
     role = validations.checkString(role, "User Role");
+
+    if (role.toLowerCase() !== "admin" && role.toLowerCase() !== "student")
+      throw new Error(`Improper User Role`);
     const date = new Date();
     date.setTime(date.getTime() + -240 * 60 * 1000);
 

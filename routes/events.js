@@ -45,7 +45,7 @@ router
           isAdmin: isAdmin,
         });
       } catch (e) {
-        res.status(404).send(e);
+        return res.status(404).json({ error: e.message });
       }
     } else {
       try {
@@ -61,7 +61,7 @@ router
           isAdmin: isAdmin,
         });
       } catch (e) {
-        res.status(404).send(e);
+        return res.status(404).json({ error: e.message });
       }
     }
   })
@@ -319,12 +319,9 @@ router
         const tempPolygon = turf.polygon(location_geo.coordinates);
         centerPoint = turf.centroid(tempPolygon).geometry.coordinates;
         reversedArray = [...centerPoint].reverse();
-        renderMap = true;
+      } catch (e) {
+        centerPoint = reversedArray = renderMap = false;
       }
-        catch (e) {
-          console.log(e)
-          centerPoint = reversedArray = renderMap = locationName = false;
-        }
 
       res.render("pages/event/eventID", {
         title: "Event",
@@ -332,9 +329,9 @@ router
         isAdmin: isAdmin,
         logedin: "userID" in req.session && req.session.userID.length > 5,
         api_token: process.env.MAPBOX_TOKEN,
-        locationName: locationName,
-        centerPoint: reversedArray,
-        renderMap: renderMap
+        locationName: location?.name,
+        centerPoint: reversedArray ? true : false,
+        renderMap: renderMap,
       });
     } catch (e) {
       res.status(404).json({ error: e.message });

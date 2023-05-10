@@ -1,51 +1,42 @@
   <h1>{{title}}</h1>
   <form action="/events" method="GET">
-    <label for="search-bar">Search</label>
-    <input type="text" name="key" placeholder="Search..." />
+    <label for="key">Search</label>
+    <input type="text" name="key" id="key" placeholder="Search..." />
     <button class="submit" type="submit">Submit</button>
   </form>
   {{#if key}}
     <h3>Results for "{{key}}"</h3>
     <a href="/events">Back to all Events</a>
   {{/if}}
-  <ol>
+  <ol class="container" >
     {{#each data}}
-      <li>
-        <a href="/events/{{_id}}">{{name}}</a>
-        {{#if @root.isAdmin}}
+      <li class="cards">
+        <div class="cards-inner">
+          <h2><a href="/events/{{_id}}">{{name}}</a></h2>
+          <dl>
+            <dt>Type</dt>
+            <dd>{{type}}</dd>
+            <dt>Time: </dt>
+            <dd>{{start_hour}} : {{end_hour}}</dd>
+          </dl>
+          {{#if @root.isAdmin}}
           <br />
-          {{!-- <form id="delete-form" method="POST" action="/events/{{_id}}">
-            <button type="submit">Delete</button>
-          </form>
-          <form id="edit-form" method="GET" action="/events/edit/{{_id}}">
-            <button type="submit">Edit</button>
-          </form> --}}
           {{#if ../isAdmin}}
-      <button class="edit" data-id="{{this._id}}">Edit</button>
-      <button class="delete" data-id="{{this._id}}">Delete</button>
-      {{/if}}
-        {{/if}}
-        <hr />
+          <button class="edit" data-id="{{this._id}}">Edit</button>
+          <button class="delete" data-id="{{this._id}}">Delete</button>
+          {{/if}}
+          {{/if}}
+        </div>
+        
       </li>
     {{/each}}
   </ol>
 
   {{#if isAdmin}}
     <form id="create-form" method="GET" action="/events/create">
-      <button type="submit" class="btn btn-sm btn-primary">Create a New Event</button>
+      <button type="submit" class="submit-button">Create a New Event</button>
     </form>
   {{/if}}
 {{> dialog}}
-<style>
-  
-.notification {
-  background-color: #fff;
-  color: #a32638;
-  border: 1px solid #a32638;
-  border-radius: 5px;
-  padding: 10px;
-  margin-bottom: 10px;
-}
 
-</style>
 <script src="/public/js/events.js"></script>
