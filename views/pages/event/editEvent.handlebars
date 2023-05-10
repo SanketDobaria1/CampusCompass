@@ -17,7 +17,8 @@
         </div>
         <div>
             <label for="event_type">Event Type*</label>
-            <select class="form-input" name="event_type" id="event_type" required size="1">
+            <select class="form-input" name="event_type" id="event_type" required>
+                <option value="">Select Option</option>
                 <option value="Class" {{#if_eq data.type "Class"}}selected{{/if_eq}}>Class</option>
                 <option value="Event" {{#if_eq data.type "Event"}}selected{{/if_eq}}>Event</option>
             </select>
