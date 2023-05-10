@@ -10,10 +10,9 @@
             <div class="error-msg"></div>
         </div>
         <div>
-            <label for="event_desc">Description</label>
-            <input class="form-input" id="event_desc" name="event_desc" type="text"
-                placeholder="Description" value="{{data.desc}}"> 
-            <div class="error-msg"></div>
+          <label for="event_desc">Event Description:</label>
+          <textarea id="event_desc" name="event_desc" placeholder="Enter event description" required>{{data.desc}}</textarea>
+          <div class="error-msg"></div>
         </div>
         <div>
             <label for="event_type">Event Type*</label>
@@ -76,49 +75,5 @@
     <input type="submit" class="submit-button" value="Save Changes">
 </form>
 {{> dialog}}
-<style>
-  body {
-    font-family: 'Helvetica Neue', sans-serif;
-    background-color: #f8f8f8;
-  }
-  
-  h1 {
-    text-align: center;
-    margin-bottom: 20px;
-    color: #a32638; /* Use theme color for headings */
-  }
-  div {
-    margin-bottom: 20px;
-  }
-  
-  @media screen and (max-width: 600px) {
-  form {
-    padding: 20px;
-    max-width: 100%;
-  }
-  }
-
-.notification {
-  background-color: #fff;
-  color: #a32638;
-  border: 1px solid #a32638;
-  border-radius: 5px;
-  padding: 10px;
-  margin-bottom: 10px;
-}
-.invalid {
-    border: 1px solid #a32638;
-}
-
-.error-msg {
-    color: #a32638;
-    font-size: 0.9em;
-    margin-top: 5px;
-    display: none;  /* Hide error messages by default */
-}
-
-.invalid + .error-msg {
-    display: block;  /* Show error message when input is invalid */
-}
-</style>
+<link rel="stylesheet" href="/public/css/event.css">
 <script src="/public/js/events.js"></script>

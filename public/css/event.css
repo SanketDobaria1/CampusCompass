@@ -1,0 +1,183 @@
+body {
+  font-family: 'Helvetica Neue', sans-serif;
+  background-color: #f8f8f8;
+}
+.container {
+  max-width: 800px;
+  margin: 0 auto;
+  background-color: #fff;
+  padding: 30px;
+  border-radius: 5px;
+  box-shadow: 0px 0px 10px rgba(0,0,0,0.2);
+}
+form {
+  max-width: 500px;
+  margin: 0 auto;
+  background-color: #fff;
+  padding: 30px;
+  border-radius: 5px;
+  box-shadow: 0px 0px 10px rgba(0,0,0,0.2);
+}
+h1 {
+  text-align: center;
+  margin-bottom: 20px;
+  color: #a32638; /* Use theme color for headings */
+}
+div {
+  margin-bottom: 20px;
+}
+fieldset {
+  border: none;
+  margin: 0;
+  padding: 0;
+}
+legend {
+  font-size: 18px;
+  font-weight: bold;
+  color: #a32638; /* Use theme color for legend text */
+  margin-bottom: 20px;
+}
+label {
+  display: block;
+  margin-bottom: 5px;
+  font-size: 14px;
+  color: #333;
+}
+input,
+select,
+textarea {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-sizing: border-box;
+  margin-bottom: 20px;
+  font-size: 14px;
+}
+textarea {
+  resize: vertical;
+}
+select[multiple] {
+  height: 120px;
+}
+input[type="submit"] {
+  background-color: #a32638; /* Use theme color for submit button background */
+  color: #fff;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 4px;
+  font-size: 16px;
+  cursor: pointer;
+}
+input[type="submit"]:hover {
+  background-color: #861e2f; /* Darken theme color on hover */
+}
+@media screen and (max-width: 600px) {
+form {
+  padding: 20px;
+  max-width: 100%;
+}
+}
+
+.notification {
+background-color: #fff;
+color: #a32638;
+border: 1px solid #a32638;
+border-radius: 5px;
+padding: 10px;
+margin-bottom: 10px;
+}
+.invalid {
+  border: 1px solid #a32638;
+}
+.error {
+  border-color: #f00;
+}
+.error-msg {
+  color: #a32638;
+  font-size: 0.9em;
+  margin-top: 5px;
+  display: none;  /* Hide error messages by default */
+}
+
+.invalid + .error-msg {
+  display: block;  /* Show error message when input is invalid */
+}
+
+.back-link {
+  display: inline-block;
+  margin-top: 20px;
+  font-size: 14px;
+  color: #333;
+  text-decoration: none;
+}
+.back-link:hover {
+  text-decoration: underline;
+}
+
+.event-details {
+  margin-bottom: 30px;
+}
+.event-name {
+  color: #a32638;
+  font-size: 24px;
+  margin-top: 0;
+}
+.event-desc {
+  margin-top: 5px;
+  font-size: 14px;
+  line-height: 1.5;
+}
+.event-type {
+  margin-top: 5px;
+  font-size: 14px;
+}
+.event-date {
+  margin-top: 5px;
+  font-size: 14px;
+}
+.event-hours {
+  margin-top: 5px;
+  font-size: 14px;
+}
+.event-actions {
+  margin-top: 10px;
+}
+.event-actions button {
+  background-color: #a32638;
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  padding: 10px 20px;
+  font-size: 14px;
+  margin-right: 10px;
+  cursor: pointer;
+}
+.event-actions button:hover {
+  background-color: #8c1d2b;
+}
+.register-button {
+  background-color: #a32638;
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  padding: 10px 20px;
+  font-size: 14px;
+  margin-top: 20px;
+  cursor: pointer;
+}
+.register-button:hover {
+  background-color: #8c1d2b;
+}
+#map {
+margin-top: 50px;
+height: 300px; 
+}
+.notification {
+  background-color: #fff;
+  color: #a32638;
+  border: 1px solid #a32638;
+  border-radius: 5px;
+  padding: 10px;
+  margin-bottom: 10px;
+}
