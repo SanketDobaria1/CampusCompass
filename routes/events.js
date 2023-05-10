@@ -311,15 +311,19 @@ router
       let reversedArray;
       let renderMap;
       let location;
+      let locationName;
       try {
         location = await locationsData.getById(event.location_id[0]);
         let location_geo = location.location;
+        locationName = location.name;
         const tempPolygon = turf.polygon(location_geo.coordinates);
         centerPoint = turf.centroid(tempPolygon).geometry.coordinates;
         reversedArray = [...centerPoint].reverse();
+        renderMap = true;
       }
         catch (e) {
-          centerPoint = reversedArray = renderMap = false;
+          console.log(e)
+          centerPoint = reversedArray = renderMap = locationName = false;
         }
 
       res.render("pages/event/eventID", {
@@ -328,8 +332,8 @@ router
         isAdmin: isAdmin,
         logedin: "userID" in req.session && req.session.userID.length > 5,
         api_token: process.env.MAPBOX_TOKEN,
-        locationName: location?.name,
-        centerPoint: reversedArray? true : false,
+        locationName: locationName,
+        centerPoint: reversedArray,
         renderMap: renderMap
       });
     } catch (e) {
