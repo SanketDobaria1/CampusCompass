@@ -15,7 +15,6 @@ $(document).ready(function () {
       url: endpoint,
       success: function (response) {
         responseData = response;
-        console.log(response);
         bindChangeRender(response);
       },
       error: function (xhr, textStatus, error) {
@@ -59,7 +58,7 @@ $(document).ready(function () {
           serachString,
           accessibleType
         );
-
+        renderData(filteredResponseList, map);
         filteredResponseList.length > 0
           ? renderData(filteredResponseList, map)
           : renderData(response, map);
@@ -168,7 +167,6 @@ $(document).ready(function () {
           return L.marker(latlng, { icon: icon });
         },
         onEachFeature: function (feature, layer) {
-          console.log(feature);
           layer.bindPopup("<p>" + feature.properties.popupContent + "</p>");
         },
       }).addTo(map);
@@ -193,7 +191,7 @@ $(document).ready(function () {
   $(".cards-container").on("click", "a", (e) => {
     e.preventDefault();
     let selectObject;
-    console.log(e.target.parentNode);
+
     for (let data of responseData.data) {
       if (data._id === e.target.dataset.id) {
         selectObject = data;

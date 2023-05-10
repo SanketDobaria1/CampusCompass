@@ -1,5 +1,5 @@
-  <div class="flex-container">
-    <div class="flex-child" style="height: 60vh">
+  <div class="flex-container" style="height: 90vh">
+    <div class="flex-child" >
       <h1>{{data.name}}</h1>
       <p>{{data.desc}}</p>
       <p>Building type: {{data.type}}</p>
@@ -11,9 +11,12 @@
     </div>
   </div>
   
+
+  <div class="flex-container">
   {{#if isAdmin}}
-    <a href="/rooms/{{data._id}}" class="btn btn-sm btn-primary">Create a New Room</a>
+    <a href="/rooms/{{data._id}}" class="submit-button">Create a New Room</a>
   {{/if}}
+
 
   <div class="container-fluid">
     <div class="row align-items-center">
@@ -29,7 +32,7 @@
         <form method="GET" action="/rooms/room/{{_id}}">
           <button
             type="submit"
-            class="btn btn-sm btn-outline-danger">
+            class="submit-button">
             Delete</button>
         </form>
       {{/if}}
@@ -37,4 +40,6 @@
       {{/each}}
     </div>
   </div>
-  <a href="/locations" class="btn btn-info">Back to all locations</a>
+  </div>
+  <a href="/locations" class="submit-button">Back to all locations</a>
+

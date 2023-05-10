@@ -1,0 +1,37 @@
+<section class="container">
+    <h1>Feedbacks</h1>
+    {{feedbackString}}
+    {{#if feedbacks}}
+      <table>
+        <tr>
+          <th>Reported by Username</th>
+          <th>Object Type</th>
+          <th>Reported Object Name</th>
+          <th>Feedback Received</th>
+          <th>Actions</th>
+        </tr>
+        {{#each feedbacks}}
+        <tr>
+          <td>{{this.reported_object_details.username}}</td>
+          <td> <span>{{this.reported_object_details.reported_object_type}}</span></td>
+          <td>{{this.reported_object_details.reported_object_details.name}}</td>
+          <td>{{this.reported_object_details.desc}}</td>
+          <td><form method="POST" action="/feedback/{{this._id}}">
+            <a href="{{#if_eq this.reported_object_details.reported_object_type "departments"}}
+                      /departments/edit/{{this.reported_object_details.reported_object}}
+                      {{/if_eq}}
+                      {{#if_eq this.reported_object_details.reported_object_type "locations"}}
+                      /locations/edit/{{this.reported_object_details.reported_object}}
+                      {{/if_eq}}
+                      {{#if_eq this.reported_object_details.reported_object_type "events"}}
+                      /events/edit/{{this.reported_object_details.reported_object}}
+                      {{/if_eq}}
+            ">Edit</a>
+            <button type="submit" class="submit-button">Resolve</button>
+          </form></td>
+        </tr>
+        {{/each}}
+      </table>
+    {{/if}}
+    
+</section>

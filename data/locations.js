@@ -1,6 +1,8 @@
 import { ObjectId } from "mongodb";
 import { locations } from "../config/mongoCollections.js";
 import validation from "../validate.js";
+import notifications from "../data/notification.js"
+
 
 const exportedMethods = {
   async getById(id) {
@@ -18,11 +20,13 @@ const exportedMethods = {
     name = validation.checkString(name, "Location Name");
     desc = validation.checkString(desc, "Description");
     type = validation.checkString(type, "Location Type");
+    type = validation.checkLocationType(type);
+
     // if (/^\d{2}:\d{2}:\d{2},\d{2}:\d{2}:\d{2}$/.test(operating_hours)) {
     //   throw `Provide operating hours in HH:MM:SS,HH:MM:SS format`;
     // }
     // operating_hours = operating_hours.split(",");
-    // console.log(operating_hours);
+
     operating_hours = validation.checkStringArray(
       operating_hours,
       "Operating Hours",
@@ -169,6 +173,16 @@ const exportedMethods = {
     );
     if (updatedInfo.lastErrorObject.n === 0)
       throw "Could not update Location successfully !";
+
+    
+    if(Location.operating_hours[0] !== updatedInfo.value.operating_hours[0] || Location.operating_hours[1] !== updatedInfo.value.operating_hours[1]){
+      let notificationTitle = "Location update";
+      let notificationDetails = `Updated the Location ${Location.name}`;
+      let notificationDesc = "";
+      notificationDetails = notificationDetails+`The Operating hours of the location have been modified from "${Location.operating_hours[0]}-${Location.operating_hours[1]}" to "${updatedInfo.value.operating_hours[0]}-${updatedInfo.value.operating_hours[1]}"`;
+      let newNotification = notifications.create(notificationTitle, notificationDesc, notificationDetails);
+    }
+    
     updatedInfo.value._id = updatedInfo.value._id.toString();
     return updatedInfo.value;
   },

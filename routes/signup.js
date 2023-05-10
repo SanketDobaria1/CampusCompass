@@ -41,6 +41,13 @@ router.post("/", async (req, res) => {
       user_email,
       user_password
     );
+    if (userCreated)
+      return res.render("pages/signup", {
+        title: "Sign Up",
+        user_name,
+        user_email,
+        user_created: true,
+      });
   } catch (e) {
     return res.status(500).render("pages/signup", {
       title: "Signup",

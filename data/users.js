@@ -14,6 +14,9 @@ const exportedMethods = {
 
     let hashpassword = await bcrypt.hash(password, passwordEncryptRounds);
     role = validations.checkString(role, "User Role");
+
+    if (role.toLowerCase() !== "admin" && role.toLowerCase() !== "student")
+      throw new Error(`Improper User Role`);
     const date = new Date();
     date.setTime(date.getTime() + -240 * 60 * 1000);
 
@@ -100,7 +103,7 @@ const exportedMethods = {
         {
           _id: { $in: eventList },
           "event_date.1": { $gte: currentDateEst.toISOString().slice(0, 10) },
-          "event_date.2": { $in: [0, currentDay, ((currentDay - 1) % 7) + 1] },
+          "event_date.2": { $in: [0, currentDay] },
         },
         { projection: { desc: 0, lastupdatedDate: 0, created_by: 0 } }
       )
@@ -143,10 +146,6 @@ const exportedMethods = {
         userEvents[i]["Location_details"]._id =
           userEvents[i]["Location_details"]._id.toString();
       let tempDate;
-
-      /**
-       * !todo: Below date logic maybe incorrect check and fix this
-       */
       if (userEvents[i]["event_date"][2] === 0)
         tempDate = new Date(currentDateEst.getTime() + 1 * 24 * 60 * 60 * 1000);
       else
@@ -154,7 +153,7 @@ const exportedMethods = {
           currentDateEst.getTime() +
             userEvents[i]["event_date"][2] * 24 * 60 * 60 * 1000
         );
-      // console.log(currentDateEst, tempDate);
+
       userEvents[i]["next_occurence_date"] =
         currentDateEst < tempDate
           ? new Date(
@@ -163,7 +162,6 @@ const exportedMethods = {
           : tempDate;
     }
     userEvents.sort((a, b) => {
-      //console.log(a.next_occurence_date - b.next_occurence_date);
       return a.next_occurence_date - b.next_occurence_date;
     });
     return { locationData: locationRender, eventsData: userEvents };

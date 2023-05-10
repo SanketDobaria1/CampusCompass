@@ -1,3 +1,4 @@
+import * as turf from "@turf/turf";
 import { Router } from "express";
 import xss from "xss";
 import { eventsData, locationsData, userData } from "../data/index.js";
@@ -40,11 +41,11 @@ router
           data: List,
           key: req.query.key,
           title: "Events",
-          logedin: true,
+          logedin: "userID" in req.session && req.session.userID.length > 5,
           isAdmin: isAdmin,
         });
       } catch (e) {
-        res.status(404).send(e);
+        return res.status(404).json({ error: e.message });
       }
     } else {
       try {
@@ -56,11 +57,11 @@ router
         res.render("pages/event/events", {
           data: List,
           title: "Events",
-          logedin: true,
+          logedin: "userID" in req.session && req.session.userID.length > 5,
           isAdmin: isAdmin,
         });
       } catch (e) {
-        res.status(404).send(e);
+        return res.status(404).json({ error: e.message });
       }
     }
   })
@@ -118,8 +119,10 @@ router
       data.created_by = xss(req.session.userID);
 
       data.location_id = validation.checkId(data.location_id, "Location ID");
+
+      data.locations_arr = [data.location_id];
     } catch (e) {
-      return res.status(400).json({ error: e });
+      return res.status(400).json({ error: e.message });
     }
 
     try {
@@ -130,7 +133,7 @@ router
         event_date,
         hours,
         created_by,
-        location_id,
+        locations_arr,
       } = data;
       const newevent = await eventsData.create(
         event_name,
@@ -139,12 +142,12 @@ router
         event_date,
         hours,
         created_by,
-        location_id
+        locations_arr
       );
       // res.json(newevent);
       return res.redirect("/events");
     } catch (e) {
-      res.status(404).json({ error: e });
+      res.status(404).json({ error: e.message.message });
     }
   });
 
@@ -154,7 +157,7 @@ router.get("/create", async (req, res) => {
   res.render("pages/event/createEvent", {
     location: locationList,
     title: "Create Events",
-    logedin: true,
+    logedin: "userID" in req.session && req.session.userID.length > 5,
   });
 });
 
@@ -164,7 +167,7 @@ router
     try {
       req.params.id = validation.checkId(req.params.id, "Id URL Parameter");
     } catch (e) {
-      return res.status(400).json({ error: e });
+      return res.status(400).json({ error: e.message });
     }
     try {
       const event = await eventsData.getById(req.params.id);
@@ -173,10 +176,10 @@ router
         title: "Edit Event",
         data: event,
         location: locationList,
-        logedin: true,
+        logedin: "userID" in req.session && req.session.userID.length > 5,
       });
     } catch (e) {
-      res.status(404).json({ error: e });
+      res.status(404).json({ error: e.message });
     }
   })
 
@@ -215,13 +218,14 @@ router
         "Event days"
       );
       let event_date = [];
-      event_date.push(data.event_start_date);
-      event_date.push(data.event_end_date);
+      event_date.push(updatedData.event_start_date);
+      event_date.push(updatedData.event_end_date);
       // let days_string = xss(data.event_days).split(',').join('');
-      event_date.push(data.event_days);
-      delete data.event_start_date;
-      delete data.event_end_date;
-      delete data.event_days;
+      event_date.push(updatedData.event_days);
+      updatedData.event_date = event_date;
+      delete updatedData.event_start_date;
+      delete updatedData.event_end_date;
+      delete updatedData.event_days;
 
       let hours = [];
       hours.push(xss(updatedData.opening_hours));
@@ -241,8 +245,9 @@ router
         updatedData.location_id,
         "Location ID"
       );
+      updatedData.locations_arr = [updatedData.location_id];
     } catch (e) {
-      return res.status(400).json({ error: e });
+      return res.status(400).json({ error: e.message });
     }
 
     try {
@@ -253,7 +258,7 @@ router
         event_date,
         hours,
         created_by,
-        location_id,
+        locations_arr,
       } = updatedData;
       const updatedevent = await eventsData.update(
         req.params.id,
@@ -263,11 +268,11 @@ router
         event_date,
         hours,
         created_by,
-        location_id
+        locations_arr
       );
       res.redirect(`/events/${req.params.id}`);
     } catch (e) {
-      res.status(404).json({ error: e });
+      res.status(404).json({ error: e.message });
     }
   })
 
@@ -275,13 +280,14 @@ router
     try {
       req.params.id = validation.checkId(req.params.id, "Id URL Parameter");
     } catch (e) {
-      return res.status(400).json({ error: e });
+      return res.status(400).json({ error: e.message });
     }
     try {
       await eventsData.remove(req.params.id);
       res.json({ eventId: req.params.id, deteled: true });
+      return res.redirect("/events");
     } catch (e) {
-      res.status(404).json({ error: e });
+      res.status(404).json({ error: e.message });
     }
   });
 
@@ -295,33 +301,54 @@ router
     try {
       req.params.id = validation.checkId(req.params.id, "Id URL Parameter");
     } catch (e) {
-      return res.status(400).json({ error: e });
+      return res.status(400).json({ error: e.message });
     }
     try {
       const event = await eventsData.getById(req.params.id);
       event["formated_time_start"] = validation.formatTime(event.hours[0]);
       event["formated_time_end"] = validation.formatTime(event.hours[1]);
+      let centerPoint;
+      let reversedArray;
+      let renderMap;
+      let location;
+      let locationName;
+      try {
+        location = await locationsData.getById(event.location_id[0]);
+        let location_geo = location.location;
+        locationName = location.name;
+        const tempPolygon = turf.polygon(location_geo.coordinates);
+        centerPoint = turf.centroid(tempPolygon).geometry.coordinates;
+        reversedArray = [...centerPoint].reverse();
+        renderMap = true;
+      } catch (e) {
+        centerPoint = reversedArray = renderMap = false;
+      }
+
       res.render("pages/event/eventID", {
         title: "Event",
         data: event,
         isAdmin: isAdmin,
-        logedin: true,
+        logedin: "userID" in req.session && req.session.userID.length > 5,
+        api_token: process.env.MAPBOX_TOKEN,
+        locationName: locationName,
+        centerPoint: reversedArray,
+        renderMap: renderMap,
       });
     } catch (e) {
-      res.status(404).json({ error: e });
+      res.status(404).json({ error: e.message });
     }
   })
   .delete(async (req, res) => {
     try {
       req.params.id = validation.checkId(req.params.id, "Id URL Parameter");
     } catch (e) {
-      return res.status(400).json({ error: e });
+      return res.status(400).json({ error: e.message });
     }
     try {
       await eventsData.remove(req.params.id);
       res.json({ eventId: req.params.id, deteled: true });
     } catch (e) {
-      res.status(404).json({ error: e });
+      res.status(404).json({ error: e.message });
     }
   });
 
@@ -329,7 +356,7 @@ router.route("/register/:id").post(async (req, res) => {
   try {
     req.params.id = validation.checkId(req.params.id, "Id URL Parameter");
   } catch (e) {
-    return res.status(400).json({ error: e });
+    return res.status(400).json({ error: e.message });
   }
   try {
     const registeredEvent = await userData.registerEvents(
@@ -338,7 +365,7 @@ router.route("/register/:id").post(async (req, res) => {
     );
     res.redirect("/events");
   } catch (e) {
-    res.status(404).json({ error: e });
+    res.status(404).json({ error: e.message });
   }
 });
 

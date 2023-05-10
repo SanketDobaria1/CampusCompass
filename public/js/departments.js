@@ -28,8 +28,8 @@
   }
 
   function renderData(data) {
-    if (data.length === 0) {
-      $("#container").append("<h4>No Results</h4>");
+    if (!data || data.length === 0) {
+      $("#department-container").append("<h4>No Results</h4>");
       $("#pagination").attr("hidden", true);
       return;
     }
@@ -49,14 +49,7 @@
     $("html, body").animate({ scrollTop: 0 }, 0);
 
     const createDiv = `
-    <div class="cards">
-    <div class="cards-inner">
-        <a href="/departments/create">
-          <img src="/public/img/plus-circle.svg" alt="Create new Department">
-          <span>Create New Department</span>
-          </a>
-    </div>
-    </div>`;
+    `;
 
     if (isAdmin) $("#department-container").append(createDiv);
 
@@ -89,8 +82,8 @@
       let renderEdit;
       if (isAdmin)
         renderEdit = `
-        <button type="button" data-action="edit" class="btn btn-success" data-id="${department._id}">Edit</button>
-        <button atype="button" data-action="delete" class="btn btn-danger" data-id="${department._id}">Delete</button>`;
+        <button type="button" data-action="edit" class="btn btn-success text-dark" data-id="${department._id}">Edit</button>
+        <button atype="button" data-action="delete" class="btn btn-danger text-dark" data-id="${department._id}">Delete</button>`;
       else renderEdit = "";
       // isOpen = department.operating_days.includes(weekday) ? "Open" : "Closed";
       const div = `<div class="cards">
@@ -107,10 +100,12 @@
                 <dd>${operating_days}</dd>
                 <dt>Status</dt>
                 <dd class="${isOpen}">${isOpen}</dd>
-                <dt>Location</dt>
-                <dd><a href="/locations/${department.location_id}">${
-        department.location_name
-      }</a></dd>  
+                ${
+                  department.location_id && department.location_name
+                    ? `<dt>Location</dt>
+                <dd><a href="/locations/${department.location_id}">${department.location_name}</a></dd> `
+                    : ""
+                }
                 </dl>
                 ${renderEdit}
                 </div>
@@ -131,6 +126,7 @@
       $.ajax({
         url: `/departments/getAll?page=${current_page}`,
         success: function (response) {
+          console.log(response)
           $("#container").empty();
           if (!response.data) window.reload();
           if (response.admin) isAdmin = response.admin;

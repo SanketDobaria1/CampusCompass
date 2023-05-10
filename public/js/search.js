@@ -58,7 +58,6 @@ $(document).ready(function () {
     let optionsToRemove = $(referenceObjectByID).find(
       "option:not(:first-child)"
     );
-    console.log(optionsToRemove);
     $(optionsToRemove).remove();
     if (filterList.length > 1)
       filterList.map((filterType) => {
@@ -119,7 +118,7 @@ $(document).ready(function () {
         "#search-type-additional"
       );
     } else {
-      $("#search-additional").hide();
+      $("#search-additional").attr("hidden", "true");
       renderData(response);
     }
 
